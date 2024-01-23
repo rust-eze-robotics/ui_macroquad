@@ -2,6 +2,7 @@ pub mod world;
 
 use crate::world::contents::{bank::*, coin::*, fire::*, rock::*, tree::*};
 use macroquad::prelude::*;
+use world::contents::{bin::Bin, garbage::Garbage};
 
 #[macroquad::main("Rust-Eze")]
 async fn main() {
@@ -20,10 +21,16 @@ async fn main() {
     let mut rock = Rock::default();
     rock.load_texture().await;
 
+    let mut garbage = Garbage::default();
+    garbage.load_texture().await;
+
+    let mut bin = Bin::default();
+    bin.load_texture().await;
+
     loop {
         clear_background(BLACK);
 
-        rock.draw();
+        bin.draw();
 
         next_frame().await;
     }

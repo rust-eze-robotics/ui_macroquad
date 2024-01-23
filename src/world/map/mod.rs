@@ -42,11 +42,11 @@ impl Map {
     }
 
     pub async fn update(&mut self, map: &Vec<Vec<Option<RobTile>>>) {
-        for (row, col) in &self.hidden {
-            if let Some(tile) = map[*row][*col].as_ref() {
-                let pos = Vec2::new(*row as f32 * TILE_WIDTH, *col as f32 * TILE_WIDTH);
+        for (row, col) in self.hidden.clone() {
+            if let Some(tile) = map[row][col].as_ref() {
+                let pos = Vec2::new(row as f32 * TILE_WIDTH, col as f32 * TILE_WIDTH);
 
-                let mut tiletype: Option<Box<dyn Tiletype>> = None;
+                let tiletype: Option<Box<dyn Tiletype>>;
 
                 match tile.tile_type {
                     RobTiletype::DeepWater => {
@@ -84,7 +84,7 @@ impl Map {
                     }
                 }
 
-                let mut content: Option<Box<dyn Content>> = None;
+                let content: Option<Box<dyn Content>>;
 
                 match tile.content {
                     RobContent::Bank(_) => {
@@ -134,6 +134,13 @@ impl Map {
                     }
                     RobContent::None => {
                         content = Some(Box::new(super::content::none::None::new(pos).await));
+                    }
+                }
+
+                if let Some(tiletype) = tiletype {
+                    if let Some(content) = content {
+                        self.map[row][col] = Some(Tile { tiletype, content });
+                        self.hidden.remove(&(row, col));
                     }
                 }
             }

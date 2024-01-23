@@ -1,6 +1,6 @@
 use super::{content::Content, tiletype::Tiletype};
 
 pub struct Tile {
-    tiletype: Box<dyn Tiletype>,
-    content: Box<dyn Content>,
+    pub tiletype: Box<dyn Tiletype>,
+    pub content: Box<dyn Content>,
 }

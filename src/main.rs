@@ -1,8 +1,11 @@
 pub mod world;
 
-use crate::world::contents::{bank::*, coin::*, fire::*, rock::*, tree::*};
+use crate::world::content::{bank::*, coin::*, fire::*, rock::*, tree::*};
 use macroquad::prelude::*;
-use world::contents::{bin::Bin, garbage::Garbage, jollyblock::Jollyblock};
+use world::{
+    content::{bin::Bin, garbage::Garbage, jollyblock::Jollyblock, market::Market},
+    tiletype::grass::Grass,
+};
 
 #[macroquad::main("Rust-Eze")]
 async fn main() {
@@ -27,13 +30,20 @@ async fn main() {
     let mut bin = Bin::default();
     bin.load_texture().await;
 
+    let mut market = Market::default();
+    market.load_texture().await;
+
     let mut jollyblock = Jollyblock::default();
     jollyblock.load_texture().await;
+
+    let mut grass = Grass::default();
+    grass.load_texture().await;
 
     loop {
         clear_background(BLACK);
 
-        jollyblock.draw();
+        grass.draw();
+        market.draw();
 
         next_frame().await;
     }

@@ -1,3 +1,4 @@
+pub mod core;
 pub mod world;
 
 use crate::world::content::{bank::*, coin::*, fire::*, rock::*, tree::*};
@@ -12,8 +13,7 @@ async fn main() {
     let mut fire = Fire::default();
     fire.load_texture().await;
 
-    let mut bank = Bank::default();
-    bank.load_texture().await;
+    let mut bank = Bank::default().await;
 
     let mut tree = Tree::default();
     tree.load_texture().await;

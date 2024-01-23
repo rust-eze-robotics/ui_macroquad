@@ -1,3 +1,5 @@
+use crate::core::Drawable;
+
 pub mod bank;
 pub mod bin;
 pub mod building;
@@ -11,3 +13,5 @@ pub mod market;
 pub mod rock;
 pub mod scarecrow;
 pub mod tree;
+
+pub trait Content: Drawable {}

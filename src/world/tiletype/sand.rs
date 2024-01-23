@@ -3,19 +3,19 @@ use macroquad::texture::Texture2D;
 
 use crate::core::{Drawable, Vector};
 
-pub struct Chest {
+pub struct Sand {
     pos: Vector,
     offset: Vector,
     image: Texture2D,
 }
 
-impl Drawable for Chest {
+impl Drawable for Sand {
     fn draw(&mut self) {
         draw_texture(&self.image, 0., 0., WHITE);
     }
 }
 
-impl Chest {
+impl Sand {
     pub async fn new(pos: Vector) -> Self {
         let mut ret = Self {
             pos,
@@ -23,7 +23,7 @@ impl Chest {
             image: Texture2D::empty(),
         };
 
-        ret.image = load_texture("data/assets/contents/chest/chest.png")
+        ret.image = load_texture("data/assets/tiletypes/sand/sand.png")
             .await
             .unwrap();
 

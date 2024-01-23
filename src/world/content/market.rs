@@ -2,19 +2,17 @@ use macroquad::experimental::animation::*;
 use macroquad::prelude::*;
 use macroquad::texture::Texture2D;
 
+use crate::core::{Drawable, Vector};
+
 pub struct Market {
-    sprite: AnimatedSprite,
+    pos: Vector,
+    offset: Vector,
     image: Texture2D,
+    sprite: AnimatedSprite,
 }
 
-impl Market {
-    pub async fn load_texture(&mut self) {
-        self.image = load_texture("data/assets/contents/market/market.png")
-            .await
-            .unwrap();
-    }
-
-    pub fn draw(&mut self) {
+impl Drawable for Market {
+    fn draw(&mut self) {
         draw_texture_ex(
             &self.image,
             0.,
@@ -31,9 +29,12 @@ impl Market {
     }
 }
 
-impl Default for Market {
-    fn default() -> Self {
-        Self {
+impl Market {
+    pub async fn new(pos: Vector) -> Self {
+        let mut ret = Self {
+            pos,
+            offset: Vector::new(0.0, 0.0),
+            image: Texture2D::empty(),
             sprite: AnimatedSprite::new(
                 256,
                 192,
@@ -45,7 +46,12 @@ impl Default for Market {
                 }],
                 true,
             ),
-            image: Texture2D::empty(),
-        }
+        };
+
+        ret.image = load_texture("data/assets/contents/market/market.png")
+            .await
+            .unwrap();
+
+        ret
     }
 }

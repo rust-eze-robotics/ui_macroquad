@@ -1,26 +1,32 @@
 use macroquad::prelude::*;
 use macroquad::texture::Texture2D;
 
+use crate::core::{Drawable, Vector};
+
 pub struct Bin {
+    pos: Vector,
+    offset: Vector,
     image: Texture2D,
 }
 
-impl Bin {
-    pub async fn load_texture(&mut self) {
-        self.image = load_texture("data/assets/contents/bin/bin.png")
-            .await
-            .unwrap();
-    }
-
-    pub fn draw(&mut self) {
+impl Drawable for Bin {
+    fn draw(&mut self) {
         draw_texture(&self.image, 0., 0., WHITE);
     }
 }
 
-impl Default for Bin {
-    fn default() -> Self {
-        Self {
+impl Bin {
+    pub async fn new(pos: Vector) -> Self {
+        let mut ret = Self {
+            pos,
+            offset: Vector::new(0.0, 0.0),
             image: Texture2D::empty(),
-        }
+        };
+
+        ret.image = load_texture("data/assets/contents/bin/bin.png")
+            .await
+            .unwrap();
+
+        ret
     }
 }

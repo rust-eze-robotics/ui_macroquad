@@ -3,23 +3,23 @@ use macroquad::texture::Texture2D;
 
 use crate::core::Drawable;
 
-use super::Content;
+use super::Tiletype;
 
-pub struct Rock {
+pub struct Teleport {
     pos: Vec2,
     offset: Vec2,
     image: Texture2D,
 }
 
-impl Content for Rock {}
+impl Tiletype for Teleport {}
 
-impl Drawable for Rock {
+impl Drawable for Teleport {
     fn draw(&mut self) {
         draw_texture(&self.image, 0., 0., WHITE);
     }
 }
 
-impl Rock {
+impl Teleport {
     pub async fn new(pos: Vec2) -> Self {
         let mut ret = Self {
             pos,
@@ -27,7 +27,7 @@ impl Rock {
             image: Texture2D::empty(),
         };
 
-        ret.image = load_texture("data/assets/contents/rock/rock.png")
+        ret.image = load_texture("data/assets/tiletypes/grass/grass.png")
             .await
             .unwrap();
 

@@ -5,21 +5,21 @@ use crate::core::Drawable;
 
 use super::Content;
 
-pub struct Rock {
+pub struct Bush {
     pos: Vec2,
     offset: Vec2,
     image: Texture2D,
 }
 
-impl Content for Rock {}
+impl Content for Bush {}
 
-impl Drawable for Rock {
+impl Drawable for Bush {
     fn draw(&mut self) {
         draw_texture(&self.image, 0., 0., WHITE);
     }
 }
 
-impl Rock {
+impl Bush {
     pub async fn new(pos: Vec2) -> Self {
         let mut ret = Self {
             pos,
@@ -27,7 +27,7 @@ impl Rock {
             image: Texture2D::empty(),
         };
 
-        ret.image = load_texture("data/assets/contents/rock/rock.png")
+        ret.image = load_texture("data/assets/contents/bush/bush.png")
             .await
             .unwrap();
 

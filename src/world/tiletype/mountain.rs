@@ -1,13 +1,17 @@
 use macroquad::prelude::*;
 use macroquad::texture::Texture2D;
 
-use crate::core::{Drawable, Vector};
+use crate::core::Drawable;
+
+use super::Tiletype;
 
 pub struct Mountain {
-    pos: Vector,
-    offset: Vector,
+    pos: Vec2,
+    offset: Vec2,
     image: Texture2D,
 }
+
+impl Tiletype for Mountain {}
 
 impl Drawable for Mountain {
     fn draw(&mut self) {
@@ -16,10 +20,10 @@ impl Drawable for Mountain {
 }
 
 impl Mountain {
-    pub async fn new(pos: Vector) -> Self {
+    pub async fn new(pos: Vec2) -> Self {
         let mut ret = Self {
             pos,
-            offset: Vector::new(0.0, 0.0),
+            offset: Vec2::new(0.0, 0.0),
             image: Texture2D::empty(),
         };
 

@@ -1,4 +1,3 @@
-use macroquad::experimental::animation::*;
 use macroquad::prelude::*;
 use macroquad::texture::Texture2D;
 

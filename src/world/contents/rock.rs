@@ -1,13 +1,13 @@
 use macroquad::prelude::*;
 use macroquad::texture::Texture2D;
 
-pub struct Coin {
+pub struct Rock {
     image: Texture2D,
 }
 
-impl Coin {
+impl Rock {
     pub async fn load_texture(&mut self) {
-        self.image = load_texture("data/assets/contents/coin/coin.png")
+        self.image = load_texture("data/assets/contents/rock/rock.png")
             .await
             .unwrap();
     }
@@ -17,7 +17,7 @@ impl Coin {
     }
 }
 
-impl Default for Coin {
+impl Default for Rock {
     fn default() -> Self {
         Self {
             image: Texture2D::empty(),

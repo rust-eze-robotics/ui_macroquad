@@ -2,14 +2,14 @@ use macroquad::experimental::animation::*;
 use macroquad::prelude::*;
 use macroquad::texture::Texture2D;
 
-pub struct Fire {
+pub struct Water {
     sprite: AnimatedSprite,
     image: Texture2D,
 }
 
-impl Fire {
+impl Water {
     pub async fn load_texture(&mut self) {
-        self.image = load_texture("data/assets/contents/fire/fire.png")
+        self.image = load_texture("data/assets/contents/water/water.png")
             .await
             .unwrap();
     }
@@ -31,18 +31,20 @@ impl Fire {
     }
 }
 
-impl Default for Fire {
+impl Default for Water {
     fn default() -> Self {
         Self {
             sprite: AnimatedSprite::new(
-                128,
-                128,
-                &[Animation {
-                    name: "fire_0".to_string(),
-                    row: 0,
-                    frames: 7,
-                    fps: 12,
-                }],
+                192,
+                192,
+                &[
+                    Animation {
+                        name: "water_0".to_string(),
+                        row: 0,
+                        frames: 8,
+                        fps: 12,
+                    }
+                ],
                 true,
             ),
             image: Texture2D::empty(),

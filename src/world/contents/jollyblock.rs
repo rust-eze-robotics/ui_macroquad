@@ -2,14 +2,14 @@ use macroquad::experimental::animation::*;
 use macroquad::prelude::*;
 use macroquad::texture::Texture2D;
 
-pub struct Fire {
+pub struct Jollyblock {
     sprite: AnimatedSprite,
     image: Texture2D,
 }
 
-impl Fire {
+impl Jollyblock {
     pub async fn load_texture(&mut self) {
-        self.image = load_texture("data/assets/contents/fire/fire.png")
+        self.image = load_texture("data/assets/contents/jollyblock/jollyblock.png")
             .await
             .unwrap();
     }
@@ -31,18 +31,26 @@ impl Fire {
     }
 }
 
-impl Default for Fire {
+impl Default for Jollyblock {
     fn default() -> Self {
         Self {
             sprite: AnimatedSprite::new(
                 128,
                 128,
-                &[Animation {
-                    name: "fire_0".to_string(),
-                    row: 0,
-                    frames: 7,
-                    fps: 12,
-                }],
+                &[
+                    Animation {
+                        name: "jollyblock_0".to_string(),
+                        row: 0,
+                        frames: 8,
+                        fps: 12,
+                    },
+                    Animation {
+                        name: "jollyblock_1".to_string(),
+                        row: 1,
+                        frames: 6,
+                        fps: 12,
+                    },
+                ],
                 true,
             ),
             image: Texture2D::empty(),

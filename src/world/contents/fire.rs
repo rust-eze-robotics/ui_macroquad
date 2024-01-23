@@ -9,7 +9,9 @@ pub struct Fire {
 
 impl Fire {
     pub async fn load_texture(&mut self) {
-        self.image = load_texture("data/assets/fire/fire.png").await.unwrap();
+        self.image = load_texture("data/assets/contents/fire/fire.png")
+            .await
+            .unwrap();
     }
 
     pub fn draw(&mut self) {

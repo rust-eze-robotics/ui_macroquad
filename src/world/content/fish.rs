@@ -5,10 +5,12 @@ use crate::core::Drawable;
 
 use super::Content;
 
+use std::rc::Rc;
+
 pub struct Fish {
-    pos: Vec2,
-    offset: Vec2,
-    image: Texture2D,
+    pub(super) pos: Vec2,
+    pub(super) offset: Vec2,
+    pub(super) texture: Rc<Texture2D>,
 }
 
 impl Content for Fish {}
@@ -16,26 +18,10 @@ impl Content for Fish {}
 impl Drawable for Fish {
     fn draw(&mut self) {
         draw_texture(
-            &self.image,
+            &self.texture,
             self.pos.x + self.offset.x,
             self.pos.y + self.offset.y,
             WHITE,
         );
-    }
-}
-
-impl Fish {
-    pub async fn new(pos: Vec2) -> Self {
-        let mut ret = Self {
-            pos,
-            offset: Vec2::new(0.0, 0.0),
-            image: Texture2D::empty(),
-        };
-
-        ret.image = load_texture("data/assets/contents/fish/fish.png")
-            .await
-            .unwrap();
-
-        ret
     }
 }

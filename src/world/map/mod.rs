@@ -6,7 +6,7 @@ use super::{
     content::{
         bank::Bank, bin::Bin, building::Building, bush::Bush, chest::Chest, coin::Coin, fire::Fire,
         fish::Fish, garbage::Garbage, jollyblock::Jollyblock, market::Market, rock::Rock,
-        scarecrow::Scarecrow, tree::Tree, water::Water, Content,
+        scarecrow::Scarecrow, tree::Tree, water::Water, Content, ContentFactory,
     },
     tile::Tile,
     tiletype::{
@@ -23,6 +23,7 @@ const TILE_WIDTH: f32 = 192.0;
 pub struct Map {
     pub map: Vec<Vec<Tile>>,
     size: usize,
+    content_factory: ContentFactory,
 }
 
 impl Map {
@@ -30,6 +31,7 @@ impl Map {
         let mut ret = Self {
             map: Vec::new(),
             size: map.len(),
+            content_factory: ContentFactory::new().await,
         };
 
         ret.setup(map).await;
@@ -87,52 +89,52 @@ impl Map {
 
                 match tile.content {
                     RobContent::Bank(_) => {
-                        content = Some(Box::new(Bank::new(pos).await));
+                        content = Some(Box::new(self.content_factory.new_bank(pos)));
                     }
                     RobContent::Bin(_) => {
-                        content = Some(Box::new(Bin::new(pos).await));
+                        content = Some(Box::new(self.content_factory.new_bin(pos)));
                     }
                     RobContent::Building => {
-                        content = Some(Box::new(Building::new(pos).await));
+                        content = Some(Box::new(self.content_factory.new_building(pos)));
                     }
                     RobContent::Bush(_) => {
-                        content = Some(Box::new(Bush::new(pos).await));
+                        content = Some(Box::new(self.content_factory.new_bush(pos)));
                     }
                     RobContent::Coin(_) => {
-                        content = Some(Box::new(Coin::new(pos).await));
+                        content = Some(Box::new(self.content_factory.new_coin(pos)));
                     }
                     RobContent::Crate(_) => {
-                        content = Some(Box::new(Chest::new(pos).await));
+                        content = Some(Box::new(self.content_factory.new_rock(pos)));
                     }
                     RobContent::Fire => {
-                        content = Some(Box::new(Fire::new(pos).await));
+                        content = Some(Box::new(self.content_factory.new_fire(pos)));
                     }
                     RobContent::Fish(_) => {
-                        content = Some(Box::new(Fish::new(pos).await));
+                        content = Some(Box::new(self.content_factory.new_fish(pos)));
                     }
                     RobContent::Garbage(_) => {
-                        content = Some(Box::new(Garbage::new(pos).await));
+                        content = Some(Box::new(self.content_factory.new_garbage(pos)));
                     }
                     RobContent::JollyBlock(_) => {
-                        content = Some(Box::new(Jollyblock::new(pos).await));
+                        content = Some(Box::new(self.content_factory.new_jollyblock(pos)));
                     }
                     RobContent::Market(_) => {
-                        content = Some(Box::new(Market::new(pos).await));
+                        content = Some(Box::new(self.content_factory.new_market(pos)));
                     }
                     RobContent::Rock(_) => {
-                        content = Some(Box::new(Rock::new(pos).await));
+                        content = Some(Box::new(self.content_factory.new_rock(pos)));
                     }
                     RobContent::Scarecrow => {
-                        content = Some(Box::new(Scarecrow::new(pos).await));
+                        content = Some(Box::new(self.content_factory.new_scarecrow(pos)));
                     }
                     RobContent::Tree(_) => {
-                        content = Some(Box::new(Tree::new(pos).await));
+                        content = Some(Box::new(self.content_factory.new_tree(pos)));
                     }
                     RobContent::Water(_) => {
-                        content = Some(Box::new(Water::new(pos).await));
+                        content = Some(Box::new(self.content_factory.new_water(pos)));
                     }
                     RobContent::None => {
-                        content = Some(Box::new(super::content::none::None::new(pos).await));
+                        content = Some(Box::new(self.content_factory.new_none(pos)));
                     }
                 }
 

@@ -5,10 +5,12 @@ use crate::core::Drawable;
 
 use super::Content;
 
+use std::rc::Rc;
+
 pub struct Bank {
-    pos: Vec2,
-    offset: Vec2,
-    texture: Texture2D,
+    pub(super) pos: Vec2,
+    pub(super) offset: Vec2,
+    pub(super) texture: Rc<Texture2D>,
 }
 
 impl Content for Bank {}
@@ -21,21 +23,5 @@ impl Drawable for Bank {
             self.pos.y + self.offset.y,
             WHITE,
         );
-    }
-}
-
-impl Bank {
-    pub async fn new(pos: Vec2) -> Self {
-        let mut ret = Self {
-            pos,
-            offset: Vec2::new(0.0, 0.0),
-            texture: Texture2D::empty(),
-        };
-
-        ret.texture = load_texture("data/assets/contents/bank/bank_empty.png")
-            .await
-            .unwrap();
-
-        ret
     }
 }

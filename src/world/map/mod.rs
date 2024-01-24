@@ -1,5 +1,7 @@
 use std::collections::HashSet;
 
+use crate::core::Drawable;
+
 use super::{
     content::{
         bank::Bank, bin::Bin, building::Building, bush::Bush, chest::Chest, coin::Coin, fire::Fire,
@@ -19,31 +21,28 @@ use robotics_lib::world::tile::{Content as RobContent, Tile as RobTile, TileType
 const TILE_WIDTH: f32 = 192.0;
 
 pub struct Map {
-    pub map: Vec<Vec<Option<Tile>>>,
+    pub map: Vec<Vec<Tile>>,
     size: usize,
-    hidden: HashSet<(usize, usize)>,
 }
 
 impl Map {
-    fn new(size: usize) -> Self {
-        let mut map = Vec::new();
-        let mut hidden = HashSet::new();
+    pub async fn new(map: &Vec<Vec<RobTile>>) -> Self {
+        let mut ret = Self {
+            map: Vec::new(),
+            size: map.len(),
+        };
 
-        for row in 0..size {
-            map.push(Vec::new());
+        ret.setup(map).await;
 
-            for col in 0..size {
-                map[row].push(None);
-                hidden.insert((row, col));
-            }
-        }
-
-        Self { map, size, hidden }
+        ret
     }
 
-    pub async fn update(&mut self, map: &Vec<Vec<Option<RobTile>>>) {
-        for (row, col) in self.hidden.clone() {
-            if let Some(tile) = map[row][col].as_ref() {
+    async fn setup(&mut self, map: &Vec<Vec<RobTile>>) {
+        for row in 0..self.size {
+            self.map.push(Vec::new());
+
+            for col in 0..self.size {
+                let tile = &map[row][col];
                 let pos = Vec2::new(row as f32 * TILE_WIDTH, col as f32 * TILE_WIDTH);
 
                 let tiletype: Option<Box<dyn Tiletype>>;
@@ -139,10 +138,19 @@ impl Map {
 
                 if let Some(tiletype) = tiletype {
                     if let Some(content) = content {
-                        self.map[row][col] = Some(Tile { tiletype, content });
-                        self.hidden.remove(&(row, col));
+                        self.map[row].push(Tile { tiletype, content });
                     }
                 }
+            }
+        }
+    }
+}
+
+impl Drawable for Map {
+    fn draw(&mut self) {
+        for row in 0..self.size {
+            for col in 0..self.size {
+                self.map[row][col].draw();
             }
         }
     }

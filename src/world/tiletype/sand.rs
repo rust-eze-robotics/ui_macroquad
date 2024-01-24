@@ -15,7 +15,12 @@ impl Tiletype for Sand {}
 
 impl Drawable for Sand {
     fn draw(&mut self) {
-        draw_texture(&self.image, 0., 0., WHITE);
+        draw_texture(
+            &self.image,
+            self.pos.x + self.offset.x,
+            self.pos.y + self.offset.y,
+            WHITE,
+        );
     }
 }
 

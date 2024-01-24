@@ -15,7 +15,12 @@ impl Tiletype for Street {}
 
 impl Drawable for Street {
     fn draw(&mut self) {
-        draw_texture(&self.image, 0., 0., WHITE);
+        draw_texture(
+            &self.image,
+            self.pos.x + self.offset.x,
+            self.pos.y + self.offset.y,
+            WHITE,
+        );
     }
 }
 

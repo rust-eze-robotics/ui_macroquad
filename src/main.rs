@@ -1,6 +1,17 @@
+use core::Drawable;
+
 use macroquad::prelude::*;
+use robot::MyRobot;
+use robotics_lib::{
+    interface::{robot_map, robot_view},
+    runner::{Robot, Runner},
+    world::world_generator::Generator,
+    world::World as RobWorld,
+};
+use world::{map::Map, WORLD_SIZE};
 
 pub mod core;
+pub mod robot;
 pub mod world;
 
 fn short_angle_dist(a0: f32, a1: f32) -> f32 {
@@ -28,131 +39,154 @@ async fn main() {
     let mut smooth_rotation: f32 = 0.0;
     let mut offset = (0., 0.);
 
-    loop {
-        if is_key_down(KeyCode::W) {
-            target.1 -= 0.1;
-        }
-        if is_key_down(KeyCode::S) {
-            target.1 += 0.1;
-        }
-        if is_key_down(KeyCode::A) {
-            target.0 += 0.1;
-        }
-        if is_key_down(KeyCode::D) {
-            target.0 -= 0.1;
-        }
-        if is_key_down(KeyCode::Left) {
-            offset.0 -= 0.1;
-        }
-        if is_key_down(KeyCode::Right) {
-            offset.0 += 0.1;
-        }
-        if is_key_down(KeyCode::Up) {
-            offset.1 += 0.1;
-        }
-        if is_key_down(KeyCode::Down) {
-            offset.1 -= 0.1;
-        }
-        #[cfg(not(target_arch = "wasm32"))]
-        if is_key_down(KeyCode::Q) | is_key_down(KeyCode::Escape) {
-            break;
-        }
+    // Define the WorldGenerator parameters using the dedicated struct
+    let params = midgard::world_generator::WorldGeneratorParameters {
+        world_size: WORLD_SIZE,
+        ..Default::default() // the rest of the parameters keep their default value
+    };
 
-        match mouse_wheel() {
-            (_x, y) if y != 0.0 => {
-                // Normalize mouse wheel values is browser (chromium: 53, firefox: 3)
-                #[cfg(target_arch = "wasm32")]
-                let y = if y < 0.0 {
-                    -1.0
-                } else if y > 0.0 {
-                    1.0
-                } else {
-                    0.0
-                };
-                if is_key_down(KeyCode::LeftControl) {
-                    zoom *= 1.1f32.powf(y);
-                } else {
-                    rotation += 10.0 * y;
-                    rotation = match rotation {
-                        angle if angle >= 360.0 => angle - 360.0,
-                        angle if angle < 0.0 => angle + 360.0,
-                        angle => angle,
+    // Instantiate the WorldGenerator with the parameters
+    let mut world_generator = midgard::world_generator::WorldGenerator::new(params);
+
+    let (world, _spawn_point, _weather, _max_score, _score_table) = world_generator.gen();
+
+    let my_robot = MyRobot {
+        robot: Robot::new(),
+        map: Map::new(&world).await,
+    };
+
+    // Generate the world
+    let run = Runner::new(Box::new(my_robot), &mut world_generator);
+
+    if let Ok(mut runner) = run {
+        loop {
+            if is_key_down(KeyCode::W) {
+                target.1 -= 0.1;
+            }
+            if is_key_down(KeyCode::S) {
+                target.1 += 0.1;
+            }
+            if is_key_down(KeyCode::A) {
+                target.0 += 0.1;
+            }
+            if is_key_down(KeyCode::D) {
+                target.0 -= 0.1;
+            }
+            if is_key_down(KeyCode::Left) {
+                offset.0 -= 0.1;
+            }
+            if is_key_down(KeyCode::Right) {
+                offset.0 += 0.1;
+            }
+            if is_key_down(KeyCode::Up) {
+                offset.1 += 0.1;
+            }
+            if is_key_down(KeyCode::Down) {
+                offset.1 -= 0.1;
+            }
+            #[cfg(not(target_arch = "wasm32"))]
+            if is_key_down(KeyCode::Q) | is_key_down(KeyCode::Escape) {
+                break;
+            }
+
+            match mouse_wheel() {
+                (_x, y) if y != 0.0 => {
+                    // Normalize mouse wheel values is browser (chromium: 53, firefox: 3)
+                    #[cfg(target_arch = "wasm32")]
+                    let y = if y < 0.0 {
+                        -1.0
+                    } else if y > 0.0 {
+                        1.0
+                    } else {
+                        0.0
+                    };
+                    if is_key_down(KeyCode::LeftControl) {
+                        zoom *= 1.1f32.powf(y);
+                    } else {
+                        rotation += 10.0 * y;
+                        rotation = match rotation {
+                            angle if angle >= 360.0 => angle - 360.0,
+                            angle if angle < 0.0 => angle + 360.0,
+                            angle => angle,
+                        }
                     }
                 }
+                _ => (),
             }
-            _ => (),
+
+            smooth_rotation = angle_lerp(smooth_rotation, rotation, 0.1);
+
+            clear_background(LIGHTGRAY);
+
+            set_camera(&Camera2D {
+                target: vec2(target.0, target.1),
+                ..Default::default()
+            });
+            draw_cross(0., 0., RED);
+
+            set_camera(&Camera2D {
+                target: vec2(target.0, target.1),
+                rotation: smooth_rotation,
+                ..Default::default()
+            });
+            draw_cross(0., 0., GREEN);
+
+            set_camera(&Camera2D {
+                target: vec2(target.0, target.1),
+                rotation: smooth_rotation,
+                zoom: vec2(zoom, zoom * screen_width() / screen_height()),
+                ..Default::default()
+            });
+            draw_cross(0., 0., BLUE);
+
+            set_camera(&Camera2D {
+                target: vec2(target.0, target.1),
+                rotation: smooth_rotation,
+                zoom: vec2(zoom, zoom * screen_width() / screen_height()),
+                offset: vec2(offset.0, offset.1),
+                ..Default::default()
+            });
+
+            // Render some primitives in camera space
+            draw_line(-0.4, 0.4, -0.8, 0.9, 0.05, BLUE);
+            draw_rectangle(-0.3, 0.3, 0.2, 0.2, GREEN);
+            draw_circle(0., 0., 0.1, YELLOW);
+
+            runner.game_tick();
+
+            // Back to screen space, render some text
+            set_default_camera();
+            draw_text(
+                format!("target (WASD keys) = ({:+.2}, {:+.2})", target.0, target.1).as_str(),
+                10.0,
+                10.0,
+                15.0,
+                BLACK,
+            );
+            draw_text(
+                format!("rotation (mouse wheel) = {} degrees", rotation).as_str(),
+                10.0,
+                25.0,
+                15.0,
+                BLACK,
+            );
+            draw_text(
+                format!("zoom (ctrl + mouse wheel) = {:.2}", zoom).as_str(),
+                10.0,
+                40.0,
+                15.0,
+                BLACK,
+            );
+            draw_text(
+                format!("offset (arrow keys) = ({:+.2}, {:+.2})", offset.0, offset.1).as_str(),
+                10.0,
+                55.0,
+                15.0,
+                BLACK,
+            );
+            draw_text("HELLO", 30.0, 200.0, 30.0, BLACK);
+
+            next_frame().await
         }
-
-        smooth_rotation = angle_lerp(smooth_rotation, rotation, 0.1);
-
-        clear_background(LIGHTGRAY);
-
-        set_camera(&Camera2D {
-            target: vec2(target.0, target.1),
-            ..Default::default()
-        });
-        draw_cross(0., 0., RED);
-
-        set_camera(&Camera2D {
-            target: vec2(target.0, target.1),
-            rotation: smooth_rotation,
-            ..Default::default()
-        });
-        draw_cross(0., 0., GREEN);
-
-        set_camera(&Camera2D {
-            target: vec2(target.0, target.1),
-            rotation: smooth_rotation,
-            zoom: vec2(zoom, zoom * screen_width() / screen_height()),
-            ..Default::default()
-        });
-        draw_cross(0., 0., BLUE);
-
-        set_camera(&Camera2D {
-            target: vec2(target.0, target.1),
-            rotation: smooth_rotation,
-            zoom: vec2(zoom, zoom * screen_width() / screen_height()),
-            offset: vec2(offset.0, offset.1),
-            ..Default::default()
-        });
-
-        // Render some primitives in camera space
-        draw_line(-0.4, 0.4, -0.8, 0.9, 0.05, BLUE);
-        draw_rectangle(-0.3, 0.3, 0.2, 0.2, GREEN);
-        draw_circle(0., 0., 0.1, YELLOW);
-
-        // Back to screen space, render some text
-        set_default_camera();
-        draw_text(
-            format!("target (WASD keys) = ({:+.2}, {:+.2})", target.0, target.1).as_str(),
-            10.0,
-            10.0,
-            15.0,
-            BLACK,
-        );
-        draw_text(
-            format!("rotation (mouse wheel) = {} degrees", rotation).as_str(),
-            10.0,
-            25.0,
-            15.0,
-            BLACK,
-        );
-        draw_text(
-            format!("zoom (ctrl + mouse wheel) = {:.2}", zoom).as_str(),
-            10.0,
-            40.0,
-            15.0,
-            BLACK,
-        );
-        draw_text(
-            format!("offset (arrow keys) = ({:+.2}, {:+.2})", offset.0, offset.1).as_str(),
-            10.0,
-            55.0,
-            15.0,
-            BLACK,
-        );
-        draw_text("HELLO", 30.0, 200.0, 30.0, BLACK);
-
-        next_frame().await
     }
 }

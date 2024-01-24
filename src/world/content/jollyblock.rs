@@ -19,8 +19,8 @@ impl Drawable for Jollyblock {
     fn draw(&mut self) {
         draw_texture_ex(
             &self.image,
-            0.,
-            0.,
+            self.pos.x + self.offset.x,
+            self.pos.y + self.offset.y,
             WHITE,
             DrawTextureParams {
                 source: Some(self.sprite.frame().source_rect),

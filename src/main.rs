@@ -103,12 +103,12 @@ async fn main() {
                     if is_key_down(KeyCode::LeftControl) {
                         zoom *= 1.1f32.powf(y);
                     } else {
-                        rotation += 10.0 * y;
-                        rotation = match rotation {
-                            angle if angle >= 360.0 => angle - 360.0,
-                            angle if angle < 0.0 => angle + 360.0,
-                            angle => angle,
-                        }
+                        // rotation += 10.0 * y;
+                        // rotation = match rotation {
+                        //     angle if angle >= 360.0 => angle - 360.0,
+                        //     angle if angle < 0.0 => angle + 360.0,
+                        //     angle => angle,
+                        // }
                     }
                 }
                 _ => (),

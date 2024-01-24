@@ -5,11 +5,14 @@ use super::{content::Content, tiletype::Tiletype};
 pub struct Tile {
     pub tiletype: Box<dyn Tiletype>,
     pub content: Box<dyn Content>,
+    pub visible: bool,
 }
 
 impl Drawable for Tile {
     fn draw(&mut self) {
-        self.tiletype.draw();
-        self.content.draw();
+        if self.visible {
+            self.tiletype.draw();
+            self.content.draw();
+        }
     }
 }

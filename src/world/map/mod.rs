@@ -12,7 +12,7 @@ use super::{
     tiletype::{
         deep_water::DeepWater, grass::Grass, hill::Hill, lava::Lava, mountain::Mountain,
         sand::Sand, shallow_water::ShallowWater, snow::Snow, street::Street, teleport::Teleport,
-        wall::Wall, Tiletype,
+        wall::Wall, Tiletype, TiletypeFactory,
     },
 };
 use macroquad::math::Vec2;
@@ -23,6 +23,7 @@ const TILE_WIDTH: f32 = 192.0;
 pub struct Map {
     pub map: Vec<Vec<Tile>>,
     size: usize,
+    tiletype_factory: TiletypeFactory,
     content_factory: ContentFactory,
 }
 
@@ -31,6 +32,7 @@ impl Map {
         let mut ret = Self {
             map: Vec::new(),
             size: map.len(),
+            tiletype_factory: TiletypeFactory::new().await,
             content_factory: ContentFactory::new().await,
         };
 
@@ -51,37 +53,37 @@ impl Map {
 
                 match tile.tile_type {
                     RobTiletype::DeepWater => {
-                        tiletype = Some(Box::new(DeepWater::new(pos).await));
+                        tiletype = Some(Box::new(self.tiletype_factory.new_deep_water(pos)));
                     }
                     RobTiletype::Grass => {
-                        tiletype = Some(Box::new(Grass::new(pos).await));
+                        tiletype = Some(Box::new(self.tiletype_factory.new_grass(pos)));
                     }
                     RobTiletype::Hill => {
-                        tiletype = Some(Box::new(Hill::new(pos).await));
+                        tiletype = Some(Box::new(self.tiletype_factory.new_hill(pos)));
                     }
                     RobTiletype::Lava => {
-                        tiletype = Some(Box::new(Lava::new(pos).await));
+                        tiletype = Some(Box::new(self.tiletype_factory.new_lava(pos)));
                     }
                     RobTiletype::Sand => {
-                        tiletype = Some(Box::new(Sand::new(pos).await));
+                        tiletype = Some(Box::new(self.tiletype_factory.new_mountain(pos)));
                     }
                     RobTiletype::Mountain => {
-                        tiletype = Some(Box::new(Mountain::new(pos).await));
+                        tiletype = Some(Box::new(self.tiletype_factory.new_sand(pos)));
                     }
                     RobTiletype::ShallowWater => {
-                        tiletype = Some(Box::new(ShallowWater::new(pos).await));
+                        tiletype = Some(Box::new(self.tiletype_factory.new_shallow_water(pos)));
                     }
                     RobTiletype::Snow => {
-                        tiletype = Some(Box::new(Snow::new(pos).await));
+                        tiletype = Some(Box::new(self.tiletype_factory.new_snow(pos)));
                     }
                     RobTiletype::Street => {
-                        tiletype = Some(Box::new(Street::new(pos).await));
+                        tiletype = Some(Box::new(self.tiletype_factory.new_street(pos)));
                     }
                     RobTiletype::Teleport(_) => {
-                        tiletype = Some(Box::new(Teleport::new(pos).await));
+                        tiletype = Some(Box::new(self.tiletype_factory.new_teleport(pos)));
                     }
                     RobTiletype::Wall => {
-                        tiletype = Some(Box::new(Wall::new(pos).await));
+                        tiletype = Some(Box::new(self.tiletype_factory.new_wall(pos)));
                     }
                 }
 

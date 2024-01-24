@@ -91,6 +91,15 @@ impl ContentFactory {
         );
 
         textures.insert(
+            BUSH_ID,
+            Rc::new(
+                load_texture("data/assets/contents/bush/bush.png")
+                    .await
+                    .unwrap(),
+            ),
+        );
+
+        textures.insert(
             CHEST_ID,
             Rc::new(
                 load_texture("data/assets/contents/chest/chest.png")
@@ -153,7 +162,7 @@ impl ContentFactory {
             ),
         );
 
-        textures.insert(MARKET_ID, Rc::new(Texture2D::empty()));
+        textures.insert(NONE_ID, Rc::new(Texture2D::empty()));
 
         textures.insert(
             ROCK_ID,

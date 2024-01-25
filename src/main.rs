@@ -1,18 +1,18 @@
 use core::Drawable;
 use std::{cell::RefCell, rc::Rc, time::Duration};
 
+use ai::{robot::Robot, Ai};
 use macroquad::{miniquad::window, prelude::*, time};
-use robot::MyRobot;
 use robotics_lib::{
     interface::{robot_map, robot_view},
-    runner::{Robot, Runner},
+    runner::{Robot as RobRobot, Runner},
     world::world_generator::Generator,
     world::World as RobWorld,
 };
 use world::{World, TILE_WIDTH, WORLD_SIZE};
 
+pub mod ai;
 pub mod core;
-pub mod robot;
 pub mod world;
 
 const CLOCK_MS: u64 = 1000;
@@ -36,19 +36,23 @@ async fn main() {
 
     let (map, spawn_point, _weather, _max_score, _score_table) = world_generator.gen();
 
+    let robot = Rc::new(RefCell::new(Robot::new(spawn_point).await));
     let world = Rc::new(RefCell::new(World::new(&map).await));
 
-    let my_robot = MyRobot {
-        robot: Robot::new(),
+    let ai = Ai {
+        rob_robot: RobRobot::new(),
+        robot: robot.clone(),
         world: world.clone(),
     };
 
-    let run = Runner::new(Box::new(my_robot), &mut world_generator);
+    let run = Runner::new(Box::new(ai), &mut world_generator);
 
     if let Ok(mut runner) = run {
         let mut timestamp = std::time::Instant::now();
 
         loop {
+            target = robot.borrow().pos;
+
             if is_key_down(KeyCode::Left) {
                 offset.x += 0.2;
             }
@@ -81,6 +85,7 @@ async fn main() {
             }
 
             world.borrow_mut().draw();
+            robot.borrow_mut().draw();
 
             // Back to screen space, render some text
             set_default_camera();
@@ -88,6 +93,18 @@ async fn main() {
                 format!("target (WASD keys) = ({:+.2}, {:+.2})", target.x, target.y).as_str(),
                 10.0,
                 10.0,
+                15.0,
+                BLACK,
+            );
+            draw_text(
+                format!(
+                    "robot = ({:+.2}, {:+.2})",
+                    robot.borrow().pos.x,
+                    robot.borrow().pos.y
+                )
+                .as_str(),
+                10.0,
+                25.0,
                 15.0,
                 BLACK,
             );

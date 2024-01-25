@@ -38,6 +38,8 @@ impl Drawable for Robot {
                 ..Default::default()
             },
         );
+
+        self.sprite.update();
     }
 }
 

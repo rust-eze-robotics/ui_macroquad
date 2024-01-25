@@ -24,6 +24,9 @@ impl Runnable for Ai {
     fn process_tick(&mut self, world: &mut RobWorld) {
         let map = robot_map(world).unwrap();
 
+        go(self, world, robotics_lib::interface::Direction::Down);
+        go(self, world, robotics_lib::interface::Direction::Right);
+
         self.robot.borrow_mut().update_pos(
             self.get_coordinate().get_col(),
             self.get_coordinate().get_row(),

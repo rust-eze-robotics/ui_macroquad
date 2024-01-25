@@ -51,79 +51,80 @@ async fn main() {
         let mut timestamp = std::time::Instant::now();
 
         loop {
-            target = robot.borrow().pos;
-
-            if is_key_down(KeyCode::Left) {
-                offset.x += 0.2;
-            }
-            if is_key_down(KeyCode::Right) {
-                offset.x -= 0.2;
-            }
-            if is_key_down(KeyCode::Up) {
-                offset.y -= 0.2;
-            }
-            if is_key_down(KeyCode::Down) {
-                offset.y += 0.2;
-            }
-
-            if mouse_wheel().1 != 0.0 {
-                zoom *= 1.5f32.powf(mouse_wheel().1);
-            }
-
-            clear_background(LIGHTGRAY);
-
-            set_camera(&Camera2D {
-                target: target,
-                zoom: vec2(zoom, zoom * screen_width() / screen_height()),
-                offset: offset,
-                ..Default::default()
-            });
-
             if timestamp.elapsed().as_millis() > Duration::from_millis(CLOCK_MS).as_millis() {
                 runner.game_tick();
                 timestamp = std::time::Instant::now();
+            } else {
+                target.x = robot.borrow().pos.x + TILE_WIDTH / 2.0;
+                target.y = robot.borrow().pos.y + TILE_WIDTH / 2.0;
+
+                if is_key_down(KeyCode::Left) {
+                    offset.x += 0.2;
+                }
+                if is_key_down(KeyCode::Right) {
+                    offset.x -= 0.2;
+                }
+                if is_key_down(KeyCode::Up) {
+                    offset.y -= 0.2;
+                }
+                if is_key_down(KeyCode::Down) {
+                    offset.y += 0.2;
+                }
+
+                if mouse_wheel().1 != 0.0 {
+                    zoom *= 1.5f32.powf(mouse_wheel().1);
+                }
+
+                clear_background(LIGHTGRAY);
+
+                set_camera(&Camera2D {
+                    target: target,
+                    zoom: vec2(zoom, zoom * screen_width() / screen_height()),
+                    offset: offset,
+                    ..Default::default()
+                });
+
+                world.borrow_mut().draw();
+                robot.borrow_mut().draw();
+
+                // Back to screen space, render some text
+                set_default_camera();
+                draw_text(
+                    format!("target (WASD keys) = ({:+.2}, {:+.2})", target.x, target.y).as_str(),
+                    10.0,
+                    10.0,
+                    15.0,
+                    BLACK,
+                );
+                draw_text(
+                    format!(
+                        "robot = ({:+.2}, {:+.2})",
+                        robot.borrow().pos.x,
+                        robot.borrow().pos.y
+                    )
+                    .as_str(),
+                    10.0,
+                    25.0,
+                    15.0,
+                    BLACK,
+                );
+                draw_text(
+                    format!("zoom (ctrl + mouse wheel) = {:.2}", zoom).as_str(),
+                    10.0,
+                    40.0,
+                    15.0,
+                    BLACK,
+                );
+                draw_text(
+                    format!("offset (arrow keys) = ({:+.2}, {:+.2})", offset.x, offset.y).as_str(),
+                    10.0,
+                    55.0,
+                    15.0,
+                    BLACK,
+                );
+
+                next_frame().await
             }
-
-            world.borrow_mut().draw();
-            robot.borrow_mut().draw();
-
-            // Back to screen space, render some text
-            set_default_camera();
-            draw_text(
-                format!("target (WASD keys) = ({:+.2}, {:+.2})", target.x, target.y).as_str(),
-                10.0,
-                10.0,
-                15.0,
-                BLACK,
-            );
-            draw_text(
-                format!(
-                    "robot = ({:+.2}, {:+.2})",
-                    robot.borrow().pos.x,
-                    robot.borrow().pos.y
-                )
-                .as_str(),
-                10.0,
-                25.0,
-                15.0,
-                BLACK,
-            );
-            draw_text(
-                format!("zoom (ctrl + mouse wheel) = {:.2}", zoom).as_str(),
-                10.0,
-                40.0,
-                15.0,
-                BLACK,
-            );
-            draw_text(
-                format!("offset (arrow keys) = ({:+.2}, {:+.2})", offset.x, offset.y).as_str(),
-                10.0,
-                55.0,
-                15.0,
-                BLACK,
-            );
-
-            next_frame().await
         }
     }
 }

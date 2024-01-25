@@ -34,11 +34,7 @@ impl Runnable for Ai {
         self.world.borrow_mut().update(&map);
     }
 
-    fn handle_event(&mut self, event: Event) {
-        println!();
-        println!("{:?}", event);
-        println!();
-    }
+    fn handle_event(&mut self, event: Event) {}
 
     fn get_energy(&self) -> &Energy {
         &self.rob_robot.energy

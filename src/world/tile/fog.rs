@@ -14,14 +14,3 @@ pub struct Fog {
 }
 
 impl Tiletype for Fog {}
-
-impl Drawable for Fog {
-    fn draw(&mut self) {
-        draw_texture(
-            &self.texture,
-            self.pos.x + self.offset.x,
-            self.pos.y + self.offset.y,
-            LIGHTGRAY,
-        );
-    }
-}

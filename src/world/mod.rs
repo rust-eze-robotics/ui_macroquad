@@ -2,7 +2,7 @@ pub mod content;
 pub mod tile;
 pub mod tiletype;
 
-pub const WORLD_SIZE: usize = 128;
+pub const WORLD_SIZE: usize = 32;
 pub const TILE_WIDTH: f32 = 192.0;
 
 use std::{cell::RefCell, collections::HashSet, rc::Rc};
@@ -21,7 +21,7 @@ use tiletype::{
     Tiletype, TiletypeFactory,
 };
 
-use macroquad::math::Vec2;
+use macroquad::{camera::Camera2D, math::Vec2};
 use robotics_lib::world::tile::{Content as RobContent, Tile as RobTile, TileType as RobTiletype};
 
 pub struct World {
@@ -172,10 +172,10 @@ impl World {
 }
 
 impl Drawable for World {
-    fn draw(&mut self) {
+    fn draw(&mut self, camera: &Camera2D) {
         for row in 0..self.size {
             for col in 0..self.size {
-                self.map[row][col].draw();
+                self.map[row][col].draw(camera);
             }
         }
     }

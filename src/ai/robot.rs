@@ -14,7 +14,7 @@ use robotics_lib::{
 };
 
 use crate::{
-    core::Drawable,
+    core::{is_in_window, Drawable},
     world::{tiletype::Tiletype, World, TILE_WIDTH},
 };
 
@@ -26,18 +26,26 @@ pub struct Robot {
 }
 
 impl Drawable for Robot {
-    fn draw(&mut self) {
-        draw_texture_ex(
-            &self.texture,
-            self.pos.x + self.offset.x,
-            self.pos.y + self.offset.y,
-            LIGHTGRAY,
-            DrawTextureParams {
-                source: Some(self.sprite.frame().source_rect),
-                dest_size: Some(self.sprite.frame().dest_size),
-                ..Default::default()
-            },
-        );
+    fn draw(&mut self, camera: &Camera2D) {
+        if is_in_window(
+            camera,
+            &self.pos,
+            &self.offset,
+            self.texture.width(),
+            self.texture.width(),
+        ) {
+            draw_texture_ex(
+                &self.texture,
+                self.pos.x + self.offset.x,
+                self.pos.y + self.offset.y,
+                LIGHTGRAY,
+                DrawTextureParams {
+                    source: Some(self.sprite.frame().source_rect),
+                    dest_size: Some(self.sprite.frame().dest_size),
+                    ..Default::default()
+                },
+            );
+        }
 
         self.sprite.update();
     }

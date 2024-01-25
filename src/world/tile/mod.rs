@@ -1,3 +1,5 @@
+use macroquad::camera::Camera2D;
+
 use crate::core::Drawable;
 
 use super::{content::Content, tiletype::Tiletype};
@@ -9,10 +11,10 @@ pub struct Tile {
 }
 
 impl Drawable for Tile {
-    fn draw(&mut self) {
+    fn draw(&mut self, camera: &Camera2D) {
         if self.visible {
-            self.tiletype.draw();
-            self.content.draw();
+            self.tiletype.draw(camera);
+            self.content.draw(camera);
         }
     }
 }

@@ -1,11 +1,11 @@
-use std::rc::Rc;
-
 use macroquad::prelude::*;
 use macroquad::texture::Texture2D;
 
-use crate::core::Drawable;
+use crate::core::{is_in_window, Drawable};
 
 use super::Tiletype;
+
+use std::rc::Rc;
 
 pub struct Lava {
     pub(super) pos: Vec2,
@@ -16,12 +16,20 @@ pub struct Lava {
 impl Tiletype for Lava {}
 
 impl Drawable for Lava {
-    fn draw(&mut self) {
-        draw_texture(
-            &self.texture,
-            self.pos.x + self.offset.x,
-            self.pos.y + self.offset.y,
-            LIGHTGRAY,
-        );
+    fn draw(&mut self, camera: &Camera2D) {
+        if is_in_window(
+            camera,
+            &self.pos,
+            &self.offset,
+            self.texture.width(),
+            self.texture.height(),
+        ) {
+            draw_texture(
+                &self.texture,
+                self.pos.x + self.offset.x,
+                self.pos.y + self.offset.y,
+                LIGHTGRAY,
+            );
+        }
     }
 }

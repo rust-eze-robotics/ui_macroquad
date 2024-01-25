@@ -4,7 +4,7 @@ use macroquad::experimental::animation::*;
 use macroquad::prelude::*;
 use macroquad::texture::Texture2D;
 
-use crate::core::Drawable;
+use crate::core::{is_in_window, Drawable};
 
 use super::Content;
 
@@ -18,18 +18,20 @@ pub struct Fire {
 impl Content for Fire {}
 
 impl Drawable for Fire {
-    fn draw(&mut self) {
-        draw_texture_ex(
-            &self.texture,
-            self.pos.x + self.offset.x,
-            self.pos.y + self.offset.y,
-            LIGHTGRAY,
-            DrawTextureParams {
-                source: Some(self.sprite.frame().source_rect),
-                dest_size: Some(self.sprite.frame().dest_size),
-                ..Default::default()
-            },
-        );
+    fn draw(&mut self, camera: &Camera2D) {
+        if is_in_window(camera, &self.pos, &self.offset, 128.0, 128.0) {
+            draw_texture_ex(
+                &self.texture,
+                self.pos.x + self.offset.x,
+                self.pos.y + self.offset.y,
+                LIGHTGRAY,
+                DrawTextureParams {
+                    source: Some(self.sprite.frame().source_rect),
+                    dest_size: Some(self.sprite.frame().dest_size),
+                    ..Default::default()
+                },
+            );
+        }
 
         self.sprite.update();
     }

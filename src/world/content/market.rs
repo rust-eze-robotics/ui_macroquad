@@ -23,7 +23,7 @@ impl Drawable for Market {
             &self.texture,
             self.pos.x + self.offset.x,
             self.pos.y + self.offset.y,
-            WHITE,
+            LIGHTGRAY,
             DrawTextureParams {
                 source: Some(self.sprite.frame().source_rect),
                 dest_size: Some(self.sprite.frame().dest_size),

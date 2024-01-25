@@ -21,7 +21,7 @@ impl Drawable for Grass {
             &self.texture,
             self.pos.x + self.offset.x,
             self.pos.y + self.offset.y,
-            WHITE,
+            LIGHTGRAY,
         );
     }
 }

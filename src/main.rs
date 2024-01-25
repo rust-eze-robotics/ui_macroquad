@@ -1,7 +1,7 @@
 use core::Drawable;
-use std::{cell::RefCell, rc::Rc};
+use std::{cell::RefCell, rc::Rc, time::Duration};
 
-use macroquad::{miniquad::window, prelude::*};
+use macroquad::{miniquad::window, prelude::*, time};
 use robot::MyRobot;
 use robotics_lib::{
     interface::{robot_map, robot_view},
@@ -14,6 +14,8 @@ use world::{World, TILE_WIDTH, WORLD_SIZE};
 pub mod core;
 pub mod robot;
 pub mod world;
+
+const CLOCK_MS: u64 = 1000;
 
 #[macroquad::main("Rust-Eze")]
 async fn main() {
@@ -44,18 +46,20 @@ async fn main() {
     let run = Runner::new(Box::new(my_robot), &mut world_generator);
 
     if let Ok(mut runner) = run {
+        let mut timestamp = std::time::Instant::now();
+
         loop {
             if is_key_down(KeyCode::Left) {
-                offset.x -= 0.2;
-            }
-            if is_key_down(KeyCode::Right) {
                 offset.x += 0.2;
             }
+            if is_key_down(KeyCode::Right) {
+                offset.x -= 0.2;
+            }
             if is_key_down(KeyCode::Up) {
-                offset.y += 0.2;
+                offset.y -= 0.2;
             }
             if is_key_down(KeyCode::Down) {
-                offset.y -= 0.2;
+                offset.y += 0.2;
             }
 
             if mouse_wheel().1 != 0.0 {
@@ -71,7 +75,11 @@ async fn main() {
                 ..Default::default()
             });
 
-            runner.game_tick();
+            if timestamp.elapsed().as_millis() > Duration::from_millis(CLOCK_MS).as_millis() {
+                runner.game_tick();
+                timestamp = std::time::Instant::now();
+            }
+
             world.borrow_mut().draw();
 
             // Back to screen space, render some text

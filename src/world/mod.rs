@@ -2,7 +2,7 @@ pub mod content;
 pub mod tile;
 pub mod tiletype;
 
-pub const WORLD_SIZE: usize = 32;
+pub const WORLD_SIZE: usize = 256;
 pub const TILE_WIDTH: f32 = 192.0;
 
 use std::{cell::RefCell, collections::HashSet, rc::Rc};

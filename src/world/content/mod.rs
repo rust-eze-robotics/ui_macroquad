@@ -14,8 +14,8 @@ use macroquad::{
 use crate::core::Drawable;
 
 use self::{
-    bank::Bank, bin::Bin, building::Building, bush::Bush, chest::Chest, fire::Fire, fish::Fish,
-    garbage::Garbage, jollyblock::Jollyblock, market::Market, none::None, rock::Rock,
+    bank::Bank, bin::Bin, building::Building, bush::Bush, chest::Chest, coin::Coin, fire::Fire,
+    fish::Fish, garbage::Garbage, jollyblock::Jollyblock, market::Market, none::None, rock::Rock,
     scarecrow::Scarecrow, tree::Tree, water::Water,
 };
 
@@ -243,11 +243,11 @@ impl ContentFactory {
         }
     }
 
-    pub fn new_coin(&self, pos: Vec2) -> Garbage {
-        Garbage {
+    pub fn new_coin(&self, pos: Vec2) -> Coin {
+        Coin {
             pos,
             offset: Vec2::new(0.0, 0.0),
-            texture: self.textures[&GARBAGE_ID].clone(),
+            texture: self.textures[&COIN_ID].clone(),
         }
     }
 

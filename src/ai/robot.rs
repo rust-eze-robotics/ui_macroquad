@@ -27,13 +27,7 @@ pub struct Robot {
 
 impl Drawable for Robot {
     fn draw(&mut self, camera: &Camera2D) {
-        if is_in_window(
-            camera,
-            &self.pos,
-            &self.offset,
-            self.texture.width(),
-            self.texture.width(),
-        ) {
+        if is_in_window(camera, &self.pos, &self.offset, 192.0, 192.0) {
             draw_texture_ex(
                 &self.texture,
                 self.pos.x + self.offset.x,

@@ -3,7 +3,7 @@ use std::{cell::RefCell, rc::Rc};
 use robotics_lib::{
     energy::Energy,
     event::events::Event,
-    interface::{go, robot_map},
+    interface::{go, robot_map, robot_view},
     runner::{backpack::BackPack, Robot as RobRobot, Runnable},
     world::{coordinates::Coordinate, World as RobWorld},
 };
@@ -22,15 +22,17 @@ pub struct Ai {
 
 impl Runnable for Ai {
     fn process_tick(&mut self, world: &mut RobWorld) {
-        let map = robot_map(world).unwrap();
-
         go(self, world, robotics_lib::interface::Direction::Down);
         go(self, world, robotics_lib::interface::Direction::Right);
+
+        robot_view(self, world);
 
         self.robot.borrow_mut().update_pos(
             self.get_coordinate().get_col(),
             self.get_coordinate().get_row(),
         );
+
+        let map = robot_map(world).unwrap();
         self.world.borrow_mut().update(&map);
     }
 

@@ -1,20 +1,15 @@
 use core::Drawable;
-use std::{any::Any, cell::RefCell, os::unix::raw::time_t, rc::Rc, time::Duration};
+use std::{cell::RefCell, rc::Rc, time::Duration};
 
-use ai::{
-    robot::{Robot, State},
-    Ai,
-};
+use ai::{robot::Robot, Ai};
 use context::{Context, CLOCK_MS};
-use macroquad::{experimental::camera::mouse::Camera, miniquad::window, prelude::*, time};
-use midgard::world_generator::ContentsRadii;
+use macroquad::{miniquad::window, prelude::*};
+
 use robotics_lib::{
-    interface::{robot_map, robot_view},
     runner::{Robot as RobRobot, Runner},
-    world::World as RobWorld,
-    world::{tile::Content, world_generator::Generator},
+    world::world_generator::Generator,
 };
-use world::{World, TILE_WIDTH, WORLD_SIZE};
+use world::{World, WORLD_SIZE};
 
 pub mod ai;
 pub mod context;

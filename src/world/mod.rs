@@ -6,23 +6,15 @@ pub mod tiletype;
 pub const WORLD_SIZE: usize = 256;
 pub const TILE_WIDTH: f32 = 192.0;
 
-use std::{cell::RefCell, collections::HashSet, ops::Deref, rc::Rc};
+use std::collections::HashSet;
 
 use crate::{context::Context, core::Drawable};
 
-use content::{
-    bank::Bank, bin::Bin, building::Building, bush::Bush, chest::Chest, coin::Coin, fire::Fire,
-    fish::Fish, garbage::Garbage, jollyblock::Jollyblock, market::Market, rock::Rock,
-    scarecrow::Scarecrow, tree::Tree, water::Water, Content, ContentFactory,
-};
+use content::{Content, ContentFactory};
 use tile::Tile;
-use tiletype::{
-    deep_water::DeepWater, grass::Grass, hill::Hill, lava::Lava, mountain::Mountain, sand::Sand,
-    shallow_water::ShallowWater, snow::Snow, street::Street, teleport::Teleport, wall::Wall,
-    Tiletype, TiletypeFactory,
-};
+use tiletype::{Tiletype, TiletypeFactory};
 
-use macroquad::{camera::Camera2D, math::Vec2};
+use macroquad::math::Vec2;
 use robotics_lib::world::tile::{Content as RobContent, Tile as RobTile, TileType as RobTiletype};
 
 use self::decoration::DecorationFactory;

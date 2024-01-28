@@ -1,5 +1,3 @@
-use macroquad::camera::Camera2D;
-
 use crate::{context::Context, core::Drawable};
 
 use super::{content::Content, decoration::fog::Fog, tiletype::Tiletype};

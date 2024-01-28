@@ -1,28 +1,14 @@
-use std::{
-    cell::RefCell,
-    collections::HashMap,
-    rc::Rc,
-    thread,
-    time::{Duration, Instant},
-};
+use std::time::Instant;
 
 use macroquad::{
     experimental::animation::{AnimatedSprite, Animation},
     prelude::*,
 };
 
-use robotics_lib::{
-    energy::Energy,
-    event::events::Event,
-    interface::{go, one_direction_view, robot_map, robot_view},
-    runner::{backpack::BackPack, Robot as RobRobot, Runnable},
-    world::{coordinates::Coordinate, World as RobWorld},
-};
-
 use crate::{
     context::Context,
     core::{is_in_window, Drawable},
-    world::{tiletype::Tiletype, World, TILE_WIDTH},
+    world::TILE_WIDTH,
 };
 
 const WALK_FRAMES: f32 = 100.0;

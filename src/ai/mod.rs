@@ -5,12 +5,10 @@ use robotics_lib::{
     event::events::Event,
     interface::{go, robot_map, robot_view},
     runner::{backpack::BackPack, Robot as RobRobot, Runnable},
-    world::{coordinates::Coordinate, tile::Content as RobContent, World as RobWorld},
+    world::{coordinates::Coordinate, World as RobWorld},
 };
-use rust_eze_spotlight::Spotlight;
-use rust_eze_tomtom::TomTom;
 
-use crate::world::{content::Content, World};
+use crate::world::World;
 
 use self::robot::Robot;
 
@@ -37,7 +35,7 @@ impl Runnable for Ai {
         self.world.borrow_mut().update(&map);
     }
 
-    fn handle_event(&mut self, event: Event) {}
+    fn handle_event(&mut self, _event: Event) {}
 
     fn get_energy(&self) -> &Energy {
         &self.rob_robot.energy

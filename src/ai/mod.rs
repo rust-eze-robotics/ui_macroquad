@@ -7,6 +7,7 @@ use robotics_lib::{
     runner::{backpack::BackPack, Robot as RobRobot, Runnable},
     world::{coordinates::Coordinate, World as RobWorld},
 };
+use rust_eze_spotlight::Spotlight;
 
 use crate::world::World;
 

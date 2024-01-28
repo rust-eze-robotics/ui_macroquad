@@ -331,7 +331,6 @@ impl ContentFactory {
         None {
             pos,
             offset: Vec2::new(0.0, 0.0),
-            texture: self.textures[&NONE_ID].clone(),
         }
     }
 

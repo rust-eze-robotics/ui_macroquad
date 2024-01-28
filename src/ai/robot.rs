@@ -13,7 +13,7 @@ use crate::{
 
 const WALK_FRAMES: f32 = 100.0;
 
-pub enum State {
+enum State {
     Idle,
     Walk(f32),
 }
@@ -24,7 +24,7 @@ pub struct Robot {
     pub texture: Texture2D,
     pub sprite: AnimatedSprite,
     pub last_pos: Vec2,
-    pub state: State,
+    state: State,
 }
 
 impl Drawable for Robot {

@@ -37,7 +37,7 @@ async fn main() {
     let world = Rc::new(RefCell::new(World::new(&map).await));
 
     let ai = Ai::new(RobRobot::new(), robot.clone(), world.clone());
-    let mut ui = Ui::new(world.clone());
+    let mut ui = Ui::new(world.clone()).await;
 
     let run = Runner::new(Box::new(ai), &mut world_generator);
 
@@ -61,6 +61,7 @@ async fn main() {
                 context.camera.target = robot.borrow().get_target_pos();
 
                 context.update_camera();
+                ui.update();
 
                 clear_background(LIGHTGRAY);
 
@@ -71,9 +72,7 @@ async fn main() {
 
                 set_default_camera();
 
-                let ui_context = Context::default();
-
-                ui.draw(&ui_context);
+                ui.draw(&context);
 
                 next_frame().await
             }

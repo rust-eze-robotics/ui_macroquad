@@ -34,6 +34,7 @@ impl Ai {
 impl Runnable for Ai {
     fn process_tick(&mut self, world: &mut RobWorld) {
         go(self, world, robotics_lib::interface::Direction::Right);
+        Spotlight::illuminate(self, world, 5);
 
         robot_view(self, world);
 

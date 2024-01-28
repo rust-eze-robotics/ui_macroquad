@@ -2,9 +2,15 @@ use macroquad::prelude::*;
 
 use crate::context::Context;
 
+pub const CLOCK_MS: u64 = 1000;
+pub const ZOOM_MIN: f32 = 0.001;
+pub const ZOOM_MAX: f32 = 0.0034;
+pub const ZOOM_DEFAULT: f32 = 0.0015;
+
 pub trait Drawable {
     fn draw(&mut self, context: &Context);
 }
+
 pub fn is_in_window(context: &Context, pos: &Vec2, offset: &Vec2, width: f32, height: f32) -> bool {
     let left_up_corner = context
         .camera

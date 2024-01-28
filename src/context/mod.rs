@@ -2,10 +2,7 @@ use std::time::Instant;
 
 use macroquad::prelude::*;
 
-pub const CLOCK_MS: u64 = 1000;
-const ZOOM_MIN: f32 = 0.001;
-const ZOOM_MAX: f32 = 0.0034;
-const ZOOM_DEFAULT: f32 = 0.0015;
+use crate::core::{ZOOM_DEFAULT, ZOOM_MAX, ZOOM_MIN};
 
 pub struct Context {
     pub timestamp: Instant,
@@ -13,15 +10,17 @@ pub struct Context {
 }
 
 impl Context {
-    pub fn new(target: Vec2, offset: Vec2) -> Self {
+    pub fn new(camera: Camera2D) -> Self {
         Self {
             timestamp: Instant::now(),
-            camera: Camera2D {
-                target,
-                offset,
-                zoom: Vec2::new(ZOOM_DEFAULT, ZOOM_DEFAULT),
-                ..Default::default()
-            },
+            camera,
+        }
+    }
+
+    pub fn default() -> Self {
+        Self {
+            timestamp: Instant::now(),
+            camera: Camera2D::default(),
         }
     }
 
@@ -36,31 +35,35 @@ impl Context {
 
     pub fn update_camera(&mut self) {
         if is_key_down(KeyCode::Left) {
-            self.camera.offset.x += 0.1;
+            self.camera.offset.x += 0.05;
         }
 
         if is_key_down(KeyCode::Right) {
-            self.camera.offset.x -= 0.1;
+            self.camera.offset.x -= 0.05;
         }
 
         if is_key_down(KeyCode::Up) {
-            self.camera.offset.y -= 0.1;
+            self.camera.offset.y -= 0.05;
         }
 
         if is_key_down(KeyCode::Down) {
-            self.camera.offset.y += 0.1;
+            self.camera.offset.y += 0.05;
         }
 
         if is_key_down(KeyCode::Space) {
             self.camera.offset.x = 0.0;
             self.camera.offset.y = 0.0;
+            self.camera.zoom.x = ZOOM_DEFAULT;
+            self.camera.zoom.y = self.camera.zoom.x * screen_width() / screen_height();
         }
 
         if mouse_wheel().1 != 0.0 {
             self.camera.zoom.x *= 1.5f32.powf(mouse_wheel().1);
+
             if !is_key_down(KeyCode::LeftControl) {
                 self.camera.zoom.x = clamp(self.camera.zoom.x, ZOOM_MIN, ZOOM_MAX);
             }
+
             self.camera.zoom.y = self.camera.zoom.x * screen_width() / screen_height();
         }
     }

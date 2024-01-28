@@ -20,7 +20,7 @@ use robotics_lib::world::tile::{Content as RobContent, Tile as RobTile, TileType
 use self::decoration::DecorationFactory;
 
 pub struct World {
-    pub map: Vec<Vec<Tile>>,
+    pub tiles: Vec<Vec<Tile>>,
     hidden_tiles: HashSet<(usize, usize)>,
     size: usize,
     tiletype_factory: TiletypeFactory,
@@ -31,7 +31,7 @@ pub struct World {
 impl World {
     pub async fn new(map: &Vec<Vec<RobTile>>) -> Self {
         let mut ret = Self {
-            map: Vec::new(),
+            tiles: Vec::new(),
             hidden_tiles: HashSet::new(),
             size: map.len(),
             tiletype_factory: TiletypeFactory::new().await,
@@ -46,7 +46,7 @@ impl World {
 
     async fn setup(&mut self, map: &Vec<Vec<RobTile>>) {
         for row in 0..self.size {
-            self.map.push(Vec::new());
+            self.tiles.push(Vec::new());
 
             for col in 0..self.size {
                 self.hidden_tiles.insert((row, col));
@@ -147,7 +147,7 @@ impl World {
 
                 if let Some(tiletype) = tiletype {
                     if let Some(content) = content {
-                        self.map[row].push(Tile::new(
+                        self.tiles[row].push(Tile::new(
                             tiletype,
                             content,
                             self.decoration_factory.new_fog(pos),
@@ -161,7 +161,7 @@ impl World {
     pub fn update(&mut self, map: &Vec<Vec<Option<RobTile>>>) {
         for (row, col) in self.hidden_tiles.clone() {
             if map[row][col].is_some() {
-                self.map[row][col].visible = true;
+                self.tiles[row][col].visible = true;
                 self.hidden_tiles.remove(&(row, col));
             }
         }
@@ -172,7 +172,7 @@ impl Drawable for World {
     fn draw(&mut self, context: &Context) {
         for row in 0..self.size {
             for col in 0..self.size {
-                self.map[row][col].draw(context);
+                self.tiles[row][col].draw(context);
             }
         }
     }

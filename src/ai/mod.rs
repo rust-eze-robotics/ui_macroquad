@@ -21,6 +21,16 @@ pub struct Ai {
     pub world: Rc<RefCell<World>>,
 }
 
+impl Ai {
+    pub fn new(rob_robot: RobRobot, robot: Rc<RefCell<Robot>>, world: Rc<RefCell<World>>) -> Self {
+        Self {
+            rob_robot,
+            robot,
+            world,
+        }
+    }
+}
+
 impl Runnable for Ai {
     fn process_tick(&mut self, world: &mut RobWorld) {
         go(self, world, robotics_lib::interface::Direction::Right);

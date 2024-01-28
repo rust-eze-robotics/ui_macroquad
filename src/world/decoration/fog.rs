@@ -1,3 +1,5 @@
+use std::rc::Rc;
+
 use macroquad::prelude::*;
 use macroquad::texture::Texture2D;
 
@@ -6,19 +8,13 @@ use crate::{
     core::{is_in_window, Drawable},
 };
 
-use super::Content;
-
-use std::rc::Rc;
-
-pub struct Garbage {
+pub struct Fog {
     pub(super) pos: Vec2,
     pub(super) offset: Vec2,
     pub(super) texture: Rc<Texture2D>,
 }
 
-impl Content for Garbage {}
-
-impl Drawable for Garbage {
+impl Drawable for Fog {
     fn draw(&mut self, context: &Context) {
         if is_in_window(
             context,

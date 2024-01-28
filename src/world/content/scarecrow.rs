@@ -1,7 +1,10 @@
 use macroquad::prelude::*;
 use macroquad::texture::Texture2D;
 
-use crate::core::{is_in_window, Drawable};
+use crate::{
+    context::Context,
+    core::{is_in_window, Drawable},
+};
 
 use super::Content;
 
@@ -16,9 +19,9 @@ pub struct Scarecrow {
 impl Content for Scarecrow {}
 
 impl Drawable for Scarecrow {
-    fn draw(&mut self, camera: &Camera2D) {
+    fn draw(&mut self, context: &Context) {
         if is_in_window(
-            camera,
+            context,
             &self.pos,
             &self.offset,
             self.texture.width(),

@@ -1,12 +1,16 @@
 use macroquad::prelude::*;
 
-pub trait Drawable {
-    fn draw(&mut self, camera: &Camera2D);
-}
-pub fn is_in_window(camera: &Camera2D, pos: &Vec2, offset: &Vec2, width: f32, height: f32) -> bool {
-    let left_up_corner = camera.world_to_screen(Vec2::new(pos.x - offset.x, pos.y + offset.y));
+use crate::context::Context;
 
-    let right_down_corner = camera.world_to_screen(Vec2::new(
+pub trait Drawable {
+    fn draw(&mut self, context: &Context);
+}
+pub fn is_in_window(context: &Context, pos: &Vec2, offset: &Vec2, width: f32, height: f32) -> bool {
+    let left_up_corner = context
+        .camera
+        .world_to_screen(Vec2::new(pos.x - offset.x, pos.y + offset.y));
+
+    let right_down_corner = context.camera.world_to_screen(Vec2::new(
         pos.x - offset.x + width,
         pos.y + offset.y + height,
     ));

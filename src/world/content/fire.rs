@@ -4,7 +4,10 @@ use macroquad::experimental::animation::*;
 use macroquad::prelude::*;
 use macroquad::texture::Texture2D;
 
-use crate::core::{is_in_window, Drawable};
+use crate::{
+    context::Context,
+    core::{is_in_window, Drawable},
+};
 
 use super::Content;
 
@@ -18,8 +21,8 @@ pub struct Fire {
 impl Content for Fire {}
 
 impl Drawable for Fire {
-    fn draw(&mut self, camera: &Camera2D) {
-        if is_in_window(camera, &self.pos, &self.offset, 128.0, 128.0) {
+    fn draw(&mut self, context: &Context) {
+        if is_in_window(context, &self.pos, &self.offset, 128.0, 128.0) {
             draw_texture_ex(
                 &self.texture,
                 self.pos.x + self.offset.x,

@@ -38,25 +38,25 @@ pub mod water;
 
 pub trait Content: Drawable {}
 
-const BANK_ID: usize = 0;
-const BIN_ID: usize = 1;
-const BUILDING_ID: usize = 2;
-const BUSH_ID: usize = 3;
-const CHEST_ID: usize = 4;
-const COIN_ID: usize = 5;
-const FIRE_ID: usize = 6;
-const FISH_ID: usize = 7;
-const GARBAGE_ID: usize = 8;
-const JOLLYBLOCK_ID: usize = 9;
-const MARKET_ID: usize = 10;
-const NONE_ID: usize = 11;
-const ROCK_ID: usize = 12;
-const SCARECROW_ID: usize = 13;
-const TREE_ID: usize = 14;
-const WATER_ID: usize = 15;
+const BANK_ID: u8 = 0;
+const BIN_ID: u8 = 1;
+const BUILDING_ID: u8 = 2;
+const BUSH_ID: u8 = 3;
+const CHEST_ID: u8 = 4;
+const COIN_ID: u8 = 5;
+const FIRE_ID: u8 = 6;
+const FISH_ID: u8 = 7;
+const GARBAGE_ID: u8 = 8;
+const JOLLYBLOCK_ID: u8 = 9;
+const MARKET_ID: u8 = 10;
+const NONE_ID: u8 = 11;
+const ROCK_ID: u8 = 12;
+const SCARECROW_ID: u8 = 13;
+const TREE_ID: u8 = 14;
+const WATER_ID: u8 = 15;
 
 pub struct ContentFactory {
-    textures: HashMap<usize, Rc<Texture2D>>,
+    textures: HashMap<u8, Rc<Texture2D>>,
 }
 
 impl ContentFactory {

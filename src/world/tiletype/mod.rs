@@ -26,20 +26,20 @@ pub mod wall;
 
 pub trait Tiletype: Drawable {}
 
-const DEEP_WATER_ID: usize = 0;
-const GRASS_ID: usize = 1;
-const HILL_ID: usize = 2;
-const LAVA_ID: usize = 3;
-const MOUNTAIN_ID: usize = 4;
-const SAND_ID: usize = 5;
-const SHALLOW_WATER_ID: usize = 6;
-const SNOW_ID: usize = 7;
-const STREET_ID: usize = 8;
-const TELEPORT_ID: usize = 9;
-const WALL_ID: usize = 10;
+const DEEP_WATER_ID: u8 = 0;
+const GRASS_ID: u8 = 1;
+const HILL_ID: u8 = 2;
+const LAVA_ID: u8 = 3;
+const MOUNTAIN_ID: u8 = 4;
+const SAND_ID: u8 = 5;
+const SHALLOW_WATER_ID: u8 = 6;
+const SNOW_ID: u8 = 7;
+const STREET_ID: u8 = 8;
+const TELEPORT_ID: u8 = 9;
+const WALL_ID: u8 = 10;
 
 pub struct TiletypeFactory {
-    textures: HashMap<usize, Rc<Texture2D>>,
+    textures: HashMap<u8, Rc<Texture2D>>,
 }
 
 impl TiletypeFactory {

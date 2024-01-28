@@ -12,3 +12,5 @@ exclude = [".*"]
 macroquad = "0.4.4"
 robotics_lib = {version = "0.1.21", registry = "kellnr"}
 midgard = {version = "0.1.2", registry = "kellnr"}
+rust_eze_spotlight = {version = "1.0.0", registry = "kellnr"}
+rust_eze_tomtom = {version = "1.0.0", registry = "kellnr"}

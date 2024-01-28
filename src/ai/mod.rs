@@ -5,10 +5,12 @@ use robotics_lib::{
     event::events::Event,
     interface::{go, robot_map, robot_view},
     runner::{backpack::BackPack, Robot as RobRobot, Runnable},
-    world::{coordinates::Coordinate, World as RobWorld},
+    world::{coordinates::Coordinate, tile::Content as RobContent, World as RobWorld},
 };
+use rust_eze_spotlight::Spotlight;
+use rust_eze_tomtom::TomTom;
 
-use crate::world::World;
+use crate::world::{content::Content, World};
 
 use self::robot::Robot;
 
@@ -22,14 +24,13 @@ pub struct Ai {
 
 impl Runnable for Ai {
     fn process_tick(&mut self, world: &mut RobWorld) {
-        go(self, world, robotics_lib::interface::Direction::Down);
         go(self, world, robotics_lib::interface::Direction::Right);
 
         robot_view(self, world);
 
-        self.robot.borrow_mut().update_pos(
-            self.get_coordinate().get_col(),
+        self.robot.borrow_mut().update(
             self.get_coordinate().get_row(),
+            self.get_coordinate().get_col(),
         );
 
         let map = robot_map(world).unwrap();

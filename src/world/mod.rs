@@ -1,13 +1,14 @@
 pub mod content;
+pub mod decoration;
 pub mod tile;
 pub mod tiletype;
 
 pub const WORLD_SIZE: usize = 256;
 pub const TILE_WIDTH: f32 = 192.0;
 
-use std::{cell::RefCell, collections::HashSet, rc::Rc};
+use std::{cell::RefCell, collections::HashSet, ops::Deref, rc::Rc};
 
-use crate::core::Drawable;
+use crate::{context::Context, core::Drawable};
 
 use content::{
     bank::Bank, bin::Bin, building::Building, bush::Bush, chest::Chest, coin::Coin, fire::Fire,
@@ -24,12 +25,15 @@ use tiletype::{
 use macroquad::{camera::Camera2D, math::Vec2};
 use robotics_lib::world::tile::{Content as RobContent, Tile as RobTile, TileType as RobTiletype};
 
+use self::decoration::DecorationFactory;
+
 pub struct World {
     pub map: Vec<Vec<Tile>>,
     hidden_tiles: HashSet<(usize, usize)>,
     size: usize,
     tiletype_factory: TiletypeFactory,
     content_factory: ContentFactory,
+    decoration_factory: DecorationFactory,
 }
 
 impl World {
@@ -40,6 +44,7 @@ impl World {
             size: map.len(),
             tiletype_factory: TiletypeFactory::new().await,
             content_factory: ContentFactory::new().await,
+            decoration_factory: DecorationFactory::new().await,
         };
 
         ret.setup(map).await;
@@ -55,7 +60,7 @@ impl World {
                 self.hidden_tiles.insert((row, col));
 
                 let tile = &map[row][col];
-                let pos = Vec2::new(row as f32 * TILE_WIDTH, col as f32 * TILE_WIDTH);
+                let pos = Vec2::new(col as f32 * TILE_WIDTH, row as f32 * TILE_WIDTH);
 
                 let tiletype: Option<Box<dyn Tiletype>>;
 
@@ -114,7 +119,7 @@ impl World {
                         content = Some(Box::new(self.content_factory.new_coin(pos)));
                     }
                     RobContent::Crate(_) => {
-                        content = Some(Box::new(self.content_factory.new_rock(pos)));
+                        content = Some(Box::new(self.content_factory.new_chest(pos)));
                     }
                     RobContent::Fire => {
                         content = Some(Box::new(self.content_factory.new_fire(pos)));
@@ -150,11 +155,11 @@ impl World {
 
                 if let Some(tiletype) = tiletype {
                     if let Some(content) = content {
-                        self.map[row].push(Tile {
+                        self.map[row].push(Tile::new(
                             tiletype,
                             content,
-                            visible: false,
-                        });
+                            self.decoration_factory.new_fog(pos),
+                        ));
                     }
                 }
             }
@@ -172,10 +177,10 @@ impl World {
 }
 
 impl Drawable for World {
-    fn draw(&mut self, camera: &Camera2D) {
+    fn draw(&mut self, context: &Context) {
         for row in 0..self.size {
             for col in 0..self.size {
-                self.map[row][col].draw(camera);
+                self.map[row][col].draw(context);
             }
         }
     }

@@ -1,3 +1,5 @@
+use crate::core::Drawable;
+
 pub mod factory;
 pub mod square;
 

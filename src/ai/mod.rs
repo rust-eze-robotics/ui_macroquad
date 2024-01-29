@@ -1,7 +1,7 @@
 use std::{cell::RefCell, rc::Rc};
 
 use robotics_lib::{
-    energy::Energy,
+    energy::{self, Energy},
     event::events::Event,
     interface::{go, robot_map},
     runner::{backpack::BackPack, Robot as RobRobot, Runnable},
@@ -33,9 +33,6 @@ impl Ai {
 
 impl Runnable for Ai {
     fn process_tick(&mut self, world: &mut RobWorld) {
-        go(self, world, robotics_lib::interface::Direction::Right);
-        Spotlight::illuminate(self, world, 4);
-
         self.robot.borrow_mut().update(
             self.get_coordinate().get_row(),
             self.get_coordinate().get_col(),

@@ -58,15 +58,15 @@ impl ButtonFactory {
         Self { textures }
     }
 
-    pub fn new_audio_button(&self, icon_factory: &IconFactory, pos: Vec2) -> SquareButton {
+    pub fn new_audio_button(&self, icon_factory: &IconFactory) -> SquareButton {
         SquareButton {
-            pos,
+            pos: Vec2::new(screen_width(), screen_height()),
             size: Vec2::new(64.0, 64.0),
             texture_active: self.textures[&BUTTON_ACTIVE_ID].clone(),
             texture_down: self.textures[&BUTTON_DOWN_ID].clone(),
             texture_disabled: self.textures[&BUTTON_DISABLED_ID].clone(),
             texture_hovered: self.textures[&BUTTON_HOVERED_ID].clone(),
-            icon: icon_factory.new_audio_icon(pos),
+            icon: icon_factory.new_audio_icon(Vec2::new(screen_width(), screen_height())),
             state: ButtonState::Active,
             active: true,
         }

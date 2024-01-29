@@ -54,7 +54,6 @@ impl Context {
             self.camera.offset.x = 0.0;
             self.camera.offset.y = 0.0;
             self.camera.zoom.x = ZOOM_DEFAULT;
-            self.camera.zoom.y = self.camera.zoom.x * screen_width() / screen_height();
         }
 
         if mouse_wheel().1 != 0.0 {
@@ -63,8 +62,8 @@ impl Context {
             if !is_key_down(KeyCode::LeftControl) {
                 self.camera.zoom.x = clamp(self.camera.zoom.x, ZOOM_MIN, ZOOM_MAX);
             }
-
-            self.camera.zoom.y = self.camera.zoom.x * screen_width() / screen_height();
         }
+
+        self.camera.zoom.y = self.camera.zoom.x * screen_width() / screen_height();
     }
 }

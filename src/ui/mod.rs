@@ -17,14 +17,27 @@ pub mod button;
 pub mod icon;
 pub mod map;
 
+pub trait UiComponent: Drawable {
+    fn update(&mut self);
+    fn handle(&mut self);
+}
+
 pub struct Ui {
     pub map: Map,
-    pub audio_button: SquareButton,
+    pub components: Vec<Box<dyn UiComponent>>,
 }
 
 impl Ui {
     pub fn update(&mut self) {
-        self.audio_button.update();
+        for component in self.components.iter_mut() {
+            component.update();
+        }
+    }
+
+    pub fn handle(&mut self) {
+        for component in self.components.iter_mut() {
+            component.handle();
+        }
     }
 }
 
@@ -33,18 +46,20 @@ impl Ui {
         let icon_factory = IconFactory::new().await;
         let button_factory = ButtonFactory::new().await;
 
+        let mut components = Vec::<Box<dyn UiComponent>>::new();
+        components.push(Box::new(button_factory.new_audio_button(&icon_factory)));
+
         Self {
             map: Map::new(world),
-            audio_button: button_factory.new_audio_button(
-                &icon_factory,
-                Vec2::new(screen_width() - 64.0, screen_height() - 64.0),
-            ),
+            components,
         }
     }
 }
 
 impl Drawable for Ui {
     fn draw(&mut self, context: &crate::context::Context) {
-        self.audio_button.draw(context);
+        for component in self.components.iter_mut() {
+            component.draw(context);
+        }
     }
 }

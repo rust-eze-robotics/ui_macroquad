@@ -4,7 +4,10 @@ use macroquad::texture::Texture2D;
 use crate::{
     context::Context,
     core::{is_down, is_hovered, is_released, Drawable},
-    ui::icon::{Icon, IconState},
+    ui::{
+        icon::{Icon, IconState},
+        UiComponent,
+    },
 };
 
 use std::rc::Rc;
@@ -23,8 +26,13 @@ pub struct SquareButton {
     pub(super) active: bool,
 }
 
-impl SquareButton {
-    pub fn update(&mut self) {
+impl UiComponent for SquareButton {
+    fn update(&mut self) {
+        self.pos = Vec2::new(screen_width(), screen_height()) - self.size;
+        self.icon.pos = self.pos;
+    }
+
+    fn handle(&mut self) {
         if is_down(&self.pos, &self.size) {
             self.state = ButtonState::Down;
             self.icon.state = IconState::Down;

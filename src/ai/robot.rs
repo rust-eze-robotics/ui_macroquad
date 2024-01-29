@@ -1,4 +1,4 @@
-use std::time::Instant;
+use std::time::{Duration, Instant};
 
 use macroquad::{
     experimental::animation::{AnimatedSprite, Animation},
@@ -11,11 +11,11 @@ use crate::{
     world::TILE_WIDTH,
 };
 
-const WALK_FRAMES: f32 = 100.0;
+const WALK_DURATION: Duration = Duration::from_millis(500);
 
 enum State {
     Idle,
-    Walk(f32),
+    Walk(Instant),
 }
 
 pub struct Robot {
@@ -44,15 +44,17 @@ impl Drawable for Robot {
                         },
                     );
                 }
-                State::Walk(count) => {
+                State::Walk(instant) => {
                     draw_texture_ex(
                         &self.texture,
                         self.last_pos.x
                             + self.offset.x
-                            + (self.pos.x - self.last_pos.x) * (count / WALK_FRAMES),
+                            + (self.pos.x - self.last_pos.x) * instant.elapsed().as_millis() as f32
+                                / WALK_DURATION.as_millis() as f32,
                         self.last_pos.y
                             + self.offset.y
-                            + (self.pos.y - self.last_pos.y) * (count / WALK_FRAMES),
+                            + (self.pos.y - self.last_pos.y) * instant.elapsed().as_millis() as f32
+                                / WALK_DURATION.as_millis() as f32,
                         LIGHTGRAY,
                         DrawTextureParams {
                             source: Some(self.sprite.frame().source_rect),
@@ -108,15 +110,13 @@ impl Robot {
         match self.state {
             State::Idle => {
                 if self.pos != self.last_pos {
-                    self.state = State::Walk(1.0);
+                    self.state = State::Walk(Instant::now());
                 }
             }
-            State::Walk(count) => {
-                if count == WALK_FRAMES {
+            State::Walk(instant) => {
+                if instant.elapsed() >= WALK_DURATION {
                     self.last_pos = self.pos;
                     self.state = State::Idle;
-                } else {
-                    self.state = State::Walk(count + 1.0);
                 }
 
                 *timestamp = std::time::Instant::now();
@@ -127,14 +127,16 @@ impl Robot {
     pub fn get_target_pos(&self) -> Vec2 {
         match self.state {
             State::Idle => self.pos + self.offset + TILE_WIDTH / 2.0,
-            State::Walk(count) => Vec2::new(
+            State::Walk(instant) => Vec2::new(
                 self.last_pos.x
                     + self.offset.x
-                    + (self.pos.x - self.last_pos.x) * (count / WALK_FRAMES)
+                    + (self.pos.x - self.last_pos.x) * instant.elapsed().as_millis() as f32
+                        / WALK_DURATION.as_millis() as f32
                     + TILE_WIDTH / 2.0,
                 self.last_pos.y
                     + self.offset.y
-                    + (self.pos.y - self.last_pos.y) * (count / WALK_FRAMES)
+                    + (self.pos.y - self.last_pos.y) * instant.elapsed().as_millis() as f32
+                        / WALK_DURATION.as_millis() as f32
                     + TILE_WIDTH / 2.0,
             ),
         }

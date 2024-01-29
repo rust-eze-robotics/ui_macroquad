@@ -6,19 +6,19 @@ use crate::{
     core::{is_in_window, Drawable},
 };
 
-use super::Tiletype;
+use super::TileType;
 
 use std::rc::Rc;
 
-pub struct Grass {
+pub struct Wall {
     pub(super) pos: Vec2,
     pub(super) offset: Vec2,
     pub(super) texture: Rc<Texture2D>,
 }
 
-impl Tiletype for Grass {}
+impl TileType for Wall {}
 
-impl Drawable for Grass {
+impl Drawable for Wall {
     fn draw(&mut self, context: &Context) {
         if is_in_window(
             context,

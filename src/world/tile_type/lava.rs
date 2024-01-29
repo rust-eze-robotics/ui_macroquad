@@ -6,7 +6,7 @@ use crate::{
     core::{is_in_window, Drawable},
 };
 
-use super::Tiletype;
+use super::TileType;
 
 use std::rc::Rc;
 
@@ -16,7 +16,7 @@ pub struct Lava {
     pub(super) texture: Rc<Texture2D>,
 }
 
-impl Tiletype for Lava {}
+impl TileType for Lava {}
 
 impl Drawable for Lava {
     fn draw(&mut self, context: &Context) {

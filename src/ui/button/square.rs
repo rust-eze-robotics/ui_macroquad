@@ -4,26 +4,26 @@ use macroquad::texture::Texture2D;
 use crate::{
     context::Context,
     core::{is_down, is_hovered, is_in_window, is_released, Drawable},
-    ui::icon::{audio::AudioIcon, IconState},
+    ui::icon::{Icon, IconState},
 };
 
 use std::{rc::Rc, time::Instant};
 
-use super::{Button, ButtonState};
+use super::ButtonState;
 
-pub struct AudioButton {
+pub struct SquareButton {
     pub(super) pos: Vec2,
     pub(super) size: Vec2,
     pub(super) texture_active: Rc<Texture2D>,
     pub(super) texture_down: Rc<Texture2D>,
     pub(super) texture_disabled: Rc<Texture2D>,
     pub(super) texture_hovered: Rc<Texture2D>,
-    pub(super) icon: AudioIcon,
+    pub(super) icon: Icon,
     pub(super) state: ButtonState,
     pub(super) active: bool,
 }
 
-impl AudioButton {
+impl SquareButton {
     pub fn update(&mut self) {
         if is_down(&self.pos, &self.size) {
             self.state = ButtonState::Down;
@@ -54,9 +54,7 @@ impl AudioButton {
     }
 }
 
-impl Button for AudioButton {}
-
-impl Drawable for AudioButton {
+impl Drawable for SquareButton {
     fn draw(&mut self, context: &Context) {
         let texture = match self.state {
             ButtonState::Active => &self.texture_active,

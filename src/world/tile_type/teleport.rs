@@ -6,19 +6,19 @@ use crate::{
     core::{is_in_window, Drawable},
 };
 
-use super::Tiletype;
+use super::TileType;
 
 use std::rc::Rc;
 
-pub struct Sand {
+pub struct Teleport {
     pub(super) pos: Vec2,
     pub(super) offset: Vec2,
     pub(super) texture: Rc<Texture2D>,
 }
 
-impl Tiletype for Sand {}
+impl TileType for Teleport {}
 
-impl Drawable for Sand {
+impl Drawable for Teleport {
     fn draw(&mut self, context: &Context) {
         if is_in_window(
             context,

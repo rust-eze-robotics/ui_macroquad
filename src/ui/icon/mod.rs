@@ -1,15 +1,14 @@
-use std::{collections::HashMap, rc::Rc};
+use macroquad::prelude::*;
+use macroquad::texture::Texture2D;
 
-use macroquad::{
-    math::Vec2,
-    texture::{load_texture, Texture2D},
+use crate::{
+    context::Context,
+    core::{is_in_window, Drawable},
 };
 
-use crate::core::Drawable;
+use std::rc::Rc;
 
-use self::audio::AudioIcon;
-
-pub mod audio;
+pub mod factory;
 
 #[derive(Debug, PartialEq)]
 pub enum IconState {
@@ -18,56 +17,22 @@ pub enum IconState {
     Down,
 }
 
-pub trait Icon: Drawable {}
-
-const AUDIO_ACTIVE_ID: u8 = 0;
-const AUDIO_DISABLED_ID: u8 = 1;
-const AUDIO_DOWN_ID: u8 = 2;
-pub struct IconFactory {
-    textures: HashMap<u8, Rc<Texture2D>>,
+pub struct Icon {
+    pub(super) pos: Vec2,
+    pub(super) texture_active: Rc<Texture2D>,
+    pub(super) texture_disabled: Rc<Texture2D>,
+    pub(super) texture_down: Rc<Texture2D>,
+    pub state: IconState,
 }
 
-impl IconFactory {
-    pub async fn new() -> Self {
-        let mut textures = HashMap::new();
+impl Drawable for Icon {
+    fn draw(&mut self, context: &Context) {
+        let texture = match self.state {
+            IconState::Active => &self.texture_active,
+            IconState::Disabled => &self.texture_disabled,
+            IconState::Down => &self.texture_down,
+        };
 
-        textures.insert(
-            AUDIO_ACTIVE_ID,
-            Rc::new(
-                load_texture("data/assets/ui/icons/audio/audio_active.png")
-                    .await
-                    .unwrap(),
-            ),
-        );
-
-        textures.insert(
-            AUDIO_DISABLED_ID,
-            Rc::new(
-                load_texture("data/assets/ui/icons/audio/audio_disabled.png")
-                    .await
-                    .unwrap(),
-            ),
-        );
-
-        textures.insert(
-            AUDIO_DOWN_ID,
-            Rc::new(
-                load_texture("data/assets/ui/icons/audio/audio_down.png")
-                    .await
-                    .unwrap(),
-            ),
-        );
-
-        Self { textures }
-    }
-
-    pub fn new_audio_icon(&self, pos: Vec2) -> AudioIcon {
-        AudioIcon {
-            pos,
-            texture_active: self.textures[&AUDIO_ACTIVE_ID].clone(),
-            texture_disabled: self.textures[&AUDIO_DISABLED_ID].clone(),
-            texture_down: self.textures[&AUDIO_DOWN_ID].clone(),
-            state: IconState::Active,
-        }
+        draw_texture(&texture, self.pos.x, self.pos.y, LIGHTGRAY);
     }
 }

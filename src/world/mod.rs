@@ -1,7 +1,7 @@
 pub mod content;
 pub mod decoration;
 pub mod tile;
-pub mod tiletype;
+pub mod tile_type;
 
 pub const WORLD_SIZE: usize = 256;
 pub const TILE_WIDTH: f32 = 192.0;
@@ -10,20 +10,23 @@ use std::collections::HashSet;
 
 use crate::{context::Context, core::Drawable};
 
-use content::{Content, ContentFactory};
+use content::Content;
 use tile::Tile;
-use tiletype::{Tiletype, TiletypeFactory};
+use tile_type::TileType;
 
 use macroquad::math::Vec2;
 use robotics_lib::world::tile::{Content as RobContent, Tile as RobTile, TileType as RobTiletype};
 
-use self::decoration::DecorationFactory;
+use self::{
+    content::factory::ContentFactory, decoration::DecorationFactory,
+    tile_type::factory::TileTypeFactory,
+};
 
 pub struct World {
     pub tiles: Vec<Vec<Tile>>,
     hidden_tiles: HashSet<(usize, usize)>,
     size: usize,
-    tiletype_factory: TiletypeFactory,
+    tiletype_factory: TileTypeFactory,
     content_factory: ContentFactory,
     decoration_factory: DecorationFactory,
 }
@@ -34,7 +37,7 @@ impl World {
             tiles: Vec::new(),
             hidden_tiles: HashSet::new(),
             size: map.len(),
-            tiletype_factory: TiletypeFactory::new().await,
+            tiletype_factory: TileTypeFactory::new().await,
             content_factory: ContentFactory::new().await,
             decoration_factory: DecorationFactory::new().await,
         };
@@ -54,7 +57,7 @@ impl World {
                 let tile = &map[row][col];
                 let pos = Vec2::new(col as f32 * TILE_WIDTH, row as f32 * TILE_WIDTH);
 
-                let tiletype: Option<Box<dyn Tiletype>>;
+                let tiletype: Option<Box<dyn TileType>>;
 
                 match tile.tile_type {
                     RobTiletype::DeepWater => {

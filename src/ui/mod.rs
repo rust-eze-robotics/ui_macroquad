@@ -8,8 +8,8 @@ use macroquad::{
 use crate::{core::Drawable, world::World};
 
 use self::{
-    button::{audio::AudioButton, ButtonFactory},
-    icon::IconFactory,
+    button::{factory::ButtonFactory, square::SquareButton},
+    icon::factory::IconFactory,
     map::Map,
 };
 
@@ -19,7 +19,7 @@ pub mod map;
 
 pub struct Ui {
     pub map: Map,
-    pub audio_button: AudioButton,
+    pub audio_button: SquareButton,
 }
 
 impl Ui {

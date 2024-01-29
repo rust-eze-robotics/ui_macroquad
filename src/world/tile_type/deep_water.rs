@@ -6,19 +6,19 @@ use crate::{
     core::{is_in_window, Drawable},
 };
 
-use super::Tiletype;
+use super::TileType;
 
 use std::rc::Rc;
 
-pub struct Hill {
+pub struct DeepWater {
     pub(super) pos: Vec2,
     pub(super) offset: Vec2,
     pub(super) texture: Rc<Texture2D>,
 }
 
-impl Tiletype for Hill {}
+impl TileType for DeepWater {}
 
-impl Drawable for Hill {
+impl Drawable for DeepWater {
     fn draw(&mut self, context: &Context) {
         if is_in_window(
             context,

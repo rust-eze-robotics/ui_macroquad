@@ -48,6 +48,9 @@ impl Ui {
 
         let mut components = Vec::<Box<dyn UiComponent>>::new();
         components.push(Box::new(button_factory.new_audio_button(&icon_factory)));
+        components.push(Box::new(button_factory.new_camera_button(&icon_factory)));
+        components.push(Box::new(button_factory.new_settings_button(&icon_factory)));
+        components.push(Box::new(button_factory.new_shop_button(&icon_factory)));
 
         Self {
             map: Map::new(world),

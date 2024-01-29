@@ -59,9 +59,10 @@ async fn main() {
                 context.timestamp = std::time::Instant::now();
             } else {
                 context.camera.target = robot.borrow().get_target_pos();
-
                 context.update_camera();
+
                 ui.update();
+                ui.handle();
 
                 clear_background(LIGHTGRAY);
 

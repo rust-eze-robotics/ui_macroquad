@@ -12,10 +12,11 @@ use crate::{
 
 use std::rc::Rc;
 
-use super::ButtonState;
+use super::{get_current_anchor_position, AnchorPosition, ButtonState};
 
 pub struct SquareButton {
     pub(super) pos: Vec2,
+    pub(super) anchor_pos: AnchorPosition,
     pub(super) size: Vec2,
     pub(super) texture_active: Rc<Texture2D>,
     pub(super) texture_down: Rc<Texture2D>,
@@ -28,7 +29,7 @@ pub struct SquareButton {
 
 impl UiComponent for SquareButton {
     fn update(&mut self) {
-        self.pos = Vec2::new(screen_width(), screen_height()) - self.size;
+        self.pos = get_current_anchor_position(self.anchor_pos);
         self.icon.pos = self.pos;
     }
 

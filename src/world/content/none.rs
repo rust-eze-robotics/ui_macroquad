@@ -12,5 +12,5 @@ pub struct None {
 impl Content for None {}
 
 impl Drawable for None {
-    fn draw(&mut self, context: &Context) {}
+    fn draw(&mut self, _context: &Context) {}
 }

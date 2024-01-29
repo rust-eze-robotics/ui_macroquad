@@ -3,7 +3,7 @@ use std::{cell::RefCell, rc::Rc};
 use robotics_lib::{
     energy::Energy,
     event::events::Event,
-    interface::{go, robot_map, robot_view},
+    interface::{go, robot_map},
     runner::{backpack::BackPack, Robot as RobRobot, Runnable},
     world::{coordinates::Coordinate, World as RobWorld},
 };

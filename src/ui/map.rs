@@ -1,7 +1,5 @@
 use std::{cell::RefCell, rc::Rc};
 
-use macroquad::prelude::*;
-
 use crate::{context::Context, core::Drawable, world::World};
 
 pub struct Map {

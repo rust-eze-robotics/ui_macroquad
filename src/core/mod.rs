@@ -24,8 +24,6 @@ pub fn is_hovered(pos: &Vec2, size: &Vec2) -> bool {
 }
 
 pub fn is_down(pos: &Vec2, size: &Vec2) -> bool {
-    let mouse = mouse_position();
-
     if is_mouse_button_down(MouseButton::Left) && is_hovered(pos, size) {
         true
     } else {
@@ -34,8 +32,6 @@ pub fn is_down(pos: &Vec2, size: &Vec2) -> bool {
 }
 
 pub fn is_pressed(pos: &Vec2, size: &Vec2) -> bool {
-    let mouse = mouse_position();
-
     if is_mouse_button_pressed(MouseButton::Left) && is_hovered(pos, size) {
         true
     } else {
@@ -44,8 +40,6 @@ pub fn is_pressed(pos: &Vec2, size: &Vec2) -> bool {
 }
 
 pub fn is_released(pos: &Vec2, size: &Vec2) -> bool {
-    let mouse = mouse_position();
-
     if is_mouse_button_released(MouseButton::Left) && is_hovered(pos, size) {
         true
     } else {

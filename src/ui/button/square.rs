@@ -3,11 +3,11 @@ use macroquad::texture::Texture2D;
 
 use crate::{
     context::Context,
-    core::{is_down, is_hovered, is_in_window, is_released, Drawable},
+    core::{is_down, is_hovered, is_released, Drawable},
     ui::icon::{Icon, IconState},
 };
 
-use std::{rc::Rc, time::Instant};
+use std::rc::Rc;
 
 use super::ButtonState;
 

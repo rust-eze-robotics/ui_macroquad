@@ -1,10 +1,7 @@
 use macroquad::prelude::*;
 use macroquad::texture::Texture2D;
 
-use crate::{
-    context::Context,
-    core::{is_in_window, Drawable},
-};
+use crate::{context::Context, core::Drawable};
 
 use std::rc::Rc;
 
@@ -26,7 +23,7 @@ pub struct Icon {
 }
 
 impl Drawable for Icon {
-    fn draw(&mut self, context: &Context) {
+    fn draw(&mut self, _context: &Context) {
         let texture = match self.state {
             IconState::Active => &self.texture_active,
             IconState::Disabled => &self.texture_disabled,

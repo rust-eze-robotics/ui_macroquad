@@ -1,11 +1,3 @@
-use std::{collections::HashMap, rc::Rc};
-
-use macroquad::{
-    experimental::animation::{AnimatedSprite, Animation},
-    math::Vec2,
-    texture::{load_texture, Texture2D},
-};
-
 use crate::core::Drawable;
 
 pub mod bank;

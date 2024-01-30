@@ -18,29 +18,29 @@ pub struct SquareButton {
     pub(super) pos: Vec2,
     pub(super) anchor_pos: AnchorPosition,
     pub(super) size: Vec2,
-    pub(super) texture_active: Rc<Texture2D>,
+    pub(super) texture_on: Rc<Texture2D>,
     pub(super) texture_down: Rc<Texture2D>,
     pub(super) texture_disabled: Rc<Texture2D>,
     pub(super) texture_hovered: Rc<Texture2D>,
     pub(super) icon: Icon,
     pub(super) state: ButtonState,
-    pub(super) active: bool,
+    pub on: bool,
 }
 
 impl UiComponent for SquareButton {
-    fn update(&mut self) {
+    fn update_gui(&mut self) {
         self.pos = get_current_anchor_position(self.anchor_pos);
         self.icon.pos = self.pos;
     }
 
-    fn handle(&mut self) {
+    fn handle_input(&mut self) {
         if is_down(&self.pos, &self.size) {
             self.state = ButtonState::Down;
-            self.icon.state = IconState::Down;
+            self.icon.state = IconState::Pressed;
         } else if is_released(&self.pos, &self.size) {
-            self.active = !self.active;
+            self.on = !self.on;
 
-            if self.active {
+            if self.on {
                 self.state = ButtonState::Active;
                 self.icon.state = IconState::Active;
             } else {
@@ -48,11 +48,11 @@ impl UiComponent for SquareButton {
                 self.icon.state = IconState::Disabled;
             }
         } else if is_hovered(&self.pos, &self.size) {
-            if self.active {
+            if self.on {
                 self.state = ButtonState::Hovered;
             }
         } else {
-            if self.active {
+            if self.on {
                 self.state = ButtonState::Active;
                 self.icon.state = IconState::Active;
             } else {
@@ -66,7 +66,7 @@ impl UiComponent for SquareButton {
 impl Drawable for SquareButton {
     fn draw(&mut self, context: &Context) {
         let texture = match self.state {
-            ButtonState::Active => &self.texture_active,
+            ButtonState::Active => &self.texture_on,
             ButtonState::Down => &self.texture_down,
             ButtonState::Disabled => &self.texture_disabled,
             ButtonState::Hovered => &self.texture_hovered,

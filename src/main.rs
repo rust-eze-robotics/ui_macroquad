@@ -58,11 +58,11 @@ async fn main() {
                 runner.game_tick();
                 context.timestamp = std::time::Instant::now();
             } else {
-                context.camera.target = robot.borrow().get_target_pos();
-                context.update_camera();
+                context.update_camera(robot.borrow().get_target_pos());
 
-                ui.update();
-                ui.handle();
+                ui.update_gui();
+                ui.handle_input();
+                ui.sync_context(&mut context);
 
                 clear_background(LIGHTGRAY);
 

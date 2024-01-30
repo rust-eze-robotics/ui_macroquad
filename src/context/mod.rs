@@ -7,6 +7,10 @@ use crate::core::{ZOOM_DEFAULT, ZOOM_MAX, ZOOM_MIN};
 pub struct Context {
     pub timestamp: Instant,
     pub camera: Camera2D,
+    pub audio_on: bool,
+    pub camera_locked: bool,
+    pub settings_open: bool,
+    pub shop_open: bool,
 }
 
 impl Context {
@@ -14,13 +18,10 @@ impl Context {
         Self {
             timestamp: Instant::now(),
             camera,
-        }
-    }
-
-    pub fn default() -> Self {
-        Self {
-            timestamp: Instant::now(),
-            camera: Camera2D::default(),
+            audio_on: true,
+            camera_locked: true,
+            settings_open: false,
+            shop_open: false,
         }
     }
 
@@ -33,7 +34,11 @@ impl Context {
         }
     }
 
-    pub fn update_camera(&mut self) {
+    pub fn update_camera(&mut self, target_pos: Vec2) {
+        if self.camera_locked {
+            self.camera.target = target_pos;
+        }
+
         if is_key_down(KeyCode::Left) {
             self.camera.offset.x += 0.05;
         }

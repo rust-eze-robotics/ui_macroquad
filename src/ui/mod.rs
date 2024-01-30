@@ -5,10 +5,10 @@ use macroquad::{
     window::{screen_height, screen_width},
 };
 
-use crate::{core::Drawable, world::World};
+use crate::{context::Context, core::Drawable, world::World};
 
 use self::{
-    button::{factory::ButtonFactory, square::SquareButton},
+    button::{factory::ButtonFactory, square_button::SquareButton},
     icon::factory::IconFactory,
     map::Map,
 };
@@ -18,26 +18,38 @@ pub mod icon;
 pub mod map;
 
 pub trait UiComponent: Drawable {
-    fn update(&mut self);
-    fn handle(&mut self);
+    fn update_gui(&mut self);
+    fn handle_input(&mut self);
 }
 
 pub struct Ui {
     pub map: Map,
-    pub components: Vec<Box<dyn UiComponent>>,
+    audio_button: SquareButton,
+    camera_button: SquareButton,
+    settings_button: SquareButton,
+    shop_button: SquareButton,
 }
 
 impl Ui {
-    pub fn update(&mut self) {
-        for component in self.components.iter_mut() {
-            component.update();
-        }
+    pub fn update_gui(&mut self) {
+        self.audio_button.update_gui();
+        self.camera_button.update_gui();
+        self.settings_button.update_gui();
+        self.shop_button.update_gui();
     }
 
-    pub fn handle(&mut self) {
-        for component in self.components.iter_mut() {
-            component.handle();
-        }
+    pub fn handle_input(&mut self) {
+        self.audio_button.handle_input();
+        self.camera_button.handle_input();
+        self.settings_button.handle_input();
+        self.shop_button.handle_input();
+    }
+
+    pub fn sync_context(&self, context: &mut Context) {
+        context.audio_on = self.audio_button.on;
+        context.camera_locked = self.camera_button.on;
+        context.settings_open = self.settings_button.on;
+        context.shop_open = self.shop_button.on;
     }
 }
 
@@ -46,23 +58,21 @@ impl Ui {
         let icon_factory = IconFactory::new().await;
         let button_factory = ButtonFactory::new().await;
 
-        let mut components = Vec::<Box<dyn UiComponent>>::new();
-        components.push(Box::new(button_factory.new_audio_button(&icon_factory)));
-        components.push(Box::new(button_factory.new_camera_button(&icon_factory)));
-        components.push(Box::new(button_factory.new_settings_button(&icon_factory)));
-        components.push(Box::new(button_factory.new_shop_button(&icon_factory)));
-
         Self {
             map: Map::new(world),
-            components,
+            audio_button: button_factory.new_audio_button(&icon_factory),
+            camera_button: button_factory.new_camera_button(&icon_factory),
+            settings_button: button_factory.new_settings_button(&icon_factory),
+            shop_button: button_factory.new_shop_button(&icon_factory),
         }
     }
 }
 
 impl Drawable for Ui {
     fn draw(&mut self, context: &crate::context::Context) {
-        for component in self.components.iter_mut() {
-            component.draw(context);
-        }
+        self.audio_button.draw(context);
+        self.camera_button.draw(context);
+        self.settings_button.draw(context);
+        self.shop_button.draw(context);
     }
 }

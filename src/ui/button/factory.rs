@@ -4,7 +4,9 @@ use macroquad::prelude::*;
 
 use crate::ui::icon::factory::IconFactory;
 
-use super::{get_current_anchor_position, square::SquareButton, AnchorPosition, ButtonState};
+use super::{
+    get_current_anchor_position, square_button::SquareButton, AnchorPosition, ButtonState,
+};
 
 const BUTTON_ACTIVE_ID: u8 = 0;
 const BUTTON_DOWN_ID: u8 = 1;
@@ -61,60 +63,60 @@ impl ButtonFactory {
     pub fn new_audio_button(&self, icon_factory: &IconFactory) -> SquareButton {
         SquareButton {
             pos: Vec2::default(),
-            anchor_pos: AnchorPosition::DOWN_RIGHT(Vec2::new(-64.0, -64.0)),
+            anchor_pos: AnchorPosition::DownRight(Vec2::new(-64.0, -64.0)),
             size: Vec2::new(64.0, 64.0),
-            texture_active: self.textures[&BUTTON_ACTIVE_ID].clone(),
+            texture_on: self.textures[&BUTTON_ACTIVE_ID].clone(),
             texture_down: self.textures[&BUTTON_DOWN_ID].clone(),
             texture_disabled: self.textures[&BUTTON_DISABLED_ID].clone(),
             texture_hovered: self.textures[&BUTTON_HOVERED_ID].clone(),
             icon: icon_factory.new_audio_icon(Vec2::default()),
             state: ButtonState::Active,
-            active: true,
+            on: true,
         }
     }
 
     pub fn new_camera_button(&self, icon_factory: &IconFactory) -> SquareButton {
         SquareButton {
             pos: Vec2::default(),
-            anchor_pos: AnchorPosition::DOWN_RIGHT(Vec2::new(-128.0, -64.0)),
+            anchor_pos: AnchorPosition::DownRight(Vec2::new(-128.0, -64.0)),
             size: Vec2::new(64.0, 64.0),
-            texture_active: self.textures[&BUTTON_ACTIVE_ID].clone(),
+            texture_on: self.textures[&BUTTON_ACTIVE_ID].clone(),
             texture_down: self.textures[&BUTTON_DOWN_ID].clone(),
             texture_disabled: self.textures[&BUTTON_DISABLED_ID].clone(),
             texture_hovered: self.textures[&BUTTON_HOVERED_ID].clone(),
             icon: icon_factory.new_camera_icon(Vec2::default()),
             state: ButtonState::Active,
-            active: true,
+            on: true,
         }
     }
 
     pub fn new_settings_button(&self, icon_factory: &IconFactory) -> SquareButton {
         SquareButton {
             pos: Vec2::default(),
-            anchor_pos: AnchorPosition::TOP_RIGHT(Vec2::new(-64.0, 0.0)),
+            anchor_pos: AnchorPosition::TopRight(Vec2::new(-64.0, 0.0)),
             size: Vec2::new(64.0, 64.0),
-            texture_active: self.textures[&BUTTON_ACTIVE_ID].clone(),
+            texture_on: self.textures[&BUTTON_ACTIVE_ID].clone(),
             texture_down: self.textures[&BUTTON_DOWN_ID].clone(),
             texture_disabled: self.textures[&BUTTON_DISABLED_ID].clone(),
             texture_hovered: self.textures[&BUTTON_HOVERED_ID].clone(),
             icon: icon_factory.new_settings_icon(Vec2::default()),
             state: ButtonState::Active,
-            active: true,
+            on: true,
         }
     }
 
     pub fn new_shop_button(&self, icon_factory: &IconFactory) -> SquareButton {
         SquareButton {
             pos: Vec2::default(),
-            anchor_pos: AnchorPosition::TOP_LEFT(Vec2::new(0.0, 0.0)),
+            anchor_pos: AnchorPosition::TopLeft(Vec2::new(0.0, 0.0)),
             size: Vec2::new(64.0, 64.0),
-            texture_active: self.textures[&BUTTON_ACTIVE_ID].clone(),
+            texture_on: self.textures[&BUTTON_ACTIVE_ID].clone(),
             texture_down: self.textures[&BUTTON_DOWN_ID].clone(),
             texture_disabled: self.textures[&BUTTON_DISABLED_ID].clone(),
             texture_hovered: self.textures[&BUTTON_HOVERED_ID].clone(),
             icon: icon_factory.new_shop_icon(Vec2::default()),
             state: ButtonState::Active,
-            active: true,
+            on: true,
         }
     }
 }

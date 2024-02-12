@@ -171,7 +171,7 @@ impl Robot {
     }
 
     pub fn get_target_pos(&self, context: &Context) -> Vec2 {
-        match self.state {
+        let ret = match self.state {
             State::Idle(_) => Vec2::new(self.pos.x + self.offset.x, self.pos.y + self.offset.y),
             State::Walking(instant, pos) => Vec2::new(
                 self.pos.x
@@ -193,6 +193,8 @@ impl Robot {
             State::Interacting(_, _) => {
                 Vec2::new(self.pos.x + self.offset.x, self.pos.y + self.offset.y)
             }
-        }
+        };
+
+        ret + Vec2::new(TILE_WIDTH / 2.0, TILE_WIDTH / 2.0)
     }
 }

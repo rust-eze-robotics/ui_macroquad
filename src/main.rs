@@ -64,8 +64,8 @@ async fn main() {
     if let Ok(mut runner) = run {
         let mut context = Context::new(Camera2D {
             target: Vec2::new(
-                spawn_point.0 as f32 * TILE_WIDTH,
-                spawn_point.1 as f32 * TILE_WIDTH,
+                spawn_point.1 as f32 * TILE_WIDTH + robot.borrow().offset.x,
+                spawn_point.0 as f32 * TILE_WIDTH + robot.borrow().offset.y,
             ),
             zoom: Vec2::new(ZOOM_DEFAULT, ZOOM_DEFAULT),
             ..Default::default()

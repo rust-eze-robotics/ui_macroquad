@@ -3,11 +3,15 @@ use std::{cell::RefCell, rc::Rc};
 use robotics_lib::{
     energy::{self, Energy},
     event::events::Event,
-    interface::{go, robot_map, robot_view},
+    interface::{go, look_at_sky, one_direction_view, robot_map, robot_view, teleport, Direction},
     runner::{backpack::BackPack, Robot as RobRobot, Runnable},
     world::{coordinates::Coordinate, World as RobWorld},
 };
 use rust_eze_spotlight::Spotlight;
+use rust_eze_tomtom::{
+    path::{Action, Path},
+    TomTom,
+};
 
 use crate::world::World;
 
@@ -33,21 +37,31 @@ impl Ai {
 
 impl Runnable for Ai {
     fn process_tick(&mut self, world: &mut RobWorld) {
-        go(self, world, robotics_lib::interface::Direction::Right);
-        go(self, world, robotics_lib::interface::Direction::Down);
+        //
 
+        go(self, world, Direction::Right);
+        go(self, world, Direction::Down);
         robot_view(self, world);
 
-        self.robot.borrow_mut().update(
+        //
+
+        self.robot.borrow_mut().update_pos(
             self.get_coordinate().get_row(),
             self.get_coordinate().get_col(),
         );
 
         let map = robot_map(world).unwrap();
-        self.world.borrow_mut().update(&map);
+        self.world.borrow_mut().update_visibility(&map);
     }
 
-    fn handle_event(&mut self, _event: Event) {}
+    fn handle_event(&mut self, event: Event) {
+        match event {
+            Event::TileContentUpdated(tile, (row, col)) => {
+                self.world.borrow_mut().update_tile(tile, (row, col));
+            }
+            _ => {}
+        }
+    }
 
     fn get_energy(&self) -> &Energy {
         &self.rob_robot.energy

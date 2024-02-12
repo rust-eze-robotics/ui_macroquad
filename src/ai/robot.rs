@@ -13,7 +13,7 @@ use crate::{
 
 const WALK_DURATION: Duration = Duration::from_millis(500);
 
-enum State {
+pub enum State {
     Idle,
     Walk(Instant),
 }
@@ -24,7 +24,7 @@ pub struct Robot {
     pub texture: Texture2D,
     pub sprite: AnimatedSprite,
     pub last_pos: Vec2,
-    state: State,
+    pub state: State,
 }
 
 impl Drawable for Robot {
@@ -100,7 +100,7 @@ impl Robot {
         }
     }
 
-    pub fn update(&mut self, row: usize, col: usize) {
+    pub fn update_pos(&mut self, row: usize, col: usize) {
         self.last_pos = self.pos;
         self.pos.x = col as f32 * TILE_WIDTH;
         self.pos.y = row as f32 * TILE_WIDTH;

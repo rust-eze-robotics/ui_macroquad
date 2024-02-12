@@ -4,11 +4,12 @@ use macroquad::{
     experimental::animation::{AnimatedSprite, Animation},
     prelude::*,
 };
+use robotics_lib::world::tile::Content as RobContent;
 
 use super::{
     bank::Bank, bin::Bin, building::Building, bush::Bush, chest::Chest, coin::Coin, fire::Fire,
     fish::Fish, garbage::Garbage, jollyblock::Jollyblock, market::Market, none::None, rock::Rock,
-    scarecrow::Scarecrow, tree::Tree, water::Water,
+    scarecrow::Scarecrow, tree::Tree, water::Water, Content,
 };
 
 const BANK_ID: u8 = 0;
@@ -371,6 +372,27 @@ impl ContentFactory {
                 }],
                 true,
             ),
+        }
+    }
+
+    pub fn from_rob_content(&self, pos: Vec2, content: &RobContent) -> Box<dyn Content> {
+        match content {
+            RobContent::Bank(_) => Box::new(self.new_bank(pos)),
+            RobContent::Bin(_) => Box::new(self.new_bin(pos)),
+            RobContent::Building => Box::new(self.new_building(pos)),
+            RobContent::Bush(_) => Box::new(self.new_bush(pos)),
+            RobContent::Coin(_) => Box::new(self.new_coin(pos)),
+            RobContent::Crate(_) => Box::new(self.new_chest(pos)),
+            RobContent::Fire => Box::new(self.new_fire(pos)),
+            RobContent::Fish(_) => Box::new(self.new_fish(pos)),
+            RobContent::Garbage(_) => Box::new(self.new_garbage(pos)),
+            RobContent::JollyBlock(_) => Box::new(self.new_jollyblock(pos)),
+            RobContent::Market(_) => Box::new(self.new_market(pos)),
+            RobContent::Rock(_) => Box::new(self.new_rock(pos)),
+            RobContent::Scarecrow => Box::new(self.new_scarecrow(pos)),
+            RobContent::Tree(_) => Box::new(self.new_tree(pos)),
+            RobContent::Water(_) => Box::new(self.new_water(pos)),
+            RobContent::None => Box::new(self.new_none(pos)),
         }
     }
 }

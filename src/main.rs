@@ -5,6 +5,7 @@ use ai::{robot::Robot, Ai};
 use context::Context;
 use macroquad::{miniquad::window::set_window_size, prelude::*};
 
+use midgard::world_generator::ContentsRadii;
 use robotics_lib::{
     runner::{Robot as RobRobot, Runner},
     world::world_generator::Generator,
@@ -25,6 +26,10 @@ async fn main() {
     // Define the WorldGenerator parameters using the dedicated struct
     let params = midgard::world_generator::WorldGeneratorParameters {
         world_size: WORLD_SIZE,
+        contents_radii: ContentsRadii {
+            jolly_blocks: 5,
+            ..Default::default()
+        },
         ..Default::default() // the rest of the parameters keep their default value
     };
 

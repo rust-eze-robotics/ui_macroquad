@@ -1,10 +1,12 @@
 use std::{collections::HashMap, rc::Rc};
 
 use macroquad::prelude::*;
+use robotics_lib::world::tile::TileType as RobTileType;
 
 use super::{
     deep_water::DeepWater, grass::Grass, hill::Hill, lava::Lava, mountain::Mountain, sand::Sand,
     shallow_water::ShallowWater, snow::Snow, street::Street, teleport::Teleport, wall::Wall,
+    TileType,
 };
 
 const DEEP_WATER_ID: u8 = 0;
@@ -214,6 +216,22 @@ impl TileTypeFactory {
             pos,
             offset: Vec2::new(0.0, 0.0),
             texture: self.textures[&WALL_ID].clone(),
+        }
+    }
+
+    pub fn from_rob_tile_type(&self, pos: Vec2, tile_type: &RobTileType) -> Box<dyn TileType> {
+        match tile_type {
+            RobTileType::DeepWater => Box::new(self.new_deep_water(pos)),
+            RobTileType::Grass => Box::new(self.new_grass(pos)),
+            RobTileType::Hill => Box::new(self.new_hill(pos)),
+            RobTileType::Lava => Box::new(self.new_lava(pos)),
+            RobTileType::Sand => Box::new(self.new_mountain(pos)),
+            RobTileType::Mountain => Box::new(self.new_sand(pos)),
+            RobTileType::ShallowWater => Box::new(self.new_shallow_water(pos)),
+            RobTileType::Snow => Box::new(self.new_snow(pos)),
+            RobTileType::Street => Box::new(self.new_street(pos)),
+            RobTileType::Teleport(_) => Box::new(self.new_teleport(pos)),
+            RobTileType::Wall => Box::new(self.new_wall(pos)),
         }
     }
 }

@@ -15,7 +15,10 @@ use tile::Tile;
 use tile_type::TileType;
 
 use macroquad::math::Vec2;
-use robotics_lib::world::tile::{Content as RobContent, Tile as RobTile};
+use robotics_lib::world::{
+    environmental_conditions::{self, EnvironmentalConditions},
+    tile::{Content as RobContent, Tile as RobTile},
+};
 
 use self::{
     content::factory::ContentFactory, decoration::DecorationFactory,
@@ -24,6 +27,7 @@ use self::{
 
 pub struct World {
     pub tiles: Vec<Vec<Tile>>,
+    pub environmental_conditions: EnvironmentalConditions,
     hidden_tiles: HashSet<(usize, usize)>,
     size: usize,
     tiletype_factory: TileTypeFactory,
@@ -32,9 +36,13 @@ pub struct World {
 }
 
 impl World {
-    pub async fn new(map: &Vec<Vec<RobTile>>) -> Self {
+    pub async fn new(
+        map: &Vec<Vec<RobTile>>,
+        environmental_conditions: EnvironmentalConditions,
+    ) -> Self {
         let mut ret = Self {
             tiles: Vec::new(),
+            environmental_conditions,
             hidden_tiles: HashSet::new(),
             size: map.len(),
             tiletype_factory: TileTypeFactory::new().await,

@@ -11,11 +11,11 @@ use crate::{
     world::TILE_WIDTH,
 };
 
-const WALK_DURATION: Duration = Duration::from_millis(500);
-
 pub enum State {
-    Idle,
-    Walk(Instant),
+    Idle(Instant),
+    Walking(Instant, Vec2),
+    Teleporting(Instant, Vec2),
+    Interacting(Instant, Vec2),
 }
 
 pub struct Robot {
@@ -23,15 +23,15 @@ pub struct Robot {
     pub offset: Vec2,
     pub texture: Texture2D,
     pub sprite: AnimatedSprite,
-    pub last_pos: Vec2,
     pub state: State,
+    pub energy: usize,
 }
 
 impl Drawable for Robot {
     fn draw(&mut self, context: &Context) {
         if is_in_window(context, &self.pos, &self.offset, 192.0, 192.0) {
             match self.state {
-                State::Idle => {
+                State::Idle(_) => {
                     draw_texture_ex(
                         &self.texture,
                         self.pos.x + self.offset.x,
@@ -44,17 +44,57 @@ impl Drawable for Robot {
                         },
                     );
                 }
-                State::Walk(instant) => {
+                State::Walking(instant, pos) => {
                     draw_texture_ex(
                         &self.texture,
-                        self.last_pos.x
+                        self.pos.x
                             + self.offset.x
-                            + (self.pos.x - self.last_pos.x) * instant.elapsed().as_millis() as f32
-                                / WALK_DURATION.as_millis() as f32,
-                        self.last_pos.y
+                            + (pos.x - self.pos.x) * instant.elapsed().as_millis() as f32
+                                / context.clock_duration.as_millis() as f32,
+                        self.pos.y
                             + self.offset.y
-                            + (self.pos.y - self.last_pos.y) * instant.elapsed().as_millis() as f32
-                                / WALK_DURATION.as_millis() as f32,
+                            + (pos.y - self.pos.y) * instant.elapsed().as_millis() as f32
+                                / context.clock_duration.as_millis() as f32,
+                        LIGHTGRAY,
+                        DrawTextureParams {
+                            source: Some(self.sprite.frame().source_rect),
+                            dest_size: Some(self.sprite.frame().dest_size),
+                            ..Default::default()
+                        },
+                    );
+                }
+                State::Teleporting(instant, pos) => {
+                    if instant.elapsed() < context.clock_duration / 2 {
+                        draw_texture_ex(
+                            &self.texture,
+                            self.pos.x + self.offset.x,
+                            self.pos.y + self.offset.y,
+                            LIGHTGRAY,
+                            DrawTextureParams {
+                                source: Some(self.sprite.frame().source_rect),
+                                dest_size: Some(self.sprite.frame().dest_size),
+                                ..Default::default()
+                            },
+                        );
+                    } else {
+                        draw_texture_ex(
+                            &self.texture,
+                            pos.x + self.offset.x,
+                            pos.y + self.offset.y,
+                            LIGHTGRAY,
+                            DrawTextureParams {
+                                source: Some(self.sprite.frame().source_rect),
+                                dest_size: Some(self.sprite.frame().dest_size),
+                                ..Default::default()
+                            },
+                        );
+                    }
+                }
+                State::Interacting(_, _) => {
+                    draw_texture_ex(
+                        &self.texture,
+                        self.pos.x + self.offset.x,
+                        self.pos.y + self.offset.y,
                         LIGHTGRAY,
                         DrawTextureParams {
                             source: Some(self.sprite.frame().source_rect),
@@ -95,50 +135,64 @@ impl Robot {
                 ],
                 true,
             ),
-            last_pos: Vec2::new(col as f32 * TILE_WIDTH, row as f32 * TILE_WIDTH),
-            state: State::Idle,
+            state: State::Idle(Instant::now()),
+            energy: 1000,
         }
     }
 
-    pub fn update_pos(&mut self, row: usize, col: usize) {
-        self.last_pos = self.pos;
-        self.pos.x = col as f32 * TILE_WIDTH;
-        self.pos.y = row as f32 * TILE_WIDTH;
+    pub fn ready(&self, context: &Context) -> bool {
+        match self.state {
+            State::Idle(instant) => instant.elapsed() > context.clock_duration,
+            _ => false,
+        }
     }
 
-    pub fn update_state(&mut self, timestamp: &mut Instant) {
+    pub fn update_state(&mut self, context: &Context) {
         match self.state {
-            State::Idle => {
-                if self.pos != self.last_pos {
-                    self.state = State::Walk(Instant::now());
+            State::Idle(_) => {}
+            State::Walking(instant, pos) => {
+                if instant.elapsed() > context.clock_duration {
+                    self.pos = pos;
+                    self.state = State::Idle(Instant::now());
                 }
             }
-            State::Walk(instant) => {
-                if instant.elapsed() >= WALK_DURATION {
-                    self.last_pos = self.pos;
-                    self.state = State::Idle;
+            State::Teleporting(instant, pos) => {
+                if instant.elapsed() > context.clock_duration {
+                    self.pos = pos;
+                    self.state = State::Idle(Instant::now());
                 }
-
-                *timestamp = std::time::Instant::now();
+            }
+            State::Interacting(instant, _) => {
+                if instant.elapsed() > context.clock_duration {
+                    self.state = State::Idle(Instant::now());
+                }
             }
         }
     }
 
-    pub fn get_target_pos(&self) -> Vec2 {
+    pub fn get_target_pos(&self, context: &Context) -> Vec2 {
         match self.state {
-            State::Idle => self.pos + self.offset + TILE_WIDTH / 2.0,
-            State::Walk(instant) => Vec2::new(
-                self.last_pos.x
+            State::Idle(_) => Vec2::new(self.pos.x + self.offset.x, self.pos.y + self.offset.y),
+            State::Walking(instant, pos) => Vec2::new(
+                self.pos.x
                     + self.offset.x
-                    + (self.pos.x - self.last_pos.x) * instant.elapsed().as_millis() as f32
-                        / WALK_DURATION.as_millis() as f32
-                    + TILE_WIDTH / 2.0,
-                self.last_pos.y
+                    + (pos.x - self.pos.x) * instant.elapsed().as_millis() as f32
+                        / context.clock_duration.as_millis() as f32,
+                self.pos.y
                     + self.offset.y
-                    + (self.pos.y - self.last_pos.y) * instant.elapsed().as_millis() as f32
-                        / WALK_DURATION.as_millis() as f32
-                    + TILE_WIDTH / 2.0,
+                    + (pos.y - self.pos.y) * instant.elapsed().as_millis() as f32
+                        / context.clock_duration.as_millis() as f32,
             ),
+            State::Teleporting(instant, pos) => {
+                if instant.elapsed() < context.clock_duration / 2 {
+                    Vec2::new(self.pos.x + self.offset.x, self.pos.y + self.offset.y)
+                } else {
+                    Vec2::new(pos.x + self.offset.x, pos.y + self.offset.y)
+                }
+            }
+            State::Interacting(_, _) => {
+                Vec2::new(self.pos.x + self.offset.x, self.pos.y + self.offset.y)
+            }
         }
     }
 }

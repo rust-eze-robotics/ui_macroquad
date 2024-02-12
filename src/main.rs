@@ -1,17 +1,21 @@
-use core::{Drawable, CLOCK_MS, ZOOM_DEFAULT};
+use core::{events::EventsHandler, Drawable, ZOOM_DEFAULT};
 use std::{cell::RefCell, rc::Rc, time::Duration};
 
-use ai::{robot::Robot, Ai};
+use ai::{
+    robot::{Robot, State},
+    Ai,
+};
 use context::Context;
 use macroquad::{miniquad::window::set_window_size, prelude::*};
 
 use midgard::world_generator::ContentsRadii;
 use robotics_lib::{
+    event,
     runner::{Robot as RobRobot, Runner},
-    world::world_generator::Generator,
+    world::{environmental_conditions, world_generator::Generator},
 };
 use ui::Ui;
-use world::{World, WORLD_SIZE};
+use world::{World, TILE_WIDTH, WORLD_SIZE};
 
 pub mod ai;
 pub mod context;
@@ -36,52 +40,68 @@ async fn main() {
     // Instantiate the WorldGenerator with the parameters
     let mut world_generator = midgard::world_generator::WorldGenerator::new(params);
 
-    let (map, spawn_point, _weather, _max_score, _score_table) = world_generator.gen();
+    let (map, spawn_point, environmental_conditions, _max_score, _score_table) =
+        world_generator.gen();
 
     let robot = Rc::new(RefCell::new(Robot::new(spawn_point).await));
-    let world = Rc::new(RefCell::new(World::new(&map).await));
 
-    let ai = Ai::new(RobRobot::new(), robot.clone(), world.clone());
+    let world = Rc::new(RefCell::new(
+        World::new(&map, environmental_conditions).await,
+    ));
+
+    let events_handler = Rc::new(RefCell::new(EventsHandler::default()));
+
+    let mut ai = Ai::new(
+        RobRobot::new(),
+        robot.clone(),
+        world.clone(),
+        events_handler.clone(),
+    );
     let mut ui = Ui::new(world.clone()).await;
 
     let run = Runner::new(Box::new(ai), &mut world_generator);
 
     if let Ok(mut runner) = run {
         let mut context = Context::new(Camera2D {
-            target: robot.borrow().get_target_pos(),
+            target: Vec2::new(
+                spawn_point.0 as f32 * TILE_WIDTH,
+                spawn_point.1 as f32 * TILE_WIDTH,
+            ),
             zoom: Vec2::new(ZOOM_DEFAULT, ZOOM_DEFAULT),
             ..Default::default()
         });
 
-        runner.game_tick();
-
         loop {
-            robot.borrow_mut().update_state(&mut context.timestamp);
+            robot.borrow_mut().update_state(&context);
 
-            if context.timestamp.elapsed().as_millis() > Duration::from_millis(CLOCK_MS).as_millis()
-            {
-                runner.game_tick();
-                context.timestamp = std::time::Instant::now();
-            } else {
-                context.update_camera(robot.borrow().get_target_pos());
+            if robot.borrow().ready(&context) {
+                if events_handler.borrow().is_empty() {
+                    runner.game_tick();
+                }
 
-                ui.update_gui();
-                ui.handle_input();
-                ui.sync_context(&mut context);
-
-                clear_background(LIGHTGRAY);
-
-                set_camera(&context.camera());
-
-                world.borrow_mut().draw(&context);
-                robot.borrow_mut().draw(&context);
-
-                set_default_camera();
-
-                ui.draw(&context);
-
-                next_frame().await
+                events_handler
+                    .borrow_mut()
+                    .handle(robot.clone(), world.clone());
             }
+
+            context.update_camera(robot.borrow().get_target_pos(&context));
+
+            ui.update_gui();
+            ui.handle_input();
+            ui.sync_context(&mut context);
+
+            clear_background(LIGHTGRAY);
+
+            set_camera(&context.camera());
+
+            world.borrow_mut().draw(&context);
+            robot.borrow_mut().draw(&context);
+
+            set_default_camera();
+
+            ui.draw(&context);
+
+            next_frame().await
         }
     }
 }

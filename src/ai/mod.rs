@@ -1,5 +1,6 @@
 use std::{cell::RefCell, rc::Rc};
 
+use macroquad::miniquad::EventHandler;
 use robotics_lib::{
     energy::{self, Energy},
     event::events::Event,
@@ -13,7 +14,7 @@ use rust_eze_tomtom::{
     TomTom,
 };
 
-use crate::world::World;
+use crate::{core::events::EventsHandler, world::World};
 
 use self::robot::Robot;
 
@@ -23,14 +24,21 @@ pub struct Ai {
     pub rob_robot: RobRobot,
     pub robot: Rc<RefCell<Robot>>,
     pub world: Rc<RefCell<World>>,
+    pub events_handler: Rc<RefCell<EventsHandler>>,
 }
 
 impl Ai {
-    pub fn new(rob_robot: RobRobot, robot: Rc<RefCell<Robot>>, world: Rc<RefCell<World>>) -> Self {
+    pub fn new(
+        rob_robot: RobRobot,
+        robot: Rc<RefCell<Robot>>,
+        world: Rc<RefCell<World>>,
+        events_handler: Rc<RefCell<EventsHandler>>,
+    ) -> Self {
         Self {
             rob_robot,
             robot,
             world,
+            events_handler,
         }
     }
 }
@@ -39,16 +47,17 @@ impl Runnable for Ai {
     fn process_tick(&mut self, world: &mut RobWorld) {
         //
 
-        go(self, world, Direction::Right);
-        go(self, world, Direction::Down);
+        Spotlight::illuminate(self, world, 10);
+        TomTom::go_to_tile(
+            self,
+            world,
+            false,
+            None,
+            Some(rust_eze_tomtom::plain::PlainContent::Bush),
+        );
         robot_view(self, world);
 
         //
-
-        self.robot.borrow_mut().update_pos(
-            self.get_coordinate().get_row(),
-            self.get_coordinate().get_col(),
-        );
 
         let map = robot_map(world).unwrap();
         self.world.borrow_mut().update_visibility(&map);
@@ -56,8 +65,12 @@ impl Runnable for Ai {
 
     fn handle_event(&mut self, event: Event) {
         match event {
-            Event::TileContentUpdated(tile, (row, col)) => {
-                self.world.borrow_mut().update_tile(tile, (row, col));
+            Event::Moved(_, _)
+            | Event::EnergyConsumed(_)
+            | Event::EnergyRecharged(_)
+            | Event::TileContentUpdated(_, _)
+            | Event::TimeChanged(_) => {
+                self.events_handler.borrow_mut().push(event);
             }
             _ => {}
         }

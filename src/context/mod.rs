@@ -1,4 +1,4 @@
-use std::time::Instant;
+use std::time::{Duration, Instant};
 
 use macroquad::prelude::*;
 
@@ -6,6 +6,7 @@ use crate::core::{ZOOM_DEFAULT, ZOOM_MAX, ZOOM_MIN};
 
 pub struct Context {
     pub timestamp: Instant,
+    pub clock_duration: Duration,
     pub camera: Camera2D,
     pub audio_on: bool,
     pub camera_locked: bool,
@@ -17,6 +18,7 @@ impl Context {
     pub fn new(camera: Camera2D) -> Self {
         Self {
             timestamp: Instant::now(),
+            clock_duration: Duration::from_millis(1000),
             camera,
             audio_on: true,
             camera_locked: true,

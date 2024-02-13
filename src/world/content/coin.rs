@@ -1,10 +1,7 @@
 use macroquad::prelude::*;
 use macroquad::texture::Texture2D;
 
-use crate::{
-    context::Context,
-    core::{is_in_window, Drawable},
-};
+use crate::core::{context::Context, is_in_window, Drawable};
 
 use super::Content;
 

@@ -1,12 +1,9 @@
-use core::{events::EventsHandler, Drawable, ZOOM_DEFAULT};
+use core::{context::Context, events::EventsHandler, Drawable, ZOOM_DEFAULT};
 use std::{cell::RefCell, rc::Rc, time::Duration};
 
-use ai::{
-    robot::{Robot, State},
-    Ai,
-};
-use context::Context;
 use macroquad::{miniquad::window::set_window_size, prelude::*};
+use robot::Robot;
+use wrapper::Wrapper;
 
 use midgard::world_generator::ContentsRadii;
 use robotics_lib::{
@@ -17,11 +14,11 @@ use robotics_lib::{
 use ui::Ui;
 use world::{World, TILE_WIDTH, WORLD_SIZE};
 
-pub mod ai;
-pub mod context;
 pub mod core;
+pub mod robot;
 pub mod ui;
 pub mod world;
+pub mod wrapper;
 
 #[macroquad::main("Rust-Eze")]
 async fn main() {
@@ -51,15 +48,16 @@ async fn main() {
 
     let events_handler = Rc::new(RefCell::new(EventsHandler::default()));
 
-    let mut ai = Ai::new(
+    let mut wrapper = Wrapper::new(
         RobRobot::new(),
         robot.clone(),
         world.clone(),
         events_handler.clone(),
     );
+
     let mut ui = Ui::new(world.clone()).await;
 
-    let run = Runner::new(Box::new(ai), &mut world_generator);
+    let run = Runner::new(Box::new(wrapper), &mut world_generator);
 
     if let Ok(mut runner) = run {
         let mut context = Context::new(Camera2D {

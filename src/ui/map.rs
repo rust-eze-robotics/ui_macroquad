@@ -1,6 +1,6 @@
 use std::{cell::RefCell, rc::Rc};
 
-use crate::{context::Context, core::Drawable, world::World};
+use crate::{core::context::Context, core::Drawable, world::World};
 
 pub struct Map {
     world: Rc<RefCell<World>>,

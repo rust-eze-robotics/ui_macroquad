@@ -1,7 +1,8 @@
 use macroquad::prelude::*;
 
-use crate::context::Context;
+use self::context::Context;
 
+pub mod context;
 pub mod events;
 
 pub const ZOOM_MIN: f32 = 0.001;
@@ -10,6 +11,14 @@ pub const ZOOM_DEFAULT: f32 = 0.0015;
 
 pub trait Drawable {
     fn draw(&mut self, context: &Context);
+}
+
+#[derive(Debug, PartialEq, Clone, Copy)]
+pub enum AnchorPosition {
+    TopLeft(Vec2),
+    TopRight(Vec2),
+    DownLeft(Vec2),
+    DownRight(Vec2),
 }
 
 pub fn is_hovered(pos: &Vec2, size: &Vec2) -> bool {

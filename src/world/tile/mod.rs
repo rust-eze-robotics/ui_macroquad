@@ -1,4 +1,4 @@
-use crate::{context::Context, core::Drawable};
+use crate::core::{context::Context, Drawable};
 
 use super::{content::Content, decoration::fog::Fog, tile_type::TileType};
 

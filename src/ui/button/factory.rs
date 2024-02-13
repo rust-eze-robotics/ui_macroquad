@@ -4,9 +4,7 @@ use macroquad::prelude::*;
 
 use crate::ui::icon::factory::IconFactory;
 
-use super::{
-    get_current_anchor_position, square_button::SquareButton, AnchorPosition, ButtonState,
-};
+use super::{button::Button, get_current_anchor_position, AnchorPosition, ButtonState};
 
 const BUTTON_ACTIVE_ID: u8 = 0;
 const BUTTON_DOWN_ID: u8 = 1;
@@ -60,8 +58,8 @@ impl ButtonFactory {
         Self { textures }
     }
 
-    pub fn new_audio_button(&self, icon_factory: &IconFactory) -> SquareButton {
-        SquareButton {
+    pub fn new_audio_button(&self, icon_factory: &IconFactory) -> Button {
+        Button {
             pos: Vec2::default(),
             anchor_pos: AnchorPosition::DownRight(Vec2::new(-64.0, -64.0)),
             size: Vec2::new(64.0, 64.0),
@@ -75,8 +73,8 @@ impl ButtonFactory {
         }
     }
 
-    pub fn new_camera_button(&self, icon_factory: &IconFactory) -> SquareButton {
-        SquareButton {
+    pub fn new_camera_button(&self, icon_factory: &IconFactory) -> Button {
+        Button {
             pos: Vec2::default(),
             anchor_pos: AnchorPosition::DownRight(Vec2::new(-128.0, -64.0)),
             size: Vec2::new(64.0, 64.0),
@@ -90,8 +88,8 @@ impl ButtonFactory {
         }
     }
 
-    pub fn new_settings_button(&self, icon_factory: &IconFactory) -> SquareButton {
-        SquareButton {
+    pub fn new_settings_button(&self, icon_factory: &IconFactory) -> Button {
+        Button {
             pos: Vec2::default(),
             anchor_pos: AnchorPosition::TopRight(Vec2::new(-64.0, 0.0)),
             size: Vec2::new(64.0, 64.0),
@@ -105,8 +103,8 @@ impl ButtonFactory {
         }
     }
 
-    pub fn new_shop_button(&self, icon_factory: &IconFactory) -> SquareButton {
-        SquareButton {
+    pub fn new_shop_button(&self, icon_factory: &IconFactory) -> Button {
+        Button {
             pos: Vec2::default(),
             anchor_pos: AnchorPosition::TopLeft(Vec2::new(0.0, 0.0)),
             size: Vec2::new(64.0, 64.0),

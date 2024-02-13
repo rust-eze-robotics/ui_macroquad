@@ -13,12 +13,21 @@ const AUDIO_DOWN_ID: u8 = 2;
 const CAMERA_ACTIVE_ID: u8 = 3;
 const CAMERA_DISABLED_ID: u8 = 4;
 const CAMERA_DOWN_ID: u8 = 5;
-const SETTINGS_ACTIVE_ID: u8 = 6;
-const SETTINGS_DISABLED_ID: u8 = 7;
-const SETTINGS_DOWN_ID: u8 = 8;
-const SHOP_ACTIVE_ID: u8 = 9;
-const SHOP_DISABLED_ID: u8 = 10;
-const SHOP_DOWN_ID: u8 = 11;
+const CLOSE_ACTIVE_ID: u8 = 6;
+const CLOSE_DISABLED_ID: u8 = 7;
+const CLOSE_DOWN_ID: u8 = 8;
+const MINUS_ACTIVE_ID: u8 = 9;
+const MINUS_DISABLED_ID: u8 = 10;
+const MINUS_DOWN_ID: u8 = 11;
+const PLUS_ACTIVE_ID: u8 = 12;
+const PLUS_DISABLED_ID: u8 = 13;
+const PLUS_DOWN_ID: u8 = 14;
+const SETTINGS_ACTIVE_ID: u8 = 15;
+const SETTINGS_DISABLED_ID: u8 = 16;
+const SETTINGS_DOWN_ID: u8 = 17;
+const SHOP_ACTIVE_ID: u8 = 18;
+const SHOP_DISABLED_ID: u8 = 19;
+const SHOP_DOWN_ID: u8 = 20;
 
 pub struct IconFactory {
     textures: HashMap<u8, Rc<Texture2D>>,
@@ -77,6 +86,87 @@ impl IconFactory {
             CAMERA_DOWN_ID,
             Rc::new(
                 load_texture("data/assets/ui/icons/camera/camera_down.png")
+                    .await
+                    .unwrap(),
+            ),
+        );
+
+        textures.insert(
+            CLOSE_ACTIVE_ID,
+            Rc::new(
+                load_texture("data/assets/ui/icons/close/close_active.png")
+                    .await
+                    .unwrap(),
+            ),
+        );
+
+        textures.insert(
+            CLOSE_DISABLED_ID,
+            Rc::new(
+                load_texture("data/assets/ui/icons/close/close_disabled.png")
+                    .await
+                    .unwrap(),
+            ),
+        );
+
+        textures.insert(
+            CLOSE_DOWN_ID,
+            Rc::new(
+                load_texture("data/assets/ui/icons/close/close_down.png")
+                    .await
+                    .unwrap(),
+            ),
+        );
+
+        textures.insert(
+            MINUS_ACTIVE_ID,
+            Rc::new(
+                load_texture("data/assets/ui/icons/minus/minus_active.png")
+                    .await
+                    .unwrap(),
+            ),
+        );
+
+        textures.insert(
+            MINUS_DISABLED_ID,
+            Rc::new(
+                load_texture("data/assets/ui/icons/minus/minus_disabled.png")
+                    .await
+                    .unwrap(),
+            ),
+        );
+
+        textures.insert(
+            MINUS_DOWN_ID,
+            Rc::new(
+                load_texture("data/assets/ui/icons/minus/minus_down.png")
+                    .await
+                    .unwrap(),
+            ),
+        );
+
+        textures.insert(
+            PLUS_ACTIVE_ID,
+            Rc::new(
+                load_texture("data/assets/ui/icons/plus/plus_active.png")
+                    .await
+                    .unwrap(),
+            ),
+        );
+
+        textures.insert(
+            PLUS_DISABLED_ID,
+            Rc::new(
+                load_texture("data/assets/ui/icons/plus/plus_disabled.png")
+                    .await
+                    .unwrap(),
+            ),
+        );
+
+        textures.insert(
+            PLUS_DOWN_ID,
+            Rc::new(
+                load_texture("data/assets/ui/icons/plus/plus_down.png")
                     .await
                     .unwrap(),
             ),

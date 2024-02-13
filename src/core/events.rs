@@ -1,16 +1,10 @@
 use std::{cell::RefCell, collections::VecDeque, rc::Rc, time::Instant};
 
 use macroquad::math::Vec2;
-use robotics_lib::{
-    event::events::Event,
-    world::environmental_conditions::{self, EnvironmentalConditions},
-};
+use robotics_lib::event::events::Event;
 
 use crate::{
-    ai::{
-        robot::{Robot, State},
-        Ai,
-    },
+    robot::{Robot, RobotState},
     world::{World, TILE_WIDTH},
 };
 
@@ -54,15 +48,19 @@ impl EventsHandler {
                     let new_pos = Vec2::new(col as f32 * TILE_WIDTH, row as f32 * TILE_WIDTH);
 
                     if robot.borrow().pos.distance(new_pos) >= TILE_WIDTH * 2.0 {
-                        robot.borrow_mut().state = State::Teleporting(Instant::now(), new_pos);
+                        robot.borrow_mut().state = RobotState::Teleporting(Instant::now(), new_pos);
                     } else {
-                        robot.borrow_mut().state = State::Walking(Instant::now(), new_pos);
+                        robot.borrow_mut().state = RobotState::Walking(Instant::now(), new_pos);
                     }
 
                     return;
                 }
                 Event::TileContentUpdated(tile, (row, col)) => {
+                    let new_pos = Vec2::new(col as f32 * TILE_WIDTH, row as f32 * TILE_WIDTH);
+
+                    robot.borrow_mut().state = RobotState::Interacting(Instant::now(), new_pos);
                     world.borrow_mut().update_tile(tile, (row, col));
+
                     return;
                 }
                 Event::TimeChanged(environmental_conditions) => {

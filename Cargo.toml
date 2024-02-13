@@ -2,7 +2,6 @@
 
 [package]
 name = "ui_macroquad"
-description = "UI macroquad"
 authors = ["Guglielmo Boi"]
 version = "1.0.0"
 edition = "2021"
@@ -11,6 +10,7 @@ exclude = [".*"]
 [dependencies]
 macroquad = "0.4.4"
 robotics_lib = {version = "0.1.21", registry = "kellnr"}
+oxagaudiotool = {version = "0.2.0", registry = "kellnr"}
 midgard = {version = "0.1.0", registry = "kellnr"}
 rust_eze_spotlight = {version = "1.0.0", registry = "kellnr"}
 rust_eze_tomtom = {version = "1.0.0", registry = "kellnr"}

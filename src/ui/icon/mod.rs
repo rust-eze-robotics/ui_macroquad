@@ -1,7 +1,7 @@
 use macroquad::prelude::*;
 use macroquad::texture::Texture2D;
 
-use crate::{context::Context, core::Drawable};
+use crate::{core::context::Context, core::Drawable};
 
 use std::rc::Rc;
 
@@ -15,10 +15,10 @@ pub enum IconState {
 }
 
 pub struct Icon {
-    pub(super) pos: Vec2,
-    pub(super) texture_active: Rc<Texture2D>,
-    pub(super) texture_disabled: Rc<Texture2D>,
-    pub(super) texture_down: Rc<Texture2D>,
+    pub pos: Vec2,
+    pub texture_active: Rc<Texture2D>,
+    pub texture_disabled: Rc<Texture2D>,
+    pub texture_down: Rc<Texture2D>,
     pub state: IconState,
 }
 

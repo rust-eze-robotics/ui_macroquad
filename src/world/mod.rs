@@ -8,7 +8,7 @@ pub const TILE_WIDTH: f32 = 192.0;
 
 use std::collections::HashSet;
 
-use crate::{context::Context, core::Drawable};
+use crate::core::{context::Context, Drawable};
 
 use content::Content;
 use tile::Tile;

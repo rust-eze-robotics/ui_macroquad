@@ -1,6 +1,5 @@
 use std::{cell::RefCell, rc::Rc};
 
-use macroquad::miniquad::EventHandler;
 use robotics_lib::{
     energy::{self, Energy},
     event::events::Event,
@@ -14,20 +13,16 @@ use rust_eze_tomtom::{
     TomTom,
 };
 
-use crate::{core::events::EventsHandler, world::World};
+use crate::{core::events::EventsHandler, robot::Robot, world::World};
 
-use self::robot::Robot;
-
-pub mod robot;
-
-pub struct Ai {
+pub struct Wrapper {
     pub rob_robot: RobRobot,
     pub robot: Rc<RefCell<Robot>>,
     pub world: Rc<RefCell<World>>,
     pub events_handler: Rc<RefCell<EventsHandler>>,
 }
 
-impl Ai {
+impl Wrapper {
     pub fn new(
         rob_robot: RobRobot,
         robot: Rc<RefCell<Robot>>,
@@ -43,7 +38,7 @@ impl Ai {
     }
 }
 
-impl Runnable for Ai {
+impl Runnable for Wrapper {
     fn process_tick(&mut self, world: &mut RobWorld) {
         //
 
@@ -64,16 +59,7 @@ impl Runnable for Ai {
     }
 
     fn handle_event(&mut self, event: Event) {
-        match event {
-            Event::Moved(_, _)
-            | Event::EnergyConsumed(_)
-            | Event::EnergyRecharged(_)
-            | Event::TileContentUpdated(_, _)
-            | Event::TimeChanged(_) => {
-                self.events_handler.borrow_mut().push(event);
-            }
-            _ => {}
-        }
+        self.events_handler.borrow_mut().push(event);
     }
 
     fn get_energy(&self) -> &Energy {

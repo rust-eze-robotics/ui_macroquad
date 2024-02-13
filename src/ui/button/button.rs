@@ -2,8 +2,7 @@ use macroquad::prelude::*;
 use macroquad::texture::Texture2D;
 
 use crate::{
-    context::Context,
-    core::{is_down, is_hovered, is_released, Drawable},
+    core::{context::Context, is_down, is_hovered, is_released, AnchorPosition, Drawable},
     ui::{
         icon::{Icon, IconState},
         UiComponent,
@@ -12,22 +11,22 @@ use crate::{
 
 use std::rc::Rc;
 
-use super::{get_current_anchor_position, AnchorPosition, ButtonState};
+use super::{get_current_anchor_position, ButtonState};
 
-pub struct SquareButton {
-    pub(super) pos: Vec2,
-    pub(super) anchor_pos: AnchorPosition,
-    pub(super) size: Vec2,
-    pub(super) texture_on: Rc<Texture2D>,
-    pub(super) texture_down: Rc<Texture2D>,
-    pub(super) texture_disabled: Rc<Texture2D>,
-    pub(super) texture_hovered: Rc<Texture2D>,
-    pub(super) icon: Icon,
-    pub(super) state: ButtonState,
+pub struct Button {
+    pub pos: Vec2,
+    pub anchor_pos: AnchorPosition,
+    pub size: Vec2,
+    pub texture_on: Rc<Texture2D>,
+    pub texture_down: Rc<Texture2D>,
+    pub texture_disabled: Rc<Texture2D>,
+    pub texture_hovered: Rc<Texture2D>,
+    pub icon: Icon,
+    pub state: ButtonState,
     pub on: bool,
 }
 
-impl UiComponent for SquareButton {
+impl UiComponent for Button {
     fn update_gui(&mut self) {
         self.pos = get_current_anchor_position(self.anchor_pos);
         self.icon.pos = self.pos;
@@ -63,7 +62,7 @@ impl UiComponent for SquareButton {
     }
 }
 
-impl Drawable for SquareButton {
+impl Drawable for Button {
     fn draw(&mut self, context: &Context) {
         let texture = match self.state {
             ButtonState::Active => &self.texture_on,

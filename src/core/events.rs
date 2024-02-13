@@ -5,7 +5,7 @@ use robotics_lib::event::events::Event;
 
 use crate::{
     robot::{Robot, RobotState},
-    world::{World, TILE_WIDTH},
+    world::{World, TILE_SIZE},
 };
 
 #[derive(Debug, Default)]
@@ -45,9 +45,9 @@ impl EventsHandler {
                     robot.borrow_mut().energy += amount;
                 }
                 Event::Moved(_tile, (row, col)) => {
-                    let new_pos = Vec2::new(col as f32 * TILE_WIDTH, row as f32 * TILE_WIDTH);
+                    let new_pos = Vec2::new(col as f32 * TILE_SIZE.x, row as f32 * TILE_SIZE.y);
 
-                    if robot.borrow().pos.distance(new_pos) >= TILE_WIDTH * 2.0 {
+                    if robot.borrow().pos.distance(new_pos) >= TILE_SIZE.x * 2.0 {
                         robot.borrow_mut().state = RobotState::Teleporting(Instant::now(), new_pos);
                     } else {
                         robot.borrow_mut().state = RobotState::Walking(Instant::now(), new_pos);
@@ -56,7 +56,7 @@ impl EventsHandler {
                     return;
                 }
                 Event::TileContentUpdated(tile, (row, col)) => {
-                    let new_pos = Vec2::new(col as f32 * TILE_WIDTH, row as f32 * TILE_WIDTH);
+                    let new_pos = Vec2::new(col as f32 * TILE_SIZE.x, row as f32 * TILE_SIZE.y);
 
                     robot.borrow_mut().state = RobotState::Interacting(Instant::now(), new_pos);
                     world.borrow_mut().update_tile(tile, (row, col));

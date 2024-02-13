@@ -38,12 +38,12 @@ pub struct Button {
 }
 
 impl UiComponent for Button {
-    fn update_gui(&mut self) {
+    fn update_gui(&mut self, context: &Context) {
         self.pos = get_current_anchor_position(self.anchor_pos);
         self.icon.pos = self.pos;
     }
 
-    fn handle_input(&mut self) {
+    fn handle_input(&mut self, context: &Context) {
         if is_down(&self.pos, &self.size) {
             self.state = ButtonState::Down;
             self.icon.state = IconState::Pressed;

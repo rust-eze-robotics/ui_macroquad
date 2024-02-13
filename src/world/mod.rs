@@ -4,7 +4,7 @@ pub mod tile;
 pub mod tile_type;
 
 pub const WORLD_SIZE: usize = 256;
-pub const TILE_WIDTH: f32 = 192.0;
+pub const TILE_SIZE: Vec2 = Vec2::new(192.0, 192.0);
 
 use std::collections::HashSet;
 
@@ -60,7 +60,7 @@ impl World {
                 self.hidden_tiles.insert((row, col));
 
                 let tile = &map[row][col];
-                let pos = Vec2::new(col as f32 * TILE_WIDTH, row as f32 * TILE_WIDTH);
+                let pos = Vec2::new(col as f32 * TILE_SIZE.x, row as f32 * TILE_SIZE.y);
 
                 let tiletype = self
                     .tiletype_factory
@@ -87,7 +87,7 @@ impl World {
     }
 
     pub fn update_tile(&mut self, tile: RobTile, (row, col): (usize, usize)) {
-        let pos = Vec2::new(row as f32 * TILE_WIDTH, col as f32 * TILE_WIDTH);
+        let pos = Vec2::new(row as f32 * TILE_SIZE.x, col as f32 * TILE_SIZE.y);
 
         self.tiles[row][col].tiletype = self
             .tiletype_factory

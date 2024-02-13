@@ -11,7 +11,7 @@ use robotics_lib::{
     world::world_generator::Generator,
 };
 use ui::Ui;
-use world::{World, TILE_WIDTH, WORLD_SIZE};
+use world::{World, TILE_SIZE, WORLD_SIZE};
 
 pub mod core;
 pub mod robot;
@@ -61,8 +61,8 @@ async fn main() {
     if let Ok(mut runner) = run {
         let mut context = Context::new(Camera2D {
             target: Vec2::new(
-                spawn_point.1 as f32 * TILE_WIDTH + robot.borrow().offset.x,
-                spawn_point.0 as f32 * TILE_WIDTH + robot.borrow().offset.y,
+                spawn_point.1 as f32 * TILE_SIZE.x + robot.borrow().offset.x,
+                spawn_point.0 as f32 * TILE_SIZE.y + robot.borrow().offset.y,
             ),
             zoom: Vec2::new(ZOOM_DEFAULT, ZOOM_DEFAULT),
             ..Default::default()
@@ -83,8 +83,8 @@ async fn main() {
 
             context.update_camera(robot.borrow().get_target_pos(&context));
 
-            ui.update_gui();
-            ui.handle_input();
+            ui.update_gui(&context);
+            ui.handle_input(&context);
             ui.sync_context(&mut context);
 
             clear_background(LIGHTGRAY);

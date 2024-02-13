@@ -7,7 +7,7 @@ use macroquad::{
 
 use crate::{
     core::{context::Context, is_in_window, Drawable},
-    world::TILE_WIDTH,
+    world::TILE_SIZE,
 };
 
 pub enum RobotState {
@@ -112,7 +112,7 @@ impl Drawable for Robot {
 impl Robot {
     pub async fn new((row, col): (usize, usize)) -> Self {
         Self {
-            pos: Vec2::new(col as f32 * TILE_WIDTH, row as f32 * TILE_WIDTH),
+            pos: Vec2::new(col as f32 * TILE_SIZE.x, row as f32 * TILE_SIZE.y),
             offset: Vec2::new(0.0, 0.0),
             texture: load_texture("data/assets/robot/warrior.png").await.unwrap(),
             sprite: AnimatedSprite::new(
@@ -196,6 +196,6 @@ impl Robot {
             }
         };
 
-        ret + Vec2::new(TILE_WIDTH / 2.0, TILE_WIDTH / 2.0)
+        ret + Vec2::new(TILE_SIZE.x / 2.0, TILE_SIZE.y / 2.0)
     }
 }

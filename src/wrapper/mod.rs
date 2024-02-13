@@ -40,14 +40,6 @@ impl Runnable for Wrapper {
         //
 
         Spotlight::illuminate(self, world, 10);
-        TomTom::go_to_tile(
-            self,
-            world,
-            false,
-            None,
-            Some(rust_eze_tomtom::plain::PlainContent::Bush),
-        );
-        robot_view(self, world);
 
         //
 

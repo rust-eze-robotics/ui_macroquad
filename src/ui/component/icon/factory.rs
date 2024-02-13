@@ -249,6 +249,36 @@ impl IconFactory {
         }
     }
 
+    pub fn new_close_icon(&self, pos: Vec2) -> Icon {
+        Icon {
+            pos,
+            texture_active: self.textures[&CLOSE_ACTIVE_ID].clone(),
+            texture_disabled: self.textures[&CLOSE_DISABLED_ID].clone(),
+            texture_down: self.textures[&CLOSE_DOWN_ID].clone(),
+            state: IconState::Active,
+        }
+    }
+
+    pub fn new_minus_icon(&self, pos: Vec2) -> Icon {
+        Icon {
+            pos,
+            texture_active: self.textures[&MINUS_ACTIVE_ID].clone(),
+            texture_disabled: self.textures[&MINUS_DISABLED_ID].clone(),
+            texture_down: self.textures[&MINUS_DISABLED_ID].clone(),
+            state: IconState::Active,
+        }
+    }
+
+    pub fn new_plus_icon(&self, pos: Vec2) -> Icon {
+        Icon {
+            pos,
+            texture_active: self.textures[&PLUS_ACTIVE_ID].clone(),
+            texture_disabled: self.textures[&PLUS_DISABLED_ID].clone(),
+            texture_down: self.textures[&PLUS_DOWN_ID].clone(),
+            state: IconState::Active,
+        }
+    }
+
     pub fn new_settings_icon(&self, pos: Vec2) -> Icon {
         Icon {
             pos,

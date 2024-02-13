@@ -2,24 +2,31 @@ use std::{cell::RefCell, rc::Rc};
 
 use macroquad::math::Vec2;
 
-use crate::{core::context::Context, core::Drawable, world::World};
-
-use self::{
-    banner::{factory::BannerFactory, HorizontalBanner},
-    component::button::{factory::ButtonFactory, Button},
-    component::icon::factory::IconFactory,
-    map::Map,
+use crate::{
+    core::{
+        context::{self, Context},
+        Drawable,
+    },
+    world::World,
 };
 
-pub mod banner;
+use self::{
+    component::{
+        button::{factory::ButtonFactory, Button},
+        icon::factory::IconFactory,
+    },
+    map::Map,
+    settings::SettingsModal,
+};
+
 pub mod component;
 pub mod map;
 pub mod settings;
 pub mod shop;
 
 pub trait UiComponent: Drawable {
-    fn update_gui(&mut self);
-    fn handle_input(&mut self);
+    fn update_gui(&mut self, context: &Context);
+    fn handle_input(&mut self, context: &Context);
 }
 
 pub struct Ui {
@@ -28,29 +35,31 @@ pub struct Ui {
     camera_button: Button,
     settings_button: Button,
     shop_button: Button,
-    banner: HorizontalBanner,
+    settings_modal: SettingsModal,
 }
 
 impl Ui {
-    pub fn update_gui(&mut self) {
-        self.audio_button.update_gui();
-        self.camera_button.update_gui();
-        self.settings_button.update_gui();
-        self.shop_button.update_gui();
+    pub fn update_gui(&mut self, context: &Context) {
+        self.audio_button.update_gui(context);
+        self.camera_button.update_gui(context);
+        self.settings_button.update_gui(context);
+        self.shop_button.update_gui(context);
+        self.settings_modal.update_gui(context);
     }
 
-    pub fn handle_input(&mut self) {
-        self.audio_button.handle_input();
-        self.camera_button.handle_input();
-        self.settings_button.handle_input();
-        self.shop_button.handle_input();
+    pub fn handle_input(&mut self, context: &Context) {
+        self.audio_button.handle_input(context);
+        self.camera_button.handle_input(context);
+        self.settings_button.handle_input(context);
+        self.shop_button.handle_input(context);
+        self.settings_modal.handle_input(context);
     }
 
     pub fn sync_context(&self, context: &mut Context) {
         context.audio_on = self.audio_button.on;
         context.camera_locked = self.camera_button.on;
-        context.settings_open = self.settings_button.on;
-        context.shop_open = self.shop_button.on;
+        context.settings_open = !self.settings_button.on;
+        context.shop_open = !self.shop_button.on;
     }
 }
 
@@ -58,7 +67,6 @@ impl Ui {
     pub async fn new(world: Rc<RefCell<World>>) -> Self {
         let icon_factory = IconFactory::new().await;
         let button_factory = ButtonFactory::new().await;
-        let banner_factory: BannerFactory = BannerFactory::new().await;
 
         Self {
             map: Map::new(world),
@@ -66,7 +74,7 @@ impl Ui {
             camera_button: button_factory.new_camera_button(&icon_factory),
             settings_button: button_factory.new_settings_button(&icon_factory),
             shop_button: button_factory.new_shop_button(&icon_factory),
-            banner: banner_factory.new_horizzontal_banner(Vec2::new(0.0, 0.0)),
+            settings_modal: SettingsModal::new(&icon_factory).await,
         }
     }
 }
@@ -77,6 +85,6 @@ impl Drawable for Ui {
         self.camera_button.draw(context);
         self.settings_button.draw(context);
         self.shop_button.draw(context);
-        self.banner.draw(context);
+        self.settings_modal.draw(context);
     }
 }

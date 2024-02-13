@@ -1,5 +1,5 @@
 use core::{context::Context, events::EventsHandler, Drawable, ZOOM_DEFAULT};
-use std::{cell::RefCell, rc::Rc, time::Duration};
+use std::{cell::RefCell, rc::Rc};
 
 use macroquad::{miniquad::window::set_window_size, prelude::*};
 use robot::Robot;
@@ -7,9 +7,8 @@ use wrapper::Wrapper;
 
 use midgard::world_generator::ContentsRadii;
 use robotics_lib::{
-    event,
     runner::{Robot as RobRobot, Runner},
-    world::{environmental_conditions, world_generator::Generator},
+    world::world_generator::Generator,
 };
 use ui::Ui;
 use world::{World, TILE_WIDTH, WORLD_SIZE};
@@ -48,7 +47,7 @@ async fn main() {
 
     let events_handler = Rc::new(RefCell::new(EventsHandler::default()));
 
-    let mut wrapper = Wrapper::new(
+    let wrapper = Wrapper::new(
         RobRobot::new(),
         robot.clone(),
         world.clone(),

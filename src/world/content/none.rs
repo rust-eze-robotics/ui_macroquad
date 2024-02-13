@@ -1,6 +1,6 @@
 use macroquad::prelude::*;
 
-use crate::core::{context::Context, is_in_window, Drawable};
+use crate::core::{context::Context, Drawable};
 
 use super::Content;
 

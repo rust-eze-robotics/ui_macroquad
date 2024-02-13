@@ -2,16 +2,27 @@ use macroquad::prelude::*;
 use macroquad::texture::Texture2D;
 
 use crate::{
-    core::{context::Context, is_down, is_hovered, is_released, AnchorPosition, Drawable},
+    core::{
+        context::Context, get_current_anchor_position, is_down, is_hovered, is_released,
+        AnchorPosition, Drawable,
+    },
     ui::{
-        icon::{Icon, IconState},
+        component::icon::{Icon, IconState},
         UiComponent,
     },
 };
 
 use std::rc::Rc;
 
-use super::{get_current_anchor_position, ButtonState};
+pub mod factory;
+
+#[derive(Debug, PartialEq)]
+pub enum ButtonState {
+    Active,
+    Down,
+    Disabled,
+    Hovered,
+}
 
 pub struct Button {
     pub pos: Vec2,

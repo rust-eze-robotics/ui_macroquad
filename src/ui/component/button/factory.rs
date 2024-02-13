@@ -2,9 +2,9 @@ use std::{collections::HashMap, rc::Rc};
 
 use macroquad::prelude::*;
 
-use crate::ui::icon::factory::IconFactory;
+use crate::ui::component::icon::factory::IconFactory;
 
-use super::{button::Button, get_current_anchor_position, AnchorPosition, ButtonState};
+use super::{AnchorPosition, Button, ButtonState};
 
 const BUTTON_ACTIVE_ID: u8 = 0;
 const BUTTON_DOWN_ID: u8 = 1;

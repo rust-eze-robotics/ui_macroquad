@@ -21,6 +21,15 @@ pub enum AnchorPosition {
     DownRight(Vec2),
 }
 
+pub fn get_current_anchor_position(anchor_pos: AnchorPosition) -> Vec2 {
+    match anchor_pos {
+        AnchorPosition::TopLeft(v) => Vec2::new(0.0, 0.0) + v,
+        AnchorPosition::TopRight(v) => Vec2::new(screen_width(), 0.0) + v,
+        AnchorPosition::DownLeft(v) => Vec2::new(0.0, screen_height()) + v,
+        AnchorPosition::DownRight(v) => Vec2::new(screen_width(), screen_height()) + v,
+    }
+}
+
 pub fn is_hovered(pos: &Vec2, size: &Vec2) -> bool {
     let mouse = mouse_position();
 

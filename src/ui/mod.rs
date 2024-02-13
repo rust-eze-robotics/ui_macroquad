@@ -1,23 +1,21 @@
 use std::{cell::RefCell, rc::Rc};
 
-use macroquad::{
-    math::Vec2,
-    window::{screen_height, screen_width},
-};
+use macroquad::math::Vec2;
 
 use crate::{core::context::Context, core::Drawable, world::World};
 
 use self::{
     banner::{factory::BannerFactory, HorizontalBanner},
-    button::{button::Button, factory::ButtonFactory},
-    icon::factory::IconFactory,
+    component::button::{factory::ButtonFactory, Button},
+    component::icon::factory::IconFactory,
     map::Map,
 };
 
 pub mod banner;
-pub mod button;
-pub mod icon;
+pub mod component;
 pub mod map;
+pub mod settings;
+pub mod shop;
 
 pub trait UiComponent: Drawable {
     fn update_gui(&mut self);

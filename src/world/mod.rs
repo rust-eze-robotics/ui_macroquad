@@ -10,14 +10,11 @@ use std::collections::HashSet;
 
 use crate::core::{context::Context, Drawable};
 
-use content::Content;
 use tile::Tile;
-use tile_type::TileType;
 
 use macroquad::math::Vec2;
 use robotics_lib::world::{
-    environmental_conditions::{self, EnvironmentalConditions},
-    tile::{Content as RobContent, Tile as RobTile},
+    environmental_conditions::EnvironmentalConditions, tile::Tile as RobTile,
 };
 
 use self::{

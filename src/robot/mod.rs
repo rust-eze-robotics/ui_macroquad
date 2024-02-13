@@ -1,4 +1,4 @@
-use std::time::{Duration, Instant};
+use std::time::Instant;
 
 use macroquad::{
     experimental::animation::{AnimatedSprite, Animation},

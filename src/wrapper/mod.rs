@@ -1,17 +1,14 @@
 use std::{cell::RefCell, rc::Rc};
 
 use robotics_lib::{
-    energy::{self, Energy},
+    energy::Energy,
     event::events::Event,
-    interface::{go, look_at_sky, one_direction_view, robot_map, robot_view, teleport, Direction},
+    interface::{robot_map, robot_view},
     runner::{backpack::BackPack, Robot as RobRobot, Runnable},
     world::{coordinates::Coordinate, World as RobWorld},
 };
 use rust_eze_spotlight::Spotlight;
-use rust_eze_tomtom::{
-    path::{Action, Path},
-    TomTom,
-};
+use rust_eze_tomtom::TomTom;
 
 use crate::{core::events::EventsHandler, robot::Robot, world::World};
 

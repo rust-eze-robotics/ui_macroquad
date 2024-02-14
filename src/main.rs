@@ -47,16 +47,13 @@ async fn main() {
 
     let events_handler = Rc::new(RefCell::new(EventsHandler::default()));
 
-    let wrapper = Wrapper::new(
-        RobRobot::new(),
-        robot.clone(),
-        world.clone(),
-        events_handler.clone(),
-    );
+    let wrapper = Wrapper::new(robot.clone(), world.clone(), events_handler.clone());
 
-    let mut ui = Ui::new(world.clone()).await;
+    let mut ui: Ui = Ui::new(world.clone()).await;
 
-    let run = Runner::new(Box::new(wrapper), &mut world_generator);
+    let ai = Ai::new(Box::new(wrapper));
+
+    let run = Runner::new(Box::new(ai), &mut world_generator);
 
     if let Ok(mut runner) = run {
         let mut context = Context::new(Camera2D {

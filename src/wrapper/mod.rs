@@ -10,11 +10,12 @@ use robotics_lib::{
 
 use ui_lib::RunnableUi;
 
-use crate::{ai::Ai, core::events::EventsHandler, robot::Robot, world::World};
+use crate::{core::events::EventsHandler, robot::Robot, ui::Ui, world::World};
 
 pub struct Wrapper {
     pub robot: Rc<RefCell<Robot>>,
     pub world: Rc<RefCell<World>>,
+    pub ui: Rc<RefCell<Ui>>,
     pub events_handler: Rc<RefCell<EventsHandler>>,
 }
 
@@ -22,11 +23,13 @@ impl Wrapper {
     pub fn new(
         robot: Rc<RefCell<Robot>>,
         world: Rc<RefCell<World>>,
+        ui: Rc<RefCell<Ui>>,
         events_handler: Rc<RefCell<EventsHandler>>,
     ) -> Self {
         Self {
             robot,
             world,
+            ui,
             events_handler,
         }
     }

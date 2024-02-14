@@ -1,6 +1,7 @@
 use core::{context::Context, events::EventsHandler, Drawable, ZOOM_DEFAULT};
 use std::{cell::RefCell, rc::Rc};
 
+use ai_mcqueen::Ai;
 use macroquad::{miniquad::window::set_window_size, prelude::*};
 use robot::Robot;
 use wrapper::Wrapper;
@@ -45,11 +46,16 @@ async fn main() {
         World::new(&map, environmental_conditions).await,
     ));
 
+    let ui = Rc::new(RefCell::new(Ui::new(world.clone()).await));
+
     let events_handler = Rc::new(RefCell::new(EventsHandler::default()));
 
-    let wrapper = Wrapper::new(robot.clone(), world.clone(), events_handler.clone());
-
-    let mut ui: Ui = Ui::new(world.clone()).await;
+    let wrapper = Wrapper::new(
+        robot.clone(),
+        world.clone(),
+        ui.clone(),
+        events_handler.clone(),
+    );
 
     let ai = Ai::new(Box::new(wrapper));
 
@@ -80,9 +86,9 @@ async fn main() {
 
             context.update_camera(robot.borrow().get_target_pos(&context));
 
-            ui.update_gui(&context);
-            ui.handle_input(&context);
-            ui.sync_context(&mut context);
+            ui.borrow_mut().update_gui(&context);
+            ui.borrow_mut().handle_input(&context);
+            ui.borrow_mut().sync_context(&mut context);
 
             clear_background(LIGHTGRAY);
 
@@ -93,7 +99,7 @@ async fn main() {
 
             set_default_camera();
 
-            ui.draw(&context);
+            ui.borrow_mut().draw(&context);
 
             next_frame().await
         }

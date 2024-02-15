@@ -1,10 +1,6 @@
 use std::{cell::RefCell, rc::Rc};
 
-use robotics_lib::{
-    event::events::Event,
-    interface::{robot_map},
-    world::{World as RobWorld},
-};
+use robotics_lib::{event::events::Event, interface::robot_map, world::World as RobWorld};
 
 use ui_lib::RunnableUi;
 

@@ -1,10 +1,7 @@
 use macroquad::prelude::*;
 
-
 use crate::{
-    core::{
-        context::Context, is_down, Drawable,
-    },
+    core::{context::Context, is_down, Drawable},
     ui::{
         component::icon::{Icon, IconState},
         UiItem,

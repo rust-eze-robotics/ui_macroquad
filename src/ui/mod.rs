@@ -1,19 +1,14 @@
 use std::{cell::RefCell, rc::Rc};
 
-
-
 use crate::{
-    core::{
-        context::{Context},
-        Drawable,
-    },
+    core::{context::Context, Drawable, CLOCK_DURATION_MAX},
     world::World,
 };
 
 use self::{
     component::{
         button::{factory::ButtonFactory, Button},
-        clicker::{factory::ClickerFactory},
+        clicker::factory::ClickerFactory,
         icon::factory::IconFactory,
         stepper::factory::StepperFactory,
     },
@@ -56,6 +51,8 @@ impl Ui {
     }
 
     pub fn sync_context(&self, context: &mut Context) {
+        context.clock_duration =
+            (CLOCK_DURATION_MAX / 100) * (110 - self.settings_modal.get_speed() as u32);
         context.audio_on = self.audio_button.on;
         context.camera_locked = self.camera_button.on;
         context.settings_open = !self.settings_button.on;

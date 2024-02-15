@@ -5,7 +5,7 @@ use crate::core::{context::Context, Drawable, SETTINGS_MODAL_SIZE};
 use super::{
     component::{
         clicker::factory::ClickerFactory,
-        icon::{factory::IconFactory},
+        icon::factory::IconFactory,
         stepper::{factory::StepperFactory, Stepper},
     },
     UiItem,
@@ -13,8 +13,8 @@ use super::{
 
 pub struct SettingsModal {
     pub pos: Vec2,
-    pub volume_stepper: Stepper,
-    pub speed_stepper: Stepper,
+    volume_stepper: Stepper,
+    speed_stepper: Stepper,
 }
 
 impl SettingsModal {
@@ -42,6 +42,14 @@ impl SettingsModal {
             ),
         }
     }
+
+    pub fn get_volume(&self) -> f32 {
+        self.volume_stepper.value
+    }
+
+    pub fn get_speed(&self) -> f32 {
+        self.speed_stepper.value
+    }
 }
 
 impl UiItem for SettingsModal {
@@ -51,8 +59,12 @@ impl UiItem for SettingsModal {
             (screen_height() - SETTINGS_MODAL_SIZE.y) / 2.0,
         );
 
-        self.volume_stepper.pos = self.pos + Vec2::new(20.0, 20.0);
-        self.speed_stepper.pos = self.pos + Vec2::new(20.0, 70.0);
+        self.volume_stepper.pos.x =
+            self.pos.x + (SETTINGS_MODAL_SIZE.x - self.volume_stepper.size.x) / 2.0;
+        self.volume_stepper.pos.y = self.pos.y + (SETTINGS_MODAL_SIZE.y * 0.25);
+        self.speed_stepper.pos.x =
+            self.pos.x + (SETTINGS_MODAL_SIZE.x - self.speed_stepper.size.x) / 2.0;
+        self.speed_stepper.pos.y = self.pos.y + (SETTINGS_MODAL_SIZE.y * 0.55);
 
         self.volume_stepper.update_gui(context);
         self.speed_stepper.update_gui(context);

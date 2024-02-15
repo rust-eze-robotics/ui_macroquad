@@ -1,10 +1,8 @@
-
-
 use macroquad::prelude::*;
 
 use crate::ui::component::icon::factory::IconFactory;
 
-use super::{Clicker};
+use super::Clicker;
 
 pub struct ClickerFactory {}
 

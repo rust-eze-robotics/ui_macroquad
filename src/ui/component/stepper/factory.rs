@@ -1,8 +1,9 @@
-
-
 use macroquad::prelude::*;
 
-use crate::ui::component::{clicker::factory::ClickerFactory, icon::factory::IconFactory};
+use crate::{
+    core::{SETTINGS_MODAL_SIZE, SETTINGS_STEPPER_SIZE},
+    ui::component::{clicker::factory::ClickerFactory, icon::factory::IconFactory},
+};
 
 use super::Stepper;
 
@@ -21,9 +22,10 @@ impl StepperFactory {
     ) -> Stepper {
         Stepper {
             pos,
+            size: SETTINGS_STEPPER_SIZE,
             title: String::from("Volume"),
             value: 50.0,
-            min_value: 0.0,
+            min_value: 10.0,
             max_value: 100.0,
             increment: 10.0,
             minus_clicker: clicker_factory.new_minus_clicker(icon_factory),
@@ -39,9 +41,10 @@ impl StepperFactory {
     ) -> Stepper {
         Stepper {
             pos,
+            size: SETTINGS_STEPPER_SIZE,
             title: String::from("Speed"),
             value: 50.0,
-            min_value: 0.0,
+            min_value: 10.0,
             max_value: 100.0,
             increment: 10.0,
             minus_clicker: clicker_factory.new_minus_clicker(icon_factory),

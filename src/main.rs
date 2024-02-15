@@ -9,10 +9,7 @@ use robot::Robot;
 use wrapper::Wrapper;
 
 use midgard::world_generator::ContentsRadii;
-use robotics_lib::{
-    runner::{Runner},
-    world::world_generator::Generator,
-};
+use robotics_lib::{runner::Runner, world::world_generator::Generator};
 use ui::Ui;
 use world::World;
 

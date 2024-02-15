@@ -13,7 +13,9 @@ use crate::{
 use self::{
     component::{
         button::{factory::ButtonFactory, Button},
+        clicker::{self, factory::ClickerFactory},
         icon::factory::IconFactory,
+        stepper::factory::StepperFactory,
     },
     map::Map,
     settings::SettingsModal,
@@ -24,13 +26,12 @@ pub mod map;
 pub mod settings;
 pub mod shop;
 
-pub trait UiComponent: Drawable {
+pub trait UiItem: Drawable {
     fn update_gui(&mut self, context: &Context);
     fn handle_input(&mut self, context: &Context);
 }
 
 pub struct Ui {
-    pub map: Map,
     audio_button: Button,
     camera_button: Button,
     settings_button: Button,
@@ -67,14 +68,16 @@ impl Ui {
     pub async fn new(world: Rc<RefCell<World>>) -> Self {
         let icon_factory = IconFactory::new().await;
         let button_factory = ButtonFactory::new().await;
+        let clicker_factory = ClickerFactory::new().await;
+        let stepper_factory = StepperFactory::new().await;
 
         Self {
-            map: Map::new(world),
             audio_button: button_factory.new_audio_button(&icon_factory),
             camera_button: button_factory.new_camera_button(&icon_factory),
             settings_button: button_factory.new_settings_button(&icon_factory),
             shop_button: button_factory.new_shop_button(&icon_factory),
-            settings_modal: SettingsModal::new(&icon_factory).await,
+            settings_modal: SettingsModal::new(&icon_factory, &clicker_factory, &stepper_factory)
+                .await,
         }
     }
 }

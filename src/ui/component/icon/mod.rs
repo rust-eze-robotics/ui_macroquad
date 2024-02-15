@@ -11,7 +11,7 @@ pub mod factory;
 pub enum IconState {
     Active,
     Disabled,
-    Pressed,
+    Down,
 }
 
 pub struct Icon {
@@ -27,7 +27,7 @@ impl Drawable for Icon {
         let texture = match self.state {
             IconState::Active => &self.texture_active,
             IconState::Disabled => &self.texture_disabled,
-            IconState::Pressed => &self.texture_down,
+            IconState::Down => &self.texture_down,
         };
 
         draw_texture(&texture, self.pos.x, self.pos.y, LIGHTGRAY);

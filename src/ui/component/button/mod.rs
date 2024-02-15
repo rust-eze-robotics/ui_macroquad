@@ -8,7 +8,7 @@ use crate::{
     },
     ui::{
         component::icon::{Icon, IconState},
-        UiComponent,
+        UiItem,
     },
 };
 
@@ -28,16 +28,16 @@ pub struct Button {
     pub pos: Vec2,
     pub anchor_pos: AnchorPosition,
     pub size: Vec2,
-    pub texture_on: Rc<Texture2D>,
-    pub texture_down: Rc<Texture2D>,
-    pub texture_disabled: Rc<Texture2D>,
-    pub texture_hovered: Rc<Texture2D>,
     pub icon: Icon,
     pub state: ButtonState,
     pub on: bool,
+    pub texture_active: Rc<Texture2D>,
+    pub texture_down: Rc<Texture2D>,
+    pub texture_disabled: Rc<Texture2D>,
+    pub texture_hovered: Rc<Texture2D>,
 }
 
-impl UiComponent for Button {
+impl UiItem for Button {
     fn update_gui(&mut self, context: &Context) {
         self.pos = get_current_anchor_position(self.anchor_pos);
         self.icon.pos = self.pos;
@@ -46,7 +46,7 @@ impl UiComponent for Button {
     fn handle_input(&mut self, context: &Context) {
         if is_down(&self.pos, &self.size) {
             self.state = ButtonState::Down;
-            self.icon.state = IconState::Pressed;
+            self.icon.state = IconState::Down;
         } else if is_released(&self.pos, &self.size) {
             self.on = !self.on;
 
@@ -76,7 +76,7 @@ impl UiComponent for Button {
 impl Drawable for Button {
     fn draw(&mut self, context: &Context) {
         let texture = match self.state {
-            ButtonState::Active => &self.texture_on,
+            ButtonState::Active => &self.texture_active,
             ButtonState::Down => &self.texture_down,
             ButtonState::Disabled => &self.texture_disabled,
             ButtonState::Hovered => &self.texture_hovered,

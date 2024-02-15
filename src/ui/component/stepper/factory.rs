@@ -1,7 +1,7 @@
 use macroquad::prelude::*;
 
 use crate::{
-    core::{SETTINGS_MODAL_SIZE, SETTINGS_STEPPER_SIZE},
+    core::SETTINGS_STEPPER_SIZE,
     ui::component::{clicker::factory::ClickerFactory, icon::factory::IconFactory},
 };
 

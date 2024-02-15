@@ -4,6 +4,7 @@ use macroquad::math::Vec2;
 use robotics_lib::event::events::Event;
 
 use crate::{
+    audio::Audio,
     robot::{Robot, RobotState},
     world::World,
 };
@@ -32,9 +33,16 @@ impl EventsHandler {
         self.events.is_empty()
     }
 
-    pub fn handle(&mut self, robot: Rc<RefCell<Robot>>, world: Rc<RefCell<World>>) {
+    pub fn handle(
+        &mut self,
+        robot: Rc<RefCell<Robot>>,
+        world: Rc<RefCell<World>>,
+        audio: Rc<RefCell<Audio>>,
+    ) {
         while !self.is_empty() {
             let event = self.pop().unwrap();
+
+            audio.borrow_mut().play_event(&event);
 
             match event {
                 Event::DayChanged(environmental_conditions) => {

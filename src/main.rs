@@ -4,6 +4,7 @@ use core::{
 use std::{cell::RefCell, rc::Rc};
 
 use ai_mcqueen::Ai;
+use audio::Audio;
 use macroquad::{miniquad::window::set_window_size, prelude::*};
 use robot::Robot;
 use wrapper::Wrapper;
@@ -13,6 +14,7 @@ use robotics_lib::{runner::Runner, world::world_generator::Generator};
 use ui::Ui;
 use world::World;
 
+pub mod audio;
 pub mod core;
 pub mod robot;
 pub mod ui;
@@ -47,12 +49,15 @@ async fn main() {
 
     let ui = Rc::new(RefCell::new(Ui::new(world.clone()).await));
 
+    let audio = Rc::new(RefCell::new(Audio::new()));
+
     let events_handler = Rc::new(RefCell::new(EventsHandler::default()));
 
     let wrapper = Wrapper::new(
         robot.clone(),
         world.clone(),
         ui.clone(),
+        audio.clone(),
         events_handler.clone(),
     );
 
@@ -80,7 +85,7 @@ async fn main() {
 
                 events_handler
                     .borrow_mut()
-                    .handle(robot.clone(), world.clone());
+                    .handle(robot.clone(), world.clone(), audio.clone());
             }
 
             context.update_camera(robot.borrow().get_target_pos(&context));

@@ -4,12 +4,13 @@ use robotics_lib::{event::events::Event, interface::robot_map, world::World as R
 
 use ui_lib::RunnableUi;
 
-use crate::{core::events::EventsHandler, robot::Robot, ui::Ui, world::World};
+use crate::{audio::Audio, core::events::EventsHandler, robot::Robot, ui::Ui, world::World};
 
 pub struct Wrapper {
     pub robot: Rc<RefCell<Robot>>,
     pub world: Rc<RefCell<World>>,
     pub ui: Rc<RefCell<Ui>>,
+    pub audio: Rc<RefCell<Audio>>,
     pub events_handler: Rc<RefCell<EventsHandler>>,
 }
 
@@ -18,12 +19,14 @@ impl Wrapper {
         robot: Rc<RefCell<Robot>>,
         world: Rc<RefCell<World>>,
         ui: Rc<RefCell<Ui>>,
+        audio: Rc<RefCell<Audio>>,
         events_handler: Rc<RefCell<EventsHandler>>,
     ) -> Self {
         Self {
             robot,
             world,
             ui,
+            audio,
             events_handler,
         }
     }

@@ -1,10 +1,10 @@
-use std::{collections::HashMap, rc::Rc};
+
 
 use macroquad::prelude::*;
 
 use crate::ui::component::icon::factory::IconFactory;
 
-use super::{AnchorPosition, Clicker};
+use super::{Clicker};
 
 pub struct ClickerFactory {}
 

@@ -5,8 +5,8 @@ use crate::core::{context::Context, Drawable, SETTINGS_MODAL_SIZE};
 use super::{
     component::{
         clicker::factory::ClickerFactory,
-        icon::{factory::IconFactory, Icon},
-        stepper::{self, factory::StepperFactory, Stepper},
+        icon::{factory::IconFactory},
+        stepper::{factory::StepperFactory, Stepper},
     },
     UiItem,
 };

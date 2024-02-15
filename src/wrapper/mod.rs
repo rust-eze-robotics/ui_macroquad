@@ -1,11 +1,9 @@
 use std::{cell::RefCell, rc::Rc};
 
 use robotics_lib::{
-    energy::Energy,
     event::events::Event,
-    interface::{robot_map, robot_view},
-    runner::{backpack::BackPack, Robot as RobRobot, Runnable},
-    world::{coordinates::Coordinate, World as RobWorld},
+    interface::{robot_map},
+    world::{World as RobWorld},
 };
 
 use ui_lib::RunnableUi;

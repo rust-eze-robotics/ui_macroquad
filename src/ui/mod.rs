@@ -1,10 +1,10 @@
 use std::{cell::RefCell, rc::Rc};
 
-use macroquad::math::Vec2;
+
 
 use crate::{
     core::{
-        context::{self, Context},
+        context::{Context},
         Drawable,
     },
     world::World,
@@ -13,11 +13,10 @@ use crate::{
 use self::{
     component::{
         button::{factory::ButtonFactory, Button},
-        clicker::{self, factory::ClickerFactory},
+        clicker::{factory::ClickerFactory},
         icon::factory::IconFactory,
         stepper::factory::StepperFactory,
     },
-    map::Map,
     settings::SettingsModal,
 };
 
@@ -65,7 +64,7 @@ impl Ui {
 }
 
 impl Ui {
-    pub async fn new(world: Rc<RefCell<World>>) -> Self {
+    pub async fn new(_world: Rc<RefCell<World>>) -> Self {
         let icon_factory = IconFactory::new().await;
         let button_factory = ButtonFactory::new().await;
         let clicker_factory = ClickerFactory::new().await;

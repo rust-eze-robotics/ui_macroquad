@@ -1,10 +1,9 @@
 use macroquad::prelude::*;
-use macroquad::texture::Texture2D;
+
 
 use crate::{
     core::{
-        context::Context, get_current_anchor_position, is_down, is_hovered, is_released,
-        AnchorPosition, Drawable,
+        context::Context, is_down, Drawable,
     },
     ui::{
         component::icon::{Icon, IconState},
@@ -21,11 +20,11 @@ pub struct Clicker {
 }
 
 impl UiItem for Clicker {
-    fn update_gui(&mut self, context: &Context) {
+    fn update_gui(&mut self, _context: &Context) {
         self.icon.pos = self.pos;
     }
 
-    fn handle_input(&mut self, context: &Context) {
+    fn handle_input(&mut self, _context: &Context) {
         if is_down(&self.pos, &self.size) {
             self.icon.state = IconState::Down;
         } else {

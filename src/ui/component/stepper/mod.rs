@@ -1,7 +1,7 @@
 use macroquad::prelude::*;
 
 use crate::{
-    core::{context::Context, get_current_anchor_position, is_released, AnchorPosition, Drawable},
+    core::{context::Context, is_released, Drawable},
     ui::UiItem,
 };
 

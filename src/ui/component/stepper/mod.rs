@@ -2,7 +2,7 @@ use macroquad::prelude::*;
 
 use crate::{
     core::{context::Context, get_current_anchor_position, is_released, AnchorPosition, Drawable},
-    ui::{settings::SETTINGS_MODAL_SIZE, UiItem},
+    ui::UiItem,
 };
 
 use super::clicker::Clicker;

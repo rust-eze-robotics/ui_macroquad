@@ -1,4 +1,6 @@
-use core::{context::Context, events::EventsHandler, Drawable, ZOOM_DEFAULT};
+use core::{
+    context::Context, events::EventsHandler, Drawable, TILE_SIZE, WORLD_SIZE, ZOOM_DEFAULT,
+};
 use std::{cell::RefCell, rc::Rc};
 
 use ai_mcqueen::Ai;
@@ -12,7 +14,7 @@ use robotics_lib::{
     world::world_generator::Generator,
 };
 use ui::Ui;
-use world::{World, TILE_SIZE, WORLD_SIZE};
+use world::World;
 
 pub mod core;
 pub mod robot;

@@ -5,8 +5,10 @@ use robotics_lib::event::events::Event;
 
 use crate::{
     robot::{Robot, RobotState},
-    world::{World, TILE_SIZE},
+    world::World,
 };
+
+use super::TILE_SIZE;
 
 #[derive(Debug, Default)]
 pub struct EventsHandler {

@@ -3,12 +3,9 @@ pub mod decoration;
 pub mod tile;
 pub mod tile_type;
 
-pub const WORLD_SIZE: usize = 256;
-pub const TILE_SIZE: Vec2 = Vec2::new(192.0, 192.0);
-
 use std::collections::HashSet;
 
-use crate::core::{context::Context, Drawable};
+use crate::core::{context::Context, Drawable, TILE_SIZE};
 
 use tile::Tile;
 

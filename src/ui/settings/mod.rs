@@ -1,6 +1,6 @@
 use macroquad::prelude::*;
 
-use crate::core::{context::Context, Drawable};
+use crate::core::{context::Context, Drawable, SETTINGS_MODAL_SIZE};
 
 use super::{
     component::{
@@ -10,8 +10,6 @@ use super::{
     },
     UiItem,
 };
-
-pub const SETTINGS_MODAL_SIZE: Vec2 = Vec2::new(400.0, 250.0);
 
 pub struct SettingsModal {
     pub pos: Vec2,

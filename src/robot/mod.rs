@@ -5,10 +5,7 @@ use macroquad::{
     prelude::*,
 };
 
-use crate::{
-    core::{context::Context, is_in_window, Drawable},
-    world::TILE_SIZE,
-};
+use crate::core::{context::Context, is_in_window, Drawable, TILE_SIZE};
 
 pub enum RobotState {
     Idle(Instant),

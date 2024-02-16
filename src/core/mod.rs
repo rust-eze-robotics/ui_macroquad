@@ -18,6 +18,8 @@ pub const TICK_DURATION_DEFAULT: Duration = Duration::from_millis(1000);
 pub const SETTINGS_MODAL_SIZE: Vec2 = Vec2::new(400.0, 250.0);
 pub const SETTINGS_STEPPER_SIZE: Vec2 = Vec2::new(300.0, 64.0);
 
+pub const BAR_SIZE: Vec2 = Vec2::new(20.0, 150.0);
+
 pub const WORLD_SIZE: usize = 256;
 pub const TILE_SIZE: Vec2 = Vec2::new(192.0, 192.0);
 

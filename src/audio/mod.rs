@@ -35,25 +35,25 @@ impl Audio {
                 WeatherType::Foggy => {
                     let _ = self.tool.play_audio(&OxAgSoundConfig::new_with_volume(
                         "assets/audio/weather/foggy.ogg",
-                        context.volume_amplitude,
+                        context.volume_amplitude * 0.9,
                     ));
                 }
                 WeatherType::Rainy => {
                     let _ = self.tool.play_audio(&OxAgSoundConfig::new_with_volume(
                         "assets/audio/weather/rainy.ogg",
-                        context.volume_amplitude,
+                        context.volume_amplitude * 0.5,
                     ));
                 }
                 WeatherType::Sunny => {
                     let _ = self.tool.play_audio(&OxAgSoundConfig::new_with_volume(
                         "assets/audio/weather/sunny.ogg",
-                        context.volume_amplitude,
+                        context.volume_amplitude * 1.1,
                     ));
                 }
                 WeatherType::TropicalMonsoon => {
                     let _ = self.tool.play_audio(&OxAgSoundConfig::new_with_volume(
                         "assets/audio/weather/tropical.ogg",
-                        context.volume_amplitude,
+                        context.volume_amplitude * 0.8,
                     ));
                 }
                 WeatherType::TrentinoSnow => {

@@ -6,6 +6,7 @@ use crate::{
 };
 
 use self::{
+    bar::Bar,
     component::{
         button::{factory::ButtonFactory, Button},
         clicker::factory::ClickerFactory,
@@ -16,6 +17,7 @@ use self::{
     settings::SettingsModal,
 };
 
+pub mod bar;
 pub mod component;
 pub mod cursor;
 pub mod settings;
@@ -28,6 +30,7 @@ pub trait UiItem: Drawable {
 
 pub struct Ui {
     cursor: Cursor,
+    energy_bar: Bar,
     audio_button: Button,
     camera_button: Button,
     settings_button: Button,
@@ -37,6 +40,7 @@ pub struct Ui {
 
 impl Ui {
     pub fn update_gui(&mut self, context: &Context) {
+        self.energy_bar.update_gui(context);
         self.audio_button.update_gui(context);
         self.camera_button.update_gui(context);
         self.settings_button.update_gui(context);
@@ -45,6 +49,7 @@ impl Ui {
     }
 
     pub fn handle_input(&mut self, context: &Context) {
+        self.energy_bar.handle_input(context);
         self.audio_button.handle_input(context);
         self.camera_button.handle_input(context);
         self.settings_button.handle_input(context);
@@ -71,6 +76,7 @@ impl Ui {
 
         Self {
             cursor: Cursor::new().await,
+            energy_bar: Bar::new(),
             audio_button: button_factory.new_audio_button(&icon_factory),
             camera_button: button_factory.new_camera_button(&icon_factory),
             settings_button: button_factory.new_settings_button(&icon_factory),
@@ -83,6 +89,7 @@ impl Ui {
 
 impl Drawable for Ui {
     fn draw(&mut self, context: &Context) {
+        // self.energy_bar.draw(context);
         self.audio_button.draw(context);
         self.camera_button.draw(context);
         self.settings_button.draw(context);

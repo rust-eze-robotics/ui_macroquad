@@ -88,7 +88,7 @@ async fn main() {
         loop {
             robot.borrow_mut().update_state(&context);
 
-            if robot.borrow().ready(&context) {
+            if robot.borrow().is_ready(&context) {
                 if events_handler.borrow().is_empty() {
                     runner.game_tick();
                 }

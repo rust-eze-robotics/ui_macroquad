@@ -1,7 +1,7 @@
 use std::{cell::RefCell, rc::Rc, time::Duration};
 
 use crate::{
-    core::{context::Context, Drawable, TICK_DURATION_MAX},
+    core::{context::Context, Drawable},
     world::World,
 };
 

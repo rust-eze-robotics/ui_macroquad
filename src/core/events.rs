@@ -6,13 +6,10 @@ use robotics_lib::event::events::Event;
 use crate::{
     audio::Audio,
     robot::{Robot, RobotState},
-    world::{content::Content, World},
+    world::World,
 };
 
-use super::{
-    context::{self, Context},
-    TILE_SIZE,
-};
+use super::{context::Context, TILE_SIZE};
 
 #[derive(Debug, Default)]
 pub struct EventsHandler {

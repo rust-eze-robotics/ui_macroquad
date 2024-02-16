@@ -4,7 +4,7 @@ use macroquad::prelude::*;
 
 use crate::core::{ZOOM_DEFAULT, ZOOM_MAX, ZOOM_MIN};
 
-use super::{TICK_DURATION_DEFAULT, TICK_DURATION_MAX};
+use super::TICK_DURATION_DEFAULT;
 
 pub struct Context {
     pub timestamp: Instant,

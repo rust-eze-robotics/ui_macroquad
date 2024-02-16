@@ -3,7 +3,6 @@ use core::{
 };
 use std::{cell::RefCell, rc::Rc};
 
-use ai_builder::BuilderAi;
 use audio::Audio;
 use macroquad::{miniquad::window::set_window_size, prelude::*};
 use robot::Robot;

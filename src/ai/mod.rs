@@ -1,4 +1,4 @@
-use std::{collections::VecDeque, f32::consts::E};
+use std::collections::VecDeque;
 
 use pmp_street_picasso::{ToolError, ToolStreetPicasso};
 use robotics_lib::{
@@ -12,7 +12,6 @@ use robotics_lib::{
 use sense_and_find_by_Rustafariani::Lssf;
 use spyglass::spyglass::{Spyglass, SpyglassResult};
 use ui_lib::RunnableUi;
-use OhCrab_collection::collection::{self, CollectTool};
 
 pub fn is_content_rock(content: &Content) -> bool {
     match content {
@@ -134,11 +133,11 @@ impl BuilderAi {
     fn do_collect(&mut self, world: &mut World) {
         let map = robot_map(world).unwrap();
 
-        let mut count = 0;
+        let count = 0;
 
         if let Some((row, col)) = self.rocks.pop_front() {
             if let Some(tile) = map[row][col].as_ref() {
-                let content = &tile.content;
+                let _content = &tile.content;
 
                 // if let Ok(c) =
                 //     CollectTool::collect_content(self, world, content, usize::MAX, self.robot.energy.get_energy_level())
@@ -175,7 +174,7 @@ impl BuilderAi {
         }
     }
 
-    fn do_terminate(&mut self, world: &World) {}
+    fn do_terminate(&mut self, _world: &World) {}
 }
 
 impl Runnable for BuilderAi {

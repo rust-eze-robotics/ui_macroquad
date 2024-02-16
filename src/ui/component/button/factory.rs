@@ -22,7 +22,7 @@ impl ButtonFactory {
         textures.insert(
             BUTTON_ACTIVE_ID,
             Rc::new(
-                load_texture("data/assets/ui/buttons/button_normal.png")
+                load_texture("assets/textures/ui/buttons/button_normal.png")
                     .await
                     .unwrap(),
             ),
@@ -31,7 +31,7 @@ impl ButtonFactory {
         textures.insert(
             BUTTON_DOWN_ID,
             Rc::new(
-                load_texture("data/assets/ui/buttons/button_down.png")
+                load_texture("assets/textures/ui/buttons/button_down.png")
                     .await
                     .unwrap(),
             ),
@@ -40,7 +40,7 @@ impl ButtonFactory {
         textures.insert(
             BUTTON_DISABLED_ID,
             Rc::new(
-                load_texture("data/assets/ui/buttons/button_disabled.png")
+                load_texture("assets/textures/ui/buttons/button_disabled.png")
                     .await
                     .unwrap(),
             ),
@@ -49,7 +49,7 @@ impl ButtonFactory {
         textures.insert(
             BUTTON_HOVERED_ID,
             Rc::new(
-                load_texture("data/assets/ui/buttons/button_hovered.png")
+                load_texture("assets/textures/ui/buttons/button_hovered.png")
                     .await
                     .unwrap(),
             ),

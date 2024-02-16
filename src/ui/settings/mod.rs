@@ -84,7 +84,7 @@ impl Drawable for SettingsModal {
                 self.pos.y,
                 SETTINGS_MODAL_SIZE.x,
                 SETTINGS_MODAL_SIZE.y,
-                BEIGE,
+                Color::from_rgba(190, 162, 136, 255),
             );
 
             draw_rectangle_lines(

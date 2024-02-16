@@ -9,7 +9,7 @@ pub struct Cursor {
 impl Cursor {
     pub async fn new() -> Self {
         Self {
-            texture: load_texture("data/assets/ui/pointers/cursor.png")
+            texture: load_texture("assets/textures/ui/pointers/cursor.png")
                 .await
                 .unwrap(),
         }

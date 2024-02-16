@@ -40,7 +40,7 @@ impl ContentFactory {
         textures.insert(
             BANK_ID,
             Rc::new(
-                load_texture("data/assets/contents/bank/bank_empty.png")
+                load_texture("assets/textures/contents/bank.png")
                     .await
                     .unwrap(),
             ),
@@ -49,7 +49,7 @@ impl ContentFactory {
         textures.insert(
             BIN_ID,
             Rc::new(
-                load_texture("data/assets/contents/bin/bin.png")
+                load_texture("assets/textures/contents/bin.png")
                     .await
                     .unwrap(),
             ),
@@ -58,7 +58,7 @@ impl ContentFactory {
         textures.insert(
             BUILDING_ID,
             Rc::new(
-                load_texture("data/assets/contents/building/building.png")
+                load_texture("assets/textures/contents/building.png")
                     .await
                     .unwrap(),
             ),
@@ -67,7 +67,7 @@ impl ContentFactory {
         textures.insert(
             BUSH_ID,
             Rc::new(
-                load_texture("data/assets/contents/bush/bush.png")
+                load_texture("assets/textures/contents/bush.png")
                     .await
                     .unwrap(),
             ),
@@ -76,7 +76,7 @@ impl ContentFactory {
         textures.insert(
             CHEST_ID,
             Rc::new(
-                load_texture("data/assets/contents/chest/chest.png")
+                load_texture("assets/textures/contents/chest.png")
                     .await
                     .unwrap(),
             ),
@@ -85,7 +85,7 @@ impl ContentFactory {
         textures.insert(
             COIN_ID,
             Rc::new(
-                load_texture("data/assets/contents/coin/coin.png")
+                load_texture("assets/textures/contents/coin.png")
                     .await
                     .unwrap(),
             ),
@@ -94,7 +94,7 @@ impl ContentFactory {
         textures.insert(
             FIRE_ID,
             Rc::new(
-                load_texture("data/assets/contents/fire/fire.png")
+                load_texture("assets/textures/contents/fire.png")
                     .await
                     .unwrap(),
             ),
@@ -103,7 +103,7 @@ impl ContentFactory {
         textures.insert(
             FISH_ID,
             Rc::new(
-                load_texture("data/assets/contents/fish/fish.png")
+                load_texture("assets/textures/contents/fish.png")
                     .await
                     .unwrap(),
             ),
@@ -112,7 +112,7 @@ impl ContentFactory {
         textures.insert(
             GARBAGE_ID,
             Rc::new(
-                load_texture("data/assets/contents/garbage/garbage.png")
+                load_texture("assets/textures/contents/garbage.png")
                     .await
                     .unwrap(),
             ),
@@ -121,7 +121,7 @@ impl ContentFactory {
         textures.insert(
             JOLLYBLOCK_ID,
             Rc::new(
-                load_texture("data/assets/contents/jollyblock/jollyblock.png")
+                load_texture("assets/textures/contents/jollyblock.png")
                     .await
                     .unwrap(),
             ),
@@ -130,7 +130,7 @@ impl ContentFactory {
         textures.insert(
             MARKET_ID,
             Rc::new(
-                load_texture("data/assets/contents/market/market.png")
+                load_texture("assets/textures/contents/market.png")
                     .await
                     .unwrap(),
             ),
@@ -141,7 +141,7 @@ impl ContentFactory {
         textures.insert(
             ROCK_ID,
             Rc::new(
-                load_texture("data/assets/contents/rock/rock.png")
+                load_texture("assets/textures/contents/rock.png")
                     .await
                     .unwrap(),
             ),
@@ -150,7 +150,7 @@ impl ContentFactory {
         textures.insert(
             SCARECROW_ID,
             Rc::new(
-                load_texture("data/assets/contents/scarecrow/scarecrow.png")
+                load_texture("assets/textures/contents/scarecrow.png")
                     .await
                     .unwrap(),
             ),
@@ -159,7 +159,7 @@ impl ContentFactory {
         textures.insert(
             TREE_ID,
             Rc::new(
-                load_texture("data/assets/contents/tree/tree.png")
+                load_texture("assets/textures/contents/tree.png")
                     .await
                     .unwrap(),
             ),
@@ -168,7 +168,7 @@ impl ContentFactory {
         textures.insert(
             WATER_ID,
             Rc::new(
-                load_texture("data/assets/contents/water/water.png")
+                load_texture("assets/textures/contents/water.png")
                     .await
                     .unwrap(),
             ),

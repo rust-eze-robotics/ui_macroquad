@@ -26,35 +26,39 @@ impl Audio {
     }
 
     pub fn play_weather_music(&mut self, context: &Context, weather_type: &WeatherType) {
+        if !context.audio_on {
+            return;
+        }
+
         if self.weather_update.elapsed() >= Duration::from_millis(9000) {
             match weather_type {
                 WeatherType::Foggy => {
                     let _ = self.tool.play_audio(&OxAgSoundConfig::new_with_volume(
-                        "data/audio/weather/foggy.ogg",
+                        "assets/audio/weather/foggy.ogg",
                         context.volume_amplitude,
                     ));
                 }
                 WeatherType::Rainy => {
                     let _ = self.tool.play_audio(&OxAgSoundConfig::new_with_volume(
-                        "data/audio/weather/rainy.ogg",
+                        "assets/audio/weather/rainy.ogg",
                         context.volume_amplitude,
                     ));
                 }
                 WeatherType::Sunny => {
                     let _ = self.tool.play_audio(&OxAgSoundConfig::new_with_volume(
-                        "data/audio/weather/sunny.ogg",
+                        "assets/audio/weather/sunny.ogg",
                         context.volume_amplitude,
                     ));
                 }
                 WeatherType::TropicalMonsoon => {
                     let _ = self.tool.play_audio(&OxAgSoundConfig::new_with_volume(
-                        "data/audio/weather/tropical.ogg",
+                        "assets/audio/weather/tropical.ogg",
                         context.volume_amplitude,
                     ));
                 }
                 WeatherType::TrentinoSnow => {
                     let _ = self.tool.play_audio(&OxAgSoundConfig::new_with_volume(
-                        "data/audio/weather/snowy.ogg",
+                        "assets/audio/weather/snowy.ogg",
                         context.volume_amplitude,
                     ));
                 }
@@ -82,43 +86,43 @@ impl Audio {
             TICK_DURATION_MIN => match tile_type {
                 TileType::Grass => {
                     let _ = self.tool.play_audio(&OxAgSoundConfig::new_with_volume(
-                        "data/audio/tile/500/grass.ogg",
+                        "assets/audio/tile/500/grass.ogg",
                         context.volume_amplitude,
                     ));
                 }
                 TileType::Hill => {
                     let _ = self.tool.play_audio(&OxAgSoundConfig::new_with_volume(
-                        "data/audio/tile/500/hill.ogg",
+                        "assets/audio/tile/500/hill.ogg",
                         context.volume_amplitude,
                     ));
                 }
                 TileType::Mountain => {
                     let _ = self.tool.play_audio(&OxAgSoundConfig::new_with_volume(
-                        "data/audio/tile/500/mountain.ogg",
+                        "assets/audio/tile/500/mountain.ogg",
                         context.volume_amplitude,
                     ));
                 }
                 TileType::Sand => {
                     let _ = self.tool.play_audio(&OxAgSoundConfig::new_with_volume(
-                        "data/audio/tile/500/sand.ogg",
+                        "assets/audio/tile/500/sand.ogg",
                         context.volume_amplitude,
                     ));
                 }
                 TileType::Snow => {
                     let _ = self.tool.play_audio(&OxAgSoundConfig::new_with_volume(
-                        "data/audio/tile/500/snow.ogg",
+                        "assets/audio/tile/500/snow.ogg",
                         context.volume_amplitude,
                     ));
                 }
                 TileType::Street => {
                     let _ = self.tool.play_audio(&OxAgSoundConfig::new_with_volume(
-                        "data/audio/tile/500/street.ogg",
+                        "assets/audio/tile/500/street.ogg",
                         context.volume_amplitude,
                     ));
                 }
                 TileType::ShallowWater => {
                     let _ = self.tool.play_audio(&OxAgSoundConfig::new_with_volume(
-                        "data/audio/tile/500/water.ogg",
+                        "assets/audio/tile/500/water.ogg",
                         context.volume_amplitude,
                     ));
                 }
@@ -127,43 +131,43 @@ impl Audio {
             TICK_DURATION_DEFAULT => match tile_type {
                 TileType::Grass => {
                     let _ = self.tool.play_audio(&OxAgSoundConfig::new_with_volume(
-                        "data/audio/tile/1000/grass.ogg",
+                        "assets/audio/tile/1000/grass.ogg",
                         context.volume_amplitude,
                     ));
                 }
                 TileType::Hill => {
                     let _ = self.tool.play_audio(&OxAgSoundConfig::new_with_volume(
-                        "data/audio/tile/1000/hill.ogg",
+                        "assets/audio/tile/1000/hill.ogg",
                         context.volume_amplitude,
                     ));
                 }
                 TileType::Mountain => {
                     let _ = self.tool.play_audio(&OxAgSoundConfig::new_with_volume(
-                        "data/audio/tile/1000/mountain.ogg",
+                        "assets/audio/tile/1000/mountain.ogg",
                         context.volume_amplitude,
                     ));
                 }
                 TileType::Sand => {
                     let _ = self.tool.play_audio(&OxAgSoundConfig::new_with_volume(
-                        "data/audio/tile/1000/sand.ogg",
+                        "assets/audio/tile/1000/sand.ogg",
                         context.volume_amplitude,
                     ));
                 }
                 TileType::Snow => {
                     let _ = self.tool.play_audio(&OxAgSoundConfig::new_with_volume(
-                        "data/audio/tile/1000/snow.ogg",
+                        "assets/audio/tile/1000/snow.ogg",
                         context.volume_amplitude,
                     ));
                 }
                 TileType::Street => {
                     let _ = self.tool.play_audio(&OxAgSoundConfig::new_with_volume(
-                        "data/audio/tile/1000/street.ogg",
+                        "assets/audio/tile/1000/street.ogg",
                         context.volume_amplitude,
                     ));
                 }
                 TileType::ShallowWater => {
                     let _ = self.tool.play_audio(&OxAgSoundConfig::new_with_volume(
-                        "data/audio/tile/1000/water.ogg",
+                        "assets/audio/tile/1000/water.ogg",
                         context.volume_amplitude,
                     ));
                 }
@@ -172,43 +176,43 @@ impl Audio {
             _ => match tile_type {
                 TileType::Grass => {
                     let _ = self.tool.play_audio(&OxAgSoundConfig::new_with_volume(
-                        "data/audio/tile/1500/grass.ogg",
+                        "assets/audio/tile/1500/grass.ogg",
                         context.volume_amplitude,
                     ));
                 }
                 TileType::Hill => {
                     let _ = self.tool.play_audio(&OxAgSoundConfig::new_with_volume(
-                        "data/audio/tile/1500/hill.ogg",
+                        "assets/audio/tile/1500/hill.ogg",
                         context.volume_amplitude,
                     ));
                 }
                 TileType::Mountain => {
                     let _ = self.tool.play_audio(&OxAgSoundConfig::new_with_volume(
-                        "data/audio/tile/1500/mountain.ogg",
+                        "assets/audio/tile/1500/mountain.ogg",
                         context.volume_amplitude,
                     ));
                 }
                 TileType::Sand => {
                     let _ = self.tool.play_audio(&OxAgSoundConfig::new_with_volume(
-                        "data/audio/tile/1500/sand.ogg",
+                        "assets/audio/tile/1500/sand.ogg",
                         context.volume_amplitude,
                     ));
                 }
                 TileType::Snow => {
                     let _ = self.tool.play_audio(&OxAgSoundConfig::new_with_volume(
-                        "data/audio/tile/1500/snow.ogg",
+                        "assets/audio/tile/1500/snow.ogg",
                         context.volume_amplitude,
                     ));
                 }
                 TileType::Street => {
                     let _ = self.tool.play_audio(&OxAgSoundConfig::new_with_volume(
-                        "data/audio/tile/1500/street.ogg",
+                        "assets/audio/tile/1500/street.ogg",
                         context.volume_amplitude,
                     ));
                 }
                 TileType::ShallowWater => {
                     let _ = self.tool.play_audio(&OxAgSoundConfig::new_with_volume(
-                        "data/audio/tile/1500/water.ogg",
+                        "assets/audio/tile/1500/water.ogg",
                         context.volume_amplitude,
                     ));
                 }

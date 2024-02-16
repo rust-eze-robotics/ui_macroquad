@@ -32,7 +32,7 @@ impl TileTypeFactory {
         textures.insert(
             DEEP_WATER_ID,
             Rc::new(
-                load_texture("data/assets/tiletypes/deep_water/deep_water.png")
+                load_texture("assets/textures/tiletypes/deep_water.png")
                     .await
                     .unwrap(),
             ),
@@ -41,7 +41,7 @@ impl TileTypeFactory {
         textures.insert(
             GRASS_ID,
             Rc::new(
-                load_texture("data/assets/tiletypes/grass/grass.png")
+                load_texture("assets/textures/tiletypes/grass.png")
                     .await
                     .unwrap(),
             ),
@@ -50,7 +50,7 @@ impl TileTypeFactory {
         textures.insert(
             HILL_ID,
             Rc::new(
-                load_texture("data/assets/tiletypes/hill/hill.png")
+                load_texture("assets/textures/tiletypes/hill.png")
                     .await
                     .unwrap(),
             ),
@@ -59,7 +59,7 @@ impl TileTypeFactory {
         textures.insert(
             LAVA_ID,
             Rc::new(
-                load_texture("data/assets/tiletypes/lava/lava.png")
+                load_texture("assets/textures/tiletypes/lava.png")
                     .await
                     .unwrap(),
             ),
@@ -68,7 +68,7 @@ impl TileTypeFactory {
         textures.insert(
             MOUNTAIN_ID,
             Rc::new(
-                load_texture("data/assets/tiletypes/mountain/mountain.png")
+                load_texture("assets/textures/tiletypes/mountain.png")
                     .await
                     .unwrap(),
             ),
@@ -77,7 +77,7 @@ impl TileTypeFactory {
         textures.insert(
             SAND_ID,
             Rc::new(
-                load_texture("data/assets/tiletypes/sand/sand.png")
+                load_texture("assets/textures/tiletypes/sand.png")
                     .await
                     .unwrap(),
             ),
@@ -86,7 +86,7 @@ impl TileTypeFactory {
         textures.insert(
             SHALLOW_WATER_ID,
             Rc::new(
-                load_texture("data/assets/tiletypes/shallow_water/shallow_water.png")
+                load_texture("assets/textures/tiletypes/shallow_water.png")
                     .await
                     .unwrap(),
             ),
@@ -95,7 +95,7 @@ impl TileTypeFactory {
         textures.insert(
             SNOW_ID,
             Rc::new(
-                load_texture("data/assets/tiletypes/snow/snow.png")
+                load_texture("assets/textures/tiletypes/snow.png")
                     .await
                     .unwrap(),
             ),
@@ -104,7 +104,7 @@ impl TileTypeFactory {
         textures.insert(
             STREET_ID,
             Rc::new(
-                load_texture("data/assets/tiletypes/street/street.png")
+                load_texture("assets/textures/tiletypes/street.png")
                     .await
                     .unwrap(),
             ),
@@ -113,7 +113,7 @@ impl TileTypeFactory {
         textures.insert(
             TELEPORT_ID,
             Rc::new(
-                load_texture("data/assets/tiletypes/grass/grass.png")
+                load_texture("assets/textures/tiletypes/grass.png")
                     .await
                     .unwrap(),
             ),
@@ -122,7 +122,7 @@ impl TileTypeFactory {
         textures.insert(
             WALL_ID,
             Rc::new(
-                load_texture("data/assets/tiletypes/wall/wall.png")
+                load_texture("assets/textures/tiletypes/wall.png")
                     .await
                     .unwrap(),
             ),

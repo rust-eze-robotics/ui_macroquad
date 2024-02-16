@@ -40,7 +40,7 @@ impl IconFactory {
         textures.insert(
             AUDIO_ACTIVE_ID,
             Rc::new(
-                load_texture("data/assets/ui/icons/audio/audio_active.png")
+                load_texture("assets/textures/ui/icons/audio/audio_active.png")
                     .await
                     .unwrap(),
             ),
@@ -49,7 +49,7 @@ impl IconFactory {
         textures.insert(
             AUDIO_DISABLED_ID,
             Rc::new(
-                load_texture("data/assets/ui/icons/audio/audio_disabled.png")
+                load_texture("assets/textures/ui/icons/audio/audio_disabled.png")
                     .await
                     .unwrap(),
             ),
@@ -58,7 +58,7 @@ impl IconFactory {
         textures.insert(
             AUDIO_DOWN_ID,
             Rc::new(
-                load_texture("data/assets/ui/icons/audio/audio_down.png")
+                load_texture("assets/textures/ui/icons/audio/audio_down.png")
                     .await
                     .unwrap(),
             ),
@@ -67,7 +67,7 @@ impl IconFactory {
         textures.insert(
             CAMERA_ACTIVE_ID,
             Rc::new(
-                load_texture("data/assets/ui/icons/camera/camera_active.png")
+                load_texture("assets/textures/ui/icons/camera/camera_active.png")
                     .await
                     .unwrap(),
             ),
@@ -76,7 +76,7 @@ impl IconFactory {
         textures.insert(
             CAMERA_DISABLED_ID,
             Rc::new(
-                load_texture("data/assets/ui/icons/camera/camera_disabled.png")
+                load_texture("assets/textures/ui/icons/camera/camera_disabled.png")
                     .await
                     .unwrap(),
             ),
@@ -85,7 +85,7 @@ impl IconFactory {
         textures.insert(
             CAMERA_DOWN_ID,
             Rc::new(
-                load_texture("data/assets/ui/icons/camera/camera_down.png")
+                load_texture("assets/textures/ui/icons/camera/camera_down.png")
                     .await
                     .unwrap(),
             ),
@@ -94,7 +94,7 @@ impl IconFactory {
         textures.insert(
             CLOSE_ACTIVE_ID,
             Rc::new(
-                load_texture("data/assets/ui/icons/close/close_active.png")
+                load_texture("assets/textures/ui/icons/close/close_active.png")
                     .await
                     .unwrap(),
             ),
@@ -103,7 +103,7 @@ impl IconFactory {
         textures.insert(
             CLOSE_DISABLED_ID,
             Rc::new(
-                load_texture("data/assets/ui/icons/close/close_disabled.png")
+                load_texture("assets/textures/ui/icons/close/close_disabled.png")
                     .await
                     .unwrap(),
             ),
@@ -112,7 +112,7 @@ impl IconFactory {
         textures.insert(
             CLOSE_DOWN_ID,
             Rc::new(
-                load_texture("data/assets/ui/icons/close/close_down.png")
+                load_texture("assets/textures/ui/icons/close/close_down.png")
                     .await
                     .unwrap(),
             ),
@@ -121,7 +121,7 @@ impl IconFactory {
         textures.insert(
             MINUS_ACTIVE_ID,
             Rc::new(
-                load_texture("data/assets/ui/icons/minus/minus_active.png")
+                load_texture("assets/textures/ui/icons/minus/minus_active.png")
                     .await
                     .unwrap(),
             ),
@@ -130,7 +130,7 @@ impl IconFactory {
         textures.insert(
             MINUS_DISABLED_ID,
             Rc::new(
-                load_texture("data/assets/ui/icons/minus/minus_disabled.png")
+                load_texture("assets/textures/ui/icons/minus/minus_disabled.png")
                     .await
                     .unwrap(),
             ),
@@ -139,7 +139,7 @@ impl IconFactory {
         textures.insert(
             MINUS_DOWN_ID,
             Rc::new(
-                load_texture("data/assets/ui/icons/minus/minus_down.png")
+                load_texture("assets/textures/ui/icons/minus/minus_down.png")
                     .await
                     .unwrap(),
             ),
@@ -148,7 +148,7 @@ impl IconFactory {
         textures.insert(
             PLUS_ACTIVE_ID,
             Rc::new(
-                load_texture("data/assets/ui/icons/plus/plus_active.png")
+                load_texture("assets/textures/ui/icons/plus/plus_active.png")
                     .await
                     .unwrap(),
             ),
@@ -157,7 +157,7 @@ impl IconFactory {
         textures.insert(
             PLUS_DISABLED_ID,
             Rc::new(
-                load_texture("data/assets/ui/icons/plus/plus_disabled.png")
+                load_texture("assets/textures/ui/icons/plus/plus_disabled.png")
                     .await
                     .unwrap(),
             ),
@@ -166,7 +166,7 @@ impl IconFactory {
         textures.insert(
             PLUS_DOWN_ID,
             Rc::new(
-                load_texture("data/assets/ui/icons/plus/plus_down.png")
+                load_texture("assets/textures/ui/icons/plus/plus_down.png")
                     .await
                     .unwrap(),
             ),
@@ -175,7 +175,7 @@ impl IconFactory {
         textures.insert(
             SETTINGS_ACTIVE_ID,
             Rc::new(
-                load_texture("data/assets/ui/icons/settings/settings_active.png")
+                load_texture("assets/textures/ui/icons/settings/settings_active.png")
                     .await
                     .unwrap(),
             ),
@@ -184,7 +184,7 @@ impl IconFactory {
         textures.insert(
             SETTINGS_DISABLED_ID,
             Rc::new(
-                load_texture("data/assets/ui/icons/settings/settings_disabled.png")
+                load_texture("assets/textures/ui/icons/settings/settings_disabled.png")
                     .await
                     .unwrap(),
             ),
@@ -193,7 +193,7 @@ impl IconFactory {
         textures.insert(
             SETTINGS_DOWN_ID,
             Rc::new(
-                load_texture("data/assets/ui/icons/settings/settings_down.png")
+                load_texture("assets/textures/ui/icons/settings/settings_down.png")
                     .await
                     .unwrap(),
             ),
@@ -202,7 +202,7 @@ impl IconFactory {
         textures.insert(
             SHOP_ACTIVE_ID,
             Rc::new(
-                load_texture("data/assets/ui/icons/shop/shop_active.png")
+                load_texture("assets/textures/ui/icons/shop/shop_active.png")
                     .await
                     .unwrap(),
             ),
@@ -211,7 +211,7 @@ impl IconFactory {
         textures.insert(
             SHOP_DISABLED_ID,
             Rc::new(
-                load_texture("data/assets/ui/icons/shop/shop_disabled.png")
+                load_texture("assets/textures/ui/icons/shop/shop_disabled.png")
                     .await
                     .unwrap(),
             ),
@@ -220,7 +220,7 @@ impl IconFactory {
         textures.insert(
             SHOP_DOWN_ID,
             Rc::new(
-                load_texture("data/assets/ui/icons/shop/shop_down.png")
+                load_texture("assets/textures/ui/icons/shop/shop_down.png")
                     .await
                     .unwrap(),
             ),

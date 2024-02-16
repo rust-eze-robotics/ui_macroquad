@@ -111,7 +111,9 @@ impl Robot {
         Self {
             pos: Vec2::new(col as f32 * TILE_SIZE.x, row as f32 * TILE_SIZE.y),
             offset: Vec2::new(0.0, 0.0),
-            texture: load_texture("data/assets/robot/warrior.png").await.unwrap(),
+            texture: load_texture("assets/textures/robot/warrior.png")
+                .await
+                .unwrap(),
             sprite: AnimatedSprite::new(
                 192,
                 192,

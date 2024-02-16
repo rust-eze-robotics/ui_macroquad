@@ -14,7 +14,7 @@ use super::{
 pub struct SettingsModal {
     pub pos: Vec2,
     volume_stepper: Stepper,
-    speed_stepper: Stepper,
+    tick_stepper: Stepper,
 }
 
 impl SettingsModal {
@@ -35,7 +35,7 @@ impl SettingsModal {
                 clicker_factory,
                 pos + Vec2::new(20.0, 20.0),
             ),
-            speed_stepper: stepper_factory.new_speed_stepper(
+            tick_stepper: stepper_factory.new_tick_stepper(
                 icon_factory,
                 clicker_factory,
                 pos + Vec2::new(20.0, 50.0),
@@ -48,7 +48,7 @@ impl SettingsModal {
     }
 
     pub fn get_speed(&self) -> f32 {
-        self.speed_stepper.value
+        self.tick_stepper.value
     }
 }
 
@@ -62,17 +62,17 @@ impl UiItem for SettingsModal {
         self.volume_stepper.pos.x =
             self.pos.x + (SETTINGS_MODAL_SIZE.x - self.volume_stepper.size.x) / 2.0;
         self.volume_stepper.pos.y = self.pos.y + (SETTINGS_MODAL_SIZE.y * 0.25);
-        self.speed_stepper.pos.x =
-            self.pos.x + (SETTINGS_MODAL_SIZE.x - self.speed_stepper.size.x) / 2.0;
-        self.speed_stepper.pos.y = self.pos.y + (SETTINGS_MODAL_SIZE.y * 0.55);
+        self.tick_stepper.pos.x =
+            self.pos.x + (SETTINGS_MODAL_SIZE.x - self.tick_stepper.size.x) / 2.0;
+        self.tick_stepper.pos.y = self.pos.y + (SETTINGS_MODAL_SIZE.y * 0.55);
 
         self.volume_stepper.update_gui(context);
-        self.speed_stepper.update_gui(context);
+        self.tick_stepper.update_gui(context);
     }
 
     fn handle_input(&mut self, context: &Context) {
         self.volume_stepper.handle_input(context);
-        self.speed_stepper.handle_input(context);
+        self.tick_stepper.handle_input(context);
     }
 }
 
@@ -97,7 +97,7 @@ impl Drawable for SettingsModal {
             );
 
             self.volume_stepper.draw(context);
-            self.speed_stepper.draw(context);
+            self.tick_stepper.draw(context);
         }
     }
 }

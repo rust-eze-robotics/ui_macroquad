@@ -4,12 +4,12 @@ use macroquad::prelude::*;
 
 use crate::core::{ZOOM_DEFAULT, ZOOM_MAX, ZOOM_MIN};
 
-use super::CLOCK_DURATION_MAX;
+use super::{TICK_DURATION_DEFAULT, TICK_DURATION_MAX};
 
 pub struct Context {
     pub timestamp: Instant,
-    pub clock_duration: Duration,
-    pub volume_percentage: f32,
+    pub tick_duration: Duration,
+    pub volume_amplitude: f64,
     pub camera: Camera2D,
     pub audio_on: bool,
     pub camera_locked: bool,
@@ -21,8 +21,8 @@ impl Context {
     pub fn new(camera: Camera2D) -> Self {
         Self {
             timestamp: Instant::now(),
-            clock_duration: (CLOCK_DURATION_MAX / 100) * 60,
-            volume_percentage: 50.0,
+            tick_duration: TICK_DURATION_DEFAULT,
+            volume_amplitude: 1.0,
             camera,
             audio_on: true,
             camera_locked: true,

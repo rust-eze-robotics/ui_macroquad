@@ -33,7 +33,7 @@ impl StepperFactory {
         }
     }
 
-    pub fn new_speed_stepper(
+    pub fn new_tick_stepper(
         &self,
         icon_factory: &IconFactory,
         clicker_factory: &ClickerFactory,
@@ -42,11 +42,11 @@ impl StepperFactory {
         Stepper {
             pos,
             size: SETTINGS_STEPPER_SIZE,
-            title: String::from("Speed"),
-            value: 50.0,
-            min_value: 10.0,
-            max_value: 100.0,
-            increment: 10.0,
+            title: String::from("Tick"),
+            value: 1000.0,
+            min_value: 500.0,
+            max_value: 1500.0,
+            increment: 500.0,
             minus_clicker: clicker_factory.new_minus_clicker(icon_factory),
             plus_clicker: clicker_factory.new_plus_clicker(icon_factory),
         }

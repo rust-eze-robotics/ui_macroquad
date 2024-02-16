@@ -3,7 +3,7 @@ use core::{
 };
 use std::{cell::RefCell, rc::Rc};
 
-use ai_mcqueen::Ai;
+use ai_builder::BuilderAi;
 use audio::Audio;
 use macroquad::{miniquad::window::set_window_size, prelude::*};
 use robot::Robot;
@@ -14,6 +14,7 @@ use robotics_lib::{runner::Runner, world::world_generator::Generator};
 use ui::Ui;
 use world::World;
 
+pub mod ai;
 pub mod audio;
 pub mod core;
 pub mod robot;
@@ -28,8 +29,11 @@ async fn main() {
     // Define the WorldGenerator parameters using the dedicated struct
     let params = midgard::world_generator::WorldGeneratorParameters {
         world_size: WORLD_SIZE,
+        time_progression_minutes: 60,
         contents_radii: ContentsRadii {
-            jolly_blocks: 5,
+            rocks_in_plains: 2,
+            rocks_in_hill: 2,
+            rocks_in_mountain: 2,
             ..Default::default()
         },
         ..Default::default() // the rest of the parameters keep their default value
@@ -61,7 +65,7 @@ async fn main() {
         events_handler.clone(),
     );
 
-    let ai = Ai::new(Box::new(wrapper));
+    let ai = crate::ai::BuilderAi::new(Box::new(wrapper), WORLD_SIZE);
 
     let run = Runner::new(Box::new(ai), &mut world_generator);
 
@@ -83,9 +87,12 @@ async fn main() {
                     runner.game_tick();
                 }
 
-                events_handler
-                    .borrow_mut()
-                    .handle(robot.clone(), world.clone(), audio.clone());
+                events_handler.borrow_mut().handle(
+                    &context,
+                    robot.clone(),
+                    world.clone(),
+                    audio.clone(),
+                );
             }
 
             context.update_camera(robot.borrow().get_target_pos(&context));
@@ -104,6 +111,14 @@ async fn main() {
             set_default_camera();
 
             ui.borrow_mut().draw(&context);
+
+            audio.borrow_mut().play_weather_music(
+                &context,
+                &world
+                    .borrow()
+                    .environmental_conditions
+                    .get_weather_condition(),
+            );
 
             next_frame().await
         }

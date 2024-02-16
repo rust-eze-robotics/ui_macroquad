@@ -6,10 +6,13 @@ use robotics_lib::event::events::Event;
 use crate::{
     audio::Audio,
     robot::{Robot, RobotState},
-    world::World,
+    world::{content::Content, World},
 };
 
-use super::TILE_SIZE;
+use super::{
+    context::{self, Context},
+    TILE_SIZE,
+};
 
 #[derive(Debug, Default)]
 pub struct EventsHandler {
@@ -35,6 +38,7 @@ impl EventsHandler {
 
     pub fn handle(
         &mut self,
+        context: &Context,
         robot: Rc<RefCell<Robot>>,
         world: Rc<RefCell<World>>,
         audio: Rc<RefCell<Audio>>,
@@ -42,7 +46,7 @@ impl EventsHandler {
         while !self.is_empty() {
             let event = self.pop().unwrap();
 
-            audio.borrow_mut().play_event(&event);
+            audio.borrow_mut().play_event_sound(context, &event);
 
             match event {
                 Event::DayChanged(environmental_conditions) => {

@@ -1,20 +1,18 @@
 use crate::core::{context::Context, Drawable};
 
-use super::{content::Content, decoration::fog::Fog, tile_type::TileType};
+use super::{content::Content, tile_type::TileType};
 
 pub struct Tile {
     pub tiletype: Box<dyn TileType>,
     pub content: Box<dyn Content>,
-    pub fog: Fog,
     pub visible: bool,
 }
 
 impl Tile {
-    pub fn new(tiletype: Box<dyn TileType>, content: Box<dyn Content>, fog: Fog) -> Self {
+    pub fn new(tiletype: Box<dyn TileType>, content: Box<dyn Content>) -> Self {
         Self {
             tiletype,
             content,
-            fog,
             visible: false,
         }
     }

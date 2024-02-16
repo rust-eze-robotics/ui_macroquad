@@ -1,8 +1,3 @@
-pub mod content;
-pub mod decoration;
-pub mod tile;
-pub mod tile_type;
-
 use std::collections::HashSet;
 
 use crate::core::{context::Context, Drawable, TILE_SIZE};
@@ -14,10 +9,11 @@ use robotics_lib::world::{
     environmental_conditions::EnvironmentalConditions, tile::Tile as RobTile,
 };
 
-use self::{
-    content::factory::ContentFactory, decoration::DecorationFactory,
-    tile_type::factory::TileTypeFactory,
-};
+use self::{content::factory::ContentFactory, tile_type::factory::TileTypeFactory};
+
+pub mod content;
+pub mod tile;
+pub mod tile_type;
 
 pub struct World {
     pub tiles: Vec<Vec<Tile>>,
@@ -26,7 +22,6 @@ pub struct World {
     size: usize,
     tiletype_factory: TileTypeFactory,
     content_factory: ContentFactory,
-    decoration_factory: DecorationFactory,
 }
 
 impl World {
@@ -41,7 +36,6 @@ impl World {
             size: map.len(),
             tiletype_factory: TileTypeFactory::new().await,
             content_factory: ContentFactory::new().await,
-            decoration_factory: DecorationFactory::new().await,
         };
 
         ret.setup(map).await;
@@ -65,11 +59,7 @@ impl World {
 
                 let content = self.content_factory.from_rob_content(pos, &tile.content);
 
-                self.tiles[row].push(Tile::new(
-                    tiletype,
-                    content,
-                    self.decoration_factory.new_fog(pos),
-                ));
+                self.tiles[row].push(Tile::new(tiletype, content));
             }
         }
     }

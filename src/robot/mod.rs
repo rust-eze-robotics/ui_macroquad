@@ -46,11 +46,11 @@ impl Drawable for Robot {
                         self.pos.x
                             + self.offset.x
                             + (pos.x - self.pos.x) * instant.elapsed().as_millis() as f32
-                                / context.clock_duration.as_millis() as f32,
+                                / context.tick_duration.as_millis() as f32,
                         self.pos.y
                             + self.offset.y
                             + (pos.y - self.pos.y) * instant.elapsed().as_millis() as f32
-                                / context.clock_duration.as_millis() as f32,
+                                / context.tick_duration.as_millis() as f32,
                         LIGHTGRAY,
                         DrawTextureParams {
                             source: Some(self.sprite.frame().source_rect),
@@ -60,7 +60,7 @@ impl Drawable for Robot {
                     );
                 }
                 RobotState::Teleporting(instant, pos) => {
-                    if instant.elapsed() < context.clock_duration / 2 {
+                    if instant.elapsed() < context.tick_duration / 2 {
                         draw_texture_ex(
                             &self.texture,
                             self.pos.x + self.offset.x,
@@ -138,7 +138,7 @@ impl Robot {
 
     pub fn ready(&self, context: &Context) -> bool {
         match self.state {
-            RobotState::Idle(instant) => instant.elapsed() > context.clock_duration,
+            RobotState::Idle(instant) => instant.elapsed() > context.tick_duration,
             _ => false,
         }
     }
@@ -147,19 +147,19 @@ impl Robot {
         match self.state {
             RobotState::Idle(_) => {}
             RobotState::Walking(instant, pos) => {
-                if instant.elapsed() > context.clock_duration {
+                if instant.elapsed() > context.tick_duration {
                     self.pos = pos;
                     self.state = RobotState::Idle(Instant::now());
                 }
             }
             RobotState::Teleporting(instant, pos) => {
-                if instant.elapsed() > context.clock_duration {
+                if instant.elapsed() > context.tick_duration {
                     self.pos = pos;
                     self.state = RobotState::Idle(Instant::now());
                 }
             }
             RobotState::Interacting(instant, _) => {
-                if instant.elapsed() > context.clock_duration {
+                if instant.elapsed() > context.tick_duration {
                     self.state = RobotState::Idle(Instant::now());
                 }
             }
@@ -175,14 +175,14 @@ impl Robot {
                 self.pos.x
                     + self.offset.x
                     + (pos.x - self.pos.x) * instant.elapsed().as_millis() as f32
-                        / context.clock_duration.as_millis() as f32,
+                        / context.tick_duration.as_millis() as f32,
                 self.pos.y
                     + self.offset.y
                     + (pos.y - self.pos.y) * instant.elapsed().as_millis() as f32
-                        / context.clock_duration.as_millis() as f32,
+                        / context.tick_duration.as_millis() as f32,
             ),
             RobotState::Teleporting(instant, pos) => {
-                if instant.elapsed() < context.clock_duration / 2 {
+                if instant.elapsed() < context.tick_duration / 2 {
                     Vec2::new(self.pos.x + self.offset.x, self.pos.y + self.offset.y)
                 } else {
                     Vec2::new(pos.x + self.offset.x, pos.y + self.offset.y)

@@ -1,7 +1,7 @@
-use std::{cell::RefCell, rc::Rc};
+use std::{cell::RefCell, rc::Rc, time::Duration};
 
 use crate::{
-    core::{context::Context, Drawable, CLOCK_DURATION_MAX},
+    core::{context::Context, Drawable, TICK_DURATION_MAX},
     world::World,
 };
 
@@ -16,7 +16,6 @@ use self::{
 };
 
 pub mod component;
-pub mod map;
 pub mod settings;
 pub mod shop;
 
@@ -51,8 +50,8 @@ impl Ui {
     }
 
     pub fn sync_context(&self, context: &mut Context) {
-        context.clock_duration =
-            (CLOCK_DURATION_MAX / 100) * (110 - self.settings_modal.get_speed() as u32);
+        context.tick_duration = Duration::from_millis(self.settings_modal.get_speed() as u64);
+        context.volume_amplitude = self.settings_modal.get_volume() as f64 / 50.0;
         context.audio_on = self.audio_button.on;
         context.camera_locked = self.camera_button.on;
         context.settings_open = !self.settings_button.on;

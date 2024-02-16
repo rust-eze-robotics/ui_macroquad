@@ -45,7 +45,7 @@ impl UiItem for Stepper {
 
 impl Drawable for Stepper {
     fn draw(&mut self, context: &Context) {
-        let text = format!("{}: {}%", self.title, self.value);
+        let text = format!("{}: {}", self.title, self.value);
         draw_text(&text, self.pos.x + 95.0, self.pos.y + 32.0, 24.0, BLACK);
 
         self.minus_clicker.draw(context);

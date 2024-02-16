@@ -4,7 +4,13 @@ use core::{
 use std::{cell::RefCell, rc::Rc};
 
 use audio::Audio;
-use macroquad::{miniquad::window::set_window_size, prelude::*};
+use macroquad::{
+    miniquad::{
+        window::{set_mouse_cursor, set_window_size},
+        CursorIcon,
+    },
+    prelude::*,
+};
 use robot::Robot;
 use wrapper::Wrapper;
 
@@ -21,9 +27,10 @@ pub mod ui;
 pub mod world;
 pub mod wrapper;
 
-#[macroquad::main("Rust-Eze")]
+#[macroquad::main("Rust-eze")]
 async fn main() {
     set_window_size(900, 900);
+    show_mouse(false);
 
     // Define the WorldGenerator parameters using the dedicated struct
     let params = midgard::world_generator::WorldGeneratorParameters {

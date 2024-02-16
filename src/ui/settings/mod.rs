@@ -22,13 +22,13 @@ impl SettingsModal {
         icon_factory: &IconFactory,
         clicker_factory: &ClickerFactory,
         stepper_factory: &StepperFactory,
-    ) -> SettingsModal {
+    ) -> Self {
         let pos = Vec2::new(
             (screen_width() - SETTINGS_MODAL_SIZE.x) / 2.0,
             (screen_height() - SETTINGS_MODAL_SIZE.y) / 2.0,
         );
 
-        SettingsModal {
+        Self {
             pos,
             volume_stepper: stepper_factory.new_volume_stepper(
                 icon_factory,

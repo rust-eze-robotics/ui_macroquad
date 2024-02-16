@@ -7,10 +7,9 @@ use crate::core::{ZOOM_DEFAULT, ZOOM_MAX, ZOOM_MIN};
 use super::TICK_DURATION_DEFAULT;
 
 pub struct Context {
-    pub timestamp: Instant,
+    pub camera: Camera2D,
     pub tick_duration: Duration,
     pub volume_amplitude: f64,
-    pub camera: Camera2D,
     pub audio_on: bool,
     pub camera_locked: bool,
     pub settings_open: bool,
@@ -20,10 +19,9 @@ pub struct Context {
 impl Context {
     pub fn new(camera: Camera2D) -> Self {
         Self {
-            timestamp: Instant::now(),
+            camera,
             tick_duration: TICK_DURATION_DEFAULT,
             volume_amplitude: 1.0,
-            camera,
             audio_on: true,
             camera_locked: true,
             settings_open: false,

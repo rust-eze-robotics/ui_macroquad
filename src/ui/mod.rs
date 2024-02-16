@@ -12,10 +12,12 @@ use self::{
         icon::factory::IconFactory,
         stepper::factory::StepperFactory,
     },
+    cursor::Cursor,
     settings::SettingsModal,
 };
 
 pub mod component;
+pub mod cursor;
 pub mod settings;
 pub mod shop;
 
@@ -25,6 +27,7 @@ pub trait UiItem: Drawable {
 }
 
 pub struct Ui {
+    cursor: Cursor,
     audio_button: Button,
     camera_button: Button,
     settings_button: Button,
@@ -67,6 +70,7 @@ impl Ui {
         let stepper_factory = StepperFactory::new().await;
 
         Self {
+            cursor: Cursor::new().await,
             audio_button: button_factory.new_audio_button(&icon_factory),
             camera_button: button_factory.new_camera_button(&icon_factory),
             settings_button: button_factory.new_settings_button(&icon_factory),
@@ -84,5 +88,6 @@ impl Drawable for Ui {
         self.settings_button.draw(context);
         self.shop_button.draw(context);
         self.settings_modal.draw(context);
+        self.cursor.draw(context);
     }
 }

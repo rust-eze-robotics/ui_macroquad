@@ -65,6 +65,10 @@ impl Audio {
     }
 
     pub fn play_event_sound(&mut self, context: &Context, event: &Event) {
+        if !context.audio_on {
+            return;
+        }
+
         match event {
             Event::Moved(tile, _) => {
                 self.play_tile_sound(context, &tile.tile_type);

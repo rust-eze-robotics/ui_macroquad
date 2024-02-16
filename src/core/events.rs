@@ -69,12 +69,10 @@ impl EventsHandler {
                     return;
                 }
                 Event::TileContentUpdated(tile, (row, col)) => {
-                    let vec = Vec2::new(col as f32 * TILE_SIZE.x, row as f32 * TILE_SIZE.y);
+                    let pos = Vec2::new(col as f32 * TILE_SIZE.x, row as f32 * TILE_SIZE.y);
 
-                    robot.borrow_mut().set_interact(vec);
-                    world.borrow_mut().update_tile(tile, (row, col));
-
-                    robot.borrow_mut().update_orientation(vec);
+                    robot.borrow_mut().set_interact(pos, tile);
+                    robot.borrow_mut().update_orientation(pos);
 
                     return;
                 }

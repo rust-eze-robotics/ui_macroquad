@@ -1,4 +1,5 @@
 use std::{
+    cell::RefCell,
     rc::Rc,
     time::{Duration, Instant},
 };
@@ -7,8 +8,12 @@ use macroquad::{
     experimental::animation::{AnimatedSprite, Animation},
     prelude::*,
 };
+use robotics_lib::world::tile::Tile as RobTile;
 
-use crate::core::{context::Context, is_in_window, Drawable, TILE_SIZE};
+use crate::{
+    core::{context::Context, is_in_window, Drawable, TILE_SIZE},
+    world::World,
+};
 
 use self::character::{factory::CharacterFactory, Character};
 
@@ -19,7 +24,7 @@ pub enum RobotState {
     Idle(Instant),
     Walk(Instant, Vec2),
     Teleport(Instant, Vec2),
-    Interact(Instant, Vec2),
+    Interact(Instant, Vec2, RobTile),
 }
 
 pub struct Robot {
@@ -37,7 +42,7 @@ pub struct Robot {
 impl Robot {
     pub async fn new((row, col): (usize, usize)) -> Self {
         let character_factory = CharacterFactory::new().await;
-        let character = Box::new(character_factory.new_torch());
+        let character = Box::new(character_factory.new_pawn());
 
         Self {
             pos: Vec2::new(col as f32 * TILE_SIZE.x, row as f32 * TILE_SIZE.y),
@@ -57,28 +62,28 @@ impl Robot {
         self.state = RobotState::Idle(Instant::now());
     }
 
-    pub fn set_walk(&mut self, vec: Vec2) {
+    pub fn set_walk(&mut self, pos: Vec2) {
         self.sprite = self.character.get_idle_sprite();
-        self.state = RobotState::Walk(Instant::now(), vec);
+        self.state = RobotState::Walk(Instant::now(), pos);
     }
 
-    pub fn set_teleport(&mut self, vec: Vec2) {
+    pub fn set_teleport(&mut self, pos: Vec2) {
         self.sprite = self.character.get_idle_sprite();
-        self.state = RobotState::Teleport(Instant::now(), vec);
+        self.state = RobotState::Teleport(Instant::now(), pos);
     }
 
-    pub fn set_interact(&mut self, vec: Vec2) {
+    pub fn set_interact(&mut self, pos: Vec2, tile: RobTile) {
         self.sprite = self.character.get_idle_sprite();
 
-        if vec.y == self.pos.y {
+        if pos.y == self.pos.y {
             self.sprite = self.character.get_interact_right_sprite();
-        } else if vec.y < self.pos.y {
+        } else if pos.y < self.pos.y {
             self.sprite = self.character.get_interact_up_sprite();
         } else {
             self.sprite = self.character.get_interact_down_sprite();
         }
 
-        self.state = RobotState::Interact(Instant::now(), vec);
+        self.state = RobotState::Interact(Instant::now(), pos, tile);
     }
 
     pub fn is_ready(&self, context: &Context) -> bool {
@@ -88,8 +93,8 @@ impl Robot {
         }
     }
 
-    pub fn update_state(&mut self, context: &Context) {
-        match self.state {
+    pub fn update_state(&mut self, context: &Context, world: Rc<RefCell<World>>) {
+        match &self.state {
             RobotState::Init(instant) => {
                 if instant.elapsed() > Duration::from_millis(500) {
                     self.set_idle();
@@ -98,18 +103,24 @@ impl Robot {
             RobotState::Idle(_) => {}
             RobotState::Walk(instant, pos) => {
                 if instant.elapsed() > context.tick_duration {
-                    self.pos = pos;
+                    self.pos = *pos;
                     self.set_idle();
                 }
             }
             RobotState::Teleport(instant, pos) => {
                 if instant.elapsed() > context.tick_duration {
-                    self.pos = pos;
+                    self.pos = *pos;
                     self.set_idle();
                 }
             }
-            RobotState::Interact(instant, _) => {
+            RobotState::Interact(instant, pos, tile) => {
                 if instant.elapsed() > context.tick_duration {
+                    let (row, col) = (
+                        (pos.y / TILE_SIZE.y) as usize,
+                        (pos.x / TILE_SIZE.x) as usize,
+                    );
+                    world.borrow_mut().update_tile(tile, (row, col));
+
                     self.set_idle();
                 }
             }
@@ -126,7 +137,7 @@ impl Robot {
 
     pub fn get_target_pos(&self, context: &Context) -> Vec2 {
         let ret = match self.state {
-            RobotState::Init(_) | RobotState::Idle(_) | RobotState::Interact(_, _) => {
+            RobotState::Init(_) | RobotState::Idle(_) | RobotState::Interact(_, _, _) => {
                 Vec2::new(self.pos.x + self.offset.x, self.pos.y + self.offset.y)
             }
             RobotState::Walk(instant, pos) => Vec2::new(
@@ -156,7 +167,7 @@ impl Drawable for Robot {
     fn draw(&mut self, context: &Context) {
         if is_in_window(context, &self.pos, &self.offset, 192.0, 192.0) {
             match self.state {
-                RobotState::Init(_) | RobotState::Idle(_) | RobotState::Interact(_, _) => {
+                RobotState::Init(_) | RobotState::Idle(_) | RobotState::Interact(_, _, _) => {
                     draw_texture_ex(
                         &self.texture,
                         self.pos.x + self.offset.x,

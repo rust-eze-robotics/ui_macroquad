@@ -86,7 +86,7 @@ async fn main() {
         });
 
         loop {
-            robot.borrow_mut().update_state(&context);
+            robot.borrow_mut().update_state(&context, world.clone());
 
             if robot.borrow().is_ready(&context) {
                 if events_handler.borrow().is_empty() {

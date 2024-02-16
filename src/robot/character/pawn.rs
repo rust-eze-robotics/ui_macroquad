@@ -24,7 +24,7 @@ impl Character for Pawn {
                 Animation {
                     name: "pawn_0".to_string(),
                     row: 0,
-                    frames: 7,
+                    frames: 6,
                     fps: 12,
                 },
                 Animation {
@@ -46,7 +46,7 @@ impl Character for Pawn {
                 Animation {
                     name: "pawn_2".to_string(),
                     row: 2,
-                    frames: 7,
+                    frames: 6,
                     fps: 12,
                 },
                 Animation {

@@ -73,7 +73,7 @@ impl World {
         }
     }
 
-    pub fn update_tile(&mut self, tile: RobTile, (row, col): (usize, usize)) {
+    pub fn update_tile(&mut self, tile: &RobTile, (row, col): (usize, usize)) {
         let pos = Vec2::new(col as f32 * TILE_SIZE.x, row as f32 * TILE_SIZE.y);
 
         self.tiles[row][col].tiletype = self

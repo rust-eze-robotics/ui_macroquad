@@ -212,7 +212,7 @@ impl BuilderAi {
     fn do_build(&mut self, world: &mut World) {
         robot_view(self, world);
         let mut result = ToolStreetPicasso::create_street(self, world, 1, Direction::Right, 1);
-        go(self, world, Direction::Right);
+        let _ = go(self, world, Direction::Right);
         result = ToolStreetPicasso::create_street(self, world, 1, Direction::Right, 1);
 
         match result {

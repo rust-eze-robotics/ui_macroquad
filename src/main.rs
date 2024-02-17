@@ -1,5 +1,6 @@
 use core::{
-    context::Context, events::EventsHandler, Drawable, TILE_SIZE, WORLD_SIZE, ZOOM_DEFAULT,
+    context::Context, events::EventsHandler, Drawable, TILE_SIZE, WORLD_SCALE, WORLD_SIZE,
+    ZOOM_DEFAULT,
 };
 use std::{cell::RefCell, rc::Rc};
 
@@ -28,6 +29,7 @@ async fn main() {
 
     let params = midgard::world_generator::WorldGeneratorParameters {
         world_size: WORLD_SIZE,
+        world_scale: WORLD_SCALE,
         time_progression_minutes: 60,
         contents_radii: ContentsRadii {
             rocks_in_plains: 2,

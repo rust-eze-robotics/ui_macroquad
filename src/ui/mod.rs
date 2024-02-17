@@ -2,7 +2,6 @@ use std::{cell::RefCell, rc::Rc, time::Duration};
 
 use crate::{
     core::{context::Context, Drawable},
-    robot::Robot,
     world::World,
 };
 
@@ -40,7 +39,7 @@ pub struct Ui {
 }
 
 impl Ui {
-    pub fn update_gui(&mut self, context: &Context) {
+    pub fn update_gui(&mut self, _context: &Context) {
         self.energy_bar.update_gui();
         self.audio_button.update_gui();
         self.camera_button.update_gui();
@@ -49,7 +48,7 @@ impl Ui {
         self.settings_modal.update_gui();
     }
 
-    pub fn handle_input(&mut self, context: &Context) {
+    pub fn handle_input(&mut self, _context: &Context) {
         self.energy_bar.handle_input();
         self.audio_button.handle_input();
         self.camera_button.handle_input();

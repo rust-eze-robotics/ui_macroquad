@@ -1,8 +1,6 @@
-use std::{any::Any, collections::HashMap, rc::Rc};
+use std::{collections::HashMap, rc::Rc};
 
 use macroquad::prelude::*;
-
-use crate::robot::character::{warrior::Warrior, Character};
 
 const BAR_ARCHER_1_ID: u8 = 0;
 const BAR_ARCHER_2_ID: u8 = 1;

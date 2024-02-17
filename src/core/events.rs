@@ -47,12 +47,12 @@ impl EventsHandler {
                 Event::DayChanged(environmental_conditions) => {
                     world.borrow_mut().environmental_conditions = environmental_conditions;
                 }
-                Event::EnergyConsumed(amount) => {
+                Event::EnergyConsumed(_amount) => {
                     ui.borrow_mut()
                         .energy_bar
                         .update_energy(runnable.get_energy().get_energy_level());
                 }
-                Event::EnergyRecharged(amount) => {
+                Event::EnergyRecharged(_amount) => {
                     ui.borrow_mut()
                         .energy_bar
                         .update_energy(runnable.get_energy().get_energy_level());

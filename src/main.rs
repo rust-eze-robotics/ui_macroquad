@@ -4,6 +4,7 @@ use core::{
 };
 use std::{cell::RefCell, rc::Rc};
 
+use ai_builder::BuilderAi;
 use audio::Audio;
 use macroquad::{miniquad::window::set_window_size, prelude::*};
 use robot::Robot;
@@ -14,7 +15,6 @@ use robotics_lib::{runner::Runner, world::world_generator::Generator};
 use ui::Ui;
 use world::World;
 
-pub mod ai;
 pub mod audio;
 pub mod core;
 pub mod robot;
@@ -32,9 +32,9 @@ async fn main() {
         world_scale: WORLD_SCALE,
         time_progression_minutes: 60,
         contents_radii: ContentsRadii {
-            rocks_in_plains: 2,
-            rocks_in_hill: 2,
-            rocks_in_mountain: 2,
+            rocks_in_plains: 5,
+            rocks_in_hill: 5,
+            rocks_in_mountain: 5,
             ..Default::default()
         },
         ..Default::default()
@@ -65,7 +65,7 @@ async fn main() {
         events_handler.clone(),
     );
 
-    let ai = crate::ai::BuilderAi::new(Box::new(wrapper), WORLD_SIZE);
+    let ai = BuilderAi::new(Box::new(wrapper), WORLD_SIZE);
 
     let run = Runner::new(Box::new(ai), &mut world_generator);
 
@@ -88,9 +88,11 @@ async fn main() {
                 }
 
                 events_handler.borrow_mut().handle(
+                    runner.get_robot(),
                     &context,
                     robot.clone(),
                     world.clone(),
+                    ui.clone(),
                     audio.clone(),
                 );
             }

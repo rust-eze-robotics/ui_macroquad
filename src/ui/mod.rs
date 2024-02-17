@@ -2,6 +2,7 @@ use std::{cell::RefCell, rc::Rc, time::Duration};
 
 use crate::{
     core::{context::Context, Drawable},
+    robot::Robot,
     world::World,
 };
 
@@ -24,13 +25,13 @@ pub mod settings;
 pub mod shop;
 
 pub trait UiItem: Drawable {
-    fn update_gui(&mut self, context: &Context);
-    fn handle_input(&mut self, context: &Context);
+    fn update_gui(&mut self);
+    fn handle_input(&mut self);
 }
 
 pub struct Ui {
+    pub energy_bar: Bar,
     cursor: Cursor,
-    energy_bar: Bar,
     audio_button: Button,
     camera_button: Button,
     settings_button: Button,
@@ -40,21 +41,21 @@ pub struct Ui {
 
 impl Ui {
     pub fn update_gui(&mut self, context: &Context) {
-        self.energy_bar.update_gui(context);
-        self.audio_button.update_gui(context);
-        self.camera_button.update_gui(context);
-        self.settings_button.update_gui(context);
-        self.shop_button.update_gui(context);
-        self.settings_modal.update_gui(context);
+        self.energy_bar.update_gui();
+        self.audio_button.update_gui();
+        self.camera_button.update_gui();
+        self.settings_button.update_gui();
+        self.shop_button.update_gui();
+        self.settings_modal.update_gui();
     }
 
     pub fn handle_input(&mut self, context: &Context) {
-        self.energy_bar.handle_input(context);
-        self.audio_button.handle_input(context);
-        self.camera_button.handle_input(context);
-        self.settings_button.handle_input(context);
-        self.shop_button.handle_input(context);
-        self.settings_modal.handle_input(context);
+        self.energy_bar.handle_input();
+        self.audio_button.handle_input();
+        self.camera_button.handle_input();
+        self.settings_button.handle_input();
+        self.shop_button.handle_input();
+        self.settings_modal.handle_input();
     }
 
     pub fn sync_context(&self, context: &mut Context) {
@@ -76,7 +77,7 @@ impl Ui {
 
         Self {
             cursor: Cursor::new().await,
-            energy_bar: Bar::new(),
+            energy_bar: Bar::new().await,
             audio_button: button_factory.new_audio_button(&icon_factory),
             camera_button: button_factory.new_camera_button(&icon_factory),
             settings_button: button_factory.new_settings_button(&icon_factory),
@@ -89,7 +90,7 @@ impl Ui {
 
 impl Drawable for Ui {
     fn draw(&mut self, context: &Context) {
-        // self.energy_bar.draw(context);
+        self.energy_bar.draw(context);
         self.audio_button.draw(context);
         self.camera_button.draw(context);
         self.settings_button.draw(context);

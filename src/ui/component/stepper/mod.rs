@@ -22,16 +22,16 @@ pub struct Stepper {
 }
 
 impl UiItem for Stepper {
-    fn update_gui(&mut self, context: &Context) {
+    fn update_gui(&mut self) {
         self.minus_clicker.pos = self.pos + Vec2::new(0.0, 0.0);
         self.plus_clicker.pos = self.pos + Vec2::new(self.size.x - self.plus_clicker.size.x, 0.0);
-        self.minus_clicker.update_gui(context);
-        self.plus_clicker.update_gui(context);
+        self.minus_clicker.update_gui();
+        self.plus_clicker.update_gui();
     }
 
-    fn handle_input(&mut self, context: &Context) {
-        self.minus_clicker.handle_input(context);
-        self.plus_clicker.handle_input(context);
+    fn handle_input(&mut self) {
+        self.minus_clicker.handle_input();
+        self.plus_clicker.handle_input();
 
         if is_released(&self.minus_clicker.pos, &self.minus_clicker.size) {
             self.value -= self.increment;

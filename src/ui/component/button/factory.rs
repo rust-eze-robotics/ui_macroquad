@@ -61,7 +61,7 @@ impl ButtonFactory {
     pub fn new_audio_button(&self, icon_factory: &IconFactory) -> Button {
         Button {
             pos: Vec2::default(),
-            anchor_pos: AnchorPosition::DownRight(Vec2::new(-64.0, -64.0)),
+            anchor_pos: AnchorPosition::TopRight(Vec2::new(-128.0, 0.0)),
             size: Vec2::new(64.0, 64.0),
             texture_active: self.textures[&BUTTON_ACTIVE_ID].clone(),
             texture_down: self.textures[&BUTTON_DOWN_ID].clone(),
@@ -76,7 +76,7 @@ impl ButtonFactory {
     pub fn new_camera_button(&self, icon_factory: &IconFactory) -> Button {
         Button {
             pos: Vec2::default(),
-            anchor_pos: AnchorPosition::DownRight(Vec2::new(-128.0, -64.0)),
+            anchor_pos: AnchorPosition::DownRight(Vec2::new(-64.0, -64.0)),
             size: Vec2::new(64.0, 64.0),
             texture_active: self.textures[&BUTTON_ACTIVE_ID].clone(),
             texture_down: self.textures[&BUTTON_DOWN_ID].clone(),

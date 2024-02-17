@@ -17,11 +17,11 @@ pub struct Clicker {
 }
 
 impl UiItem for Clicker {
-    fn update_gui(&mut self, _context: &Context) {
+    fn update_gui(&mut self) {
         self.icon.pos = self.pos;
     }
 
-    fn handle_input(&mut self, _context: &Context) {
+    fn handle_input(&mut self) {
         if is_down(&self.pos, &self.size) {
             self.icon.state = IconState::Down;
         } else {

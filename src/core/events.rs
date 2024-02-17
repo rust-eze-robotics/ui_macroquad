@@ -1,9 +1,9 @@
 use std::{cell::RefCell, collections::VecDeque, rc::Rc};
 
 use macroquad::math::Vec2;
-use robotics_lib::event::events::Event;
+use robotics_lib::{event::events::Event, runner::Runnable};
 
-use crate::{audio::Audio, robot::Robot, world::World};
+use crate::{audio::Audio, robot::Robot, ui::Ui, world::World};
 
 use super::{context::Context, TILE_SIZE};
 
@@ -31,9 +31,11 @@ impl EventsHandler {
 
     pub fn handle(
         &mut self,
+        runnable: &Box<dyn Runnable>,
         context: &Context,
         robot: Rc<RefCell<Robot>>,
         world: Rc<RefCell<World>>,
+        ui: Rc<RefCell<Ui>>,
         audio: Rc<RefCell<Audio>>,
     ) {
         while !self.is_empty() {
@@ -46,10 +48,15 @@ impl EventsHandler {
                     world.borrow_mut().environmental_conditions = environmental_conditions;
                 }
                 Event::EnergyConsumed(amount) => {
-                    robot.borrow_mut().energy -= amount;
+                    ui.borrow_mut()
+                        .energy_bar
+                        .update_energy(runnable.get_energy().get_energy_level());
+                    println!("{}", runnable.get_energy().get_energy_level());
                 }
                 Event::EnergyRecharged(amount) => {
-                    robot.borrow_mut().energy += amount;
+                    ui.borrow_mut()
+                        .energy_bar
+                        .update_energy(runnable.get_energy().get_energy_level());
                 }
                 Event::Moved(_tile, (row, col)) => {
                     let new_pos = Vec2::new(col as f32 * TILE_SIZE.x, row as f32 * TILE_SIZE.y);

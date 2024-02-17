@@ -4,10 +4,7 @@ use std::{
     time::{Duration, Instant},
 };
 
-use macroquad::{
-    experimental::animation::{AnimatedSprite, Animation},
-    prelude::*,
-};
+use macroquad::{experimental::animation::AnimatedSprite, prelude::*};
 use robotics_lib::world::tile::Tile as RobTile;
 
 use crate::{
@@ -31,7 +28,6 @@ pub struct Robot {
     pub pos: Vec2,
     pub offset: Vec2,
     pub orientation: bool,
-    pub energy: usize,
     state: RobotState,
     texture: Rc<Texture2D>,
     sprite: AnimatedSprite,
@@ -53,7 +49,6 @@ impl Robot {
             character_factory,
             orientation: false,
             state: RobotState::Init(Instant::now()),
-            energy: 1000,
         }
     }
 

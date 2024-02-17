@@ -14,8 +14,3 @@ ai_builder = { git = "ssh://git@github.com/rust-eze-robotics/ai_builder.git", br
 robotics_lib = {version = "0.1.21", registry = "kellnr"}
 midgard = {version = "0.1.0", registry = "kellnr"}
 oxagaudiotool = {version = "0.2.0", registry = "kellnr"}
-spyglass = {version = "0.1.0", registry = "kellnr"}
-sense_and_find_by_Rustafariani = {version = "0.1.0", registry = "kellnr"}
-OhCrab_collection = {version = "0.1.0", registry = "kellnr"}
-pmp_street_picasso = {version = "0.1.0", registry = "kellnr"}
-bob_lib = {version = "0.1.0", registry = "kellnr"}

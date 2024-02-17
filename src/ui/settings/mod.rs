@@ -53,7 +53,7 @@ impl SettingsModal {
 }
 
 impl UiItem for SettingsModal {
-    fn update_gui(&mut self, context: &Context) {
+    fn update_gui(&mut self) {
         self.pos = Vec2::new(
             (screen_width() - SETTINGS_MODAL_SIZE.x) / 2.0,
             (screen_height() - SETTINGS_MODAL_SIZE.y) / 2.0,
@@ -66,13 +66,13 @@ impl UiItem for SettingsModal {
             self.pos.x + (SETTINGS_MODAL_SIZE.x - self.tick_stepper.size.x) / 2.0;
         self.tick_stepper.pos.y = self.pos.y + (SETTINGS_MODAL_SIZE.y * 0.55);
 
-        self.volume_stepper.update_gui(context);
-        self.tick_stepper.update_gui(context);
+        self.volume_stepper.update_gui();
+        self.tick_stepper.update_gui();
     }
 
-    fn handle_input(&mut self, context: &Context) {
-        self.volume_stepper.handle_input(context);
-        self.tick_stepper.handle_input(context);
+    fn handle_input(&mut self) {
+        self.volume_stepper.handle_input();
+        self.tick_stepper.handle_input();
     }
 }
 

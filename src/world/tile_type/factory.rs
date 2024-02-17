@@ -1,6 +1,9 @@
 use std::{collections::HashMap, rc::Rc};
 
-use macroquad::prelude::*;
+use macroquad::{
+    experimental::animation::{AnimatedSprite, Animation},
+    prelude::*,
+};
 use robotics_lib::world::tile::TileType as RobTileType;
 
 use super::{
@@ -113,7 +116,7 @@ impl TileTypeFactory {
         textures.insert(
             TELEPORT_ID,
             Rc::new(
-                load_texture("assets/textures/tiletypes/grass.png")
+                load_texture("assets/textures/tiletypes/teleport.png")
                     .await
                     .unwrap(),
             ),
@@ -208,6 +211,18 @@ impl TileTypeFactory {
             pos,
             offset: Vec2::new(0.0, 0.0),
             texture: self.textures[&TELEPORT_ID].clone(),
+            texture_ground: self.textures[&STREET_ID].clone(),
+            sprite: AnimatedSprite::new(
+                128,
+                128,
+                &[Animation {
+                    name: "teleport_1".to_string(),
+                    row: 1,
+                    frames: 6,
+                    fps: 6,
+                }],
+                true,
+            ),
         }
     }
 

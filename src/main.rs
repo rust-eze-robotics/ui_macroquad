@@ -32,9 +32,9 @@ async fn main() {
         world_scale: WORLD_SCALE,
         time_progression_minutes: 60,
         contents_radii: ContentsRadii {
-            rocks_in_plains: 5,
-            rocks_in_hill: 5,
-            rocks_in_mountain: 5,
+            rocks_in_plains: 3,
+            rocks_in_hill: 3,
+            rocks_in_mountain: 3,
             ..Default::default()
         },
         ..Default::default()

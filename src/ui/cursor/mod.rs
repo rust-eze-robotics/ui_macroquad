@@ -17,7 +17,7 @@ impl Cursor {
 }
 
 impl Drawable for Cursor {
-    fn draw(&mut self, context: &Context) {
+    fn draw(&mut self, _context: &Context) {
         draw_texture(
             &self.texture,
             mouse_position().0 - 22.0,

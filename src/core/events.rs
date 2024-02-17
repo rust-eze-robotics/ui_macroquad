@@ -1,13 +1,9 @@
-use std::{cell::RefCell, collections::VecDeque, rc::Rc, time::Instant};
+use std::{cell::RefCell, collections::VecDeque, rc::Rc};
 
 use macroquad::math::Vec2;
 use robotics_lib::event::events::Event;
 
-use crate::{
-    audio::Audio,
-    robot::{Robot, RobotState},
-    world::World,
-};
+use crate::{audio::Audio, robot::Robot, world::World};
 
 use super::{context::Context, TILE_SIZE};
 
@@ -59,9 +55,9 @@ impl EventsHandler {
                     let new_pos = Vec2::new(col as f32 * TILE_SIZE.x, row as f32 * TILE_SIZE.y);
 
                     if robot.borrow().pos.distance(new_pos) >= TILE_SIZE.x * 2.0 {
-                        robot.borrow_mut().set_teleport(new_pos);
+                        robot.borrow_mut().set_teleport(context, new_pos);
                     } else {
-                        robot.borrow_mut().set_walk(new_pos);
+                        robot.borrow_mut().set_walk(context, new_pos);
                     }
 
                     robot.borrow_mut().update_orientation(new_pos);
@@ -71,7 +67,7 @@ impl EventsHandler {
                 Event::TileContentUpdated(tile, (row, col)) => {
                     let pos = Vec2::new(col as f32 * TILE_SIZE.x, row as f32 * TILE_SIZE.y);
 
-                    robot.borrow_mut().set_interact(pos, tile);
+                    robot.borrow_mut().set_interact(context, pos, tile);
                     robot.borrow_mut().update_orientation(pos);
 
                     return;

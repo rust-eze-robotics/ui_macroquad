@@ -42,13 +42,13 @@ pub struct Robot {
 impl Robot {
     pub async fn new((row, col): (usize, usize)) -> Self {
         let character_factory = CharacterFactory::new().await;
-        let character = Box::new(character_factory.new_pawn());
+        let character = Box::new(character_factory.new_torch());
 
         Self {
             pos: Vec2::new(col as f32 * TILE_SIZE.x, row as f32 * TILE_SIZE.y),
             offset: Vec2::new(0.0, 0.0),
             texture: character.get_texture(),
-            sprite: character.get_idle_sprite(),
+            sprite: character.get_init_sprite(),
             character,
             character_factory,
             orientation: false,
@@ -57,30 +57,30 @@ impl Robot {
         }
     }
 
-    pub fn set_idle(&mut self) {
-        self.sprite = self.character.get_idle_sprite();
+    pub fn set_idle(&mut self, context: &Context) {
+        self.sprite = self.character.get_idle_sprite(context);
         self.state = RobotState::Idle(Instant::now());
     }
 
-    pub fn set_walk(&mut self, pos: Vec2) {
-        self.sprite = self.character.get_idle_sprite();
+    pub fn set_walk(&mut self, context: &Context, pos: Vec2) {
+        self.sprite = self.character.get_idle_sprite(context);
         self.state = RobotState::Walk(Instant::now(), pos);
     }
 
-    pub fn set_teleport(&mut self, pos: Vec2) {
-        self.sprite = self.character.get_idle_sprite();
+    pub fn set_teleport(&mut self, context: &Context, pos: Vec2) {
+        self.sprite = self.character.get_idle_sprite(context);
         self.state = RobotState::Teleport(Instant::now(), pos);
     }
 
-    pub fn set_interact(&mut self, pos: Vec2, tile: RobTile) {
-        self.sprite = self.character.get_idle_sprite();
+    pub fn set_interact(&mut self, context: &Context, pos: Vec2, tile: RobTile) {
+        self.sprite = self.character.get_idle_sprite(context);
 
         if pos.y == self.pos.y {
-            self.sprite = self.character.get_interact_right_sprite();
+            self.sprite = self.character.get_interact_right_sprite(context);
         } else if pos.y < self.pos.y {
-            self.sprite = self.character.get_interact_up_sprite();
+            self.sprite = self.character.get_interact_up_sprite(context);
         } else {
-            self.sprite = self.character.get_interact_down_sprite();
+            self.sprite = self.character.get_interact_down_sprite(context);
         }
 
         self.state = RobotState::Interact(Instant::now(), pos, tile);
@@ -97,20 +97,20 @@ impl Robot {
         match &self.state {
             RobotState::Init(instant) => {
                 if instant.elapsed() > Duration::from_millis(500) {
-                    self.set_idle();
+                    self.set_idle(context);
                 }
             }
             RobotState::Idle(_) => {}
             RobotState::Walk(instant, pos) => {
                 if instant.elapsed() > context.tick_duration {
                     self.pos = *pos;
-                    self.set_idle();
+                    self.set_idle(context);
                 }
             }
             RobotState::Teleport(instant, pos) => {
                 if instant.elapsed() > context.tick_duration {
                     self.pos = *pos;
-                    self.set_idle();
+                    self.set_idle(context);
                 }
             }
             RobotState::Interact(instant, pos, tile) => {
@@ -121,7 +121,7 @@ impl Robot {
                     );
                     world.borrow_mut().update_tile(tile, (row, col));
 
-                    self.set_idle();
+                    self.set_idle(context);
                 }
             }
         }

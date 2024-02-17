@@ -4,13 +4,7 @@ use core::{
 use std::{cell::RefCell, rc::Rc};
 
 use audio::Audio;
-use macroquad::{
-    miniquad::{
-        window::{set_mouse_cursor, set_window_size},
-        CursorIcon,
-    },
-    prelude::*,
-};
+use macroquad::{miniquad::window::set_window_size, prelude::*};
 use robot::Robot;
 use wrapper::Wrapper;
 
@@ -32,7 +26,6 @@ async fn main() {
     set_window_size(900, 900);
     show_mouse(false);
 
-    // Define the WorldGenerator parameters using the dedicated struct
     let params = midgard::world_generator::WorldGeneratorParameters {
         world_size: WORLD_SIZE,
         time_progression_minutes: 60,
@@ -42,10 +35,9 @@ async fn main() {
             rocks_in_mountain: 2,
             ..Default::default()
         },
-        ..Default::default() // the rest of the parameters keep their default value
+        ..Default::default()
     };
 
-    // Instantiate the WorldGenerator with the parameters
     let mut world_generator = midgard::world_generator::WorldGenerator::new(params);
 
     let (map, spawn_point, environmental_conditions, _max_score, _score_table) =
@@ -90,7 +82,7 @@ async fn main() {
 
             if robot.borrow().is_ready(&context) {
                 if events_handler.borrow().is_empty() {
-                    runner.game_tick();
+                    let _ = runner.game_tick();
                 }
 
                 events_handler.borrow_mut().handle(

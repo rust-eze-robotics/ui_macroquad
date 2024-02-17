@@ -1,13 +1,12 @@
 use std::collections::VecDeque;
 
-use pmp_street_picasso::{ToolError, ToolStreetPicasso};
+use pmp_street_picasso::ToolStreetPicasso;
 use robotics_lib::{
     energy::Energy,
     event::events::Event,
-    interface::{go, one_direction_view, robot_map, robot_view, teleport, Direction},
+    interface::{go, robot_map, robot_view, teleport, Direction},
     runner::{backpack::BackPack, Robot, Runnable},
     world::{
-        self,
         coordinates::Coordinate,
         tile::{Content, TileType},
         World,
@@ -17,12 +16,7 @@ use robotics_lib::{
 use sense_and_find_by_Rustafariani::{Action, Lssf};
 use spyglass::spyglass::{Spyglass, SpyglassResult};
 use ui_lib::RunnableUi;
-use OhCrab_collection::collection::{self, CollectTool};
-
-use crate::world::{
-    content::rock::Rock,
-    tile_type::teleport::{self, Teleport},
-};
+use OhCrab_collection::collection::CollectTool;
 
 pub fn is_content_rock(content: &Content) -> bool {
     match content {
@@ -123,9 +117,7 @@ impl BuilderAi {
         let result = spyglass.new_discover(self, world);
 
         match result {
-            SpyglassResult::Failed(error) => {
-                println!("{:?}", error);
-            }
+            SpyglassResult::Failed(_) => {}
             _ => {
                 self.state = State::Locate;
             }
@@ -188,7 +180,7 @@ impl BuilderAi {
                     Action::North => {
                         let _ = go(self, world, Direction::Up);
                     }
-                    Action::Teleport(col, row) => {
+                    Action::Teleport(row, col) => {
                         let _ = teleport(self, world, (row, col));
                     }
                 }
@@ -211,18 +203,8 @@ impl BuilderAi {
 
     fn do_build(&mut self, world: &mut World) {
         robot_view(self, world);
-        let mut result = ToolStreetPicasso::create_street(self, world, 1, Direction::Right, 1);
-        let _ = go(self, world, Direction::Right);
-        result = ToolStreetPicasso::create_street(self, world, 1, Direction::Right, 1);
-
-        match result {
-            Ok(()) => {
-                self.state = State::Discover;
-            }
-            Err(error) => {
-                self.state = State::Discover;
-            }
-        }
+        let _ = ToolStreetPicasso::create_street(self, world, 1, Direction::Right, 1);
+        self.state = State::Discover;
     }
 
     fn do_terminate(&mut self, _world: &World) {}

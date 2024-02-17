@@ -306,11 +306,8 @@ impl ContentFactory {
         }
     }
 
-    pub fn new_none(&self, pos: Vec2) -> None {
-        None {
-            pos,
-            offset: Vec2::new(0.0, 0.0),
-        }
+    pub fn new_none(&self, _pos: Vec2) -> None {
+        None {}
     }
 
     pub fn new_rock(&self, pos: Vec2) -> Rock {

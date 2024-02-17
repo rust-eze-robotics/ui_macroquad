@@ -10,14 +10,14 @@ use super::UiItem;
 
 pub mod factory;
 
-pub struct Bar {
+pub struct EnergyBar {
     pos: Vec2,
     anchor_pos: AnchorPosition,
     texture: Rc<Texture2D>,
     bar_factory: BarFactory,
 }
 
-impl Bar {
+impl EnergyBar {
     pub async fn new() -> Self {
         Self {
             pos: Vec2::default(),
@@ -34,7 +34,7 @@ impl Bar {
     }
 }
 
-impl UiItem for Bar {
+impl UiItem for EnergyBar {
     fn update_gui(&mut self) {
         self.pos = get_current_anchor_position(self.anchor_pos);
     }
@@ -42,7 +42,7 @@ impl UiItem for Bar {
     fn handle_input(&mut self) {}
 }
 
-impl Drawable for Bar {
+impl Drawable for EnergyBar {
     fn draw(&mut self, _context: &Context) {
         draw_texture(&self.texture, self.pos.x, self.pos.y, LIGHTGRAY);
     }

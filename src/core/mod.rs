@@ -7,7 +7,7 @@ use self::context::Context;
 pub mod context;
 pub mod events;
 
-pub const ZOOM_MIN: f32 = 0.001;
+pub const ZOOM_MIN: f32 = 0.0010;
 pub const ZOOM_MAX: f32 = 0.0034;
 pub const ZOOM_DEFAULT: f32 = 0.0015;
 

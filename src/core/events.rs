@@ -51,7 +51,6 @@ impl EventsHandler {
                     ui.borrow_mut()
                         .energy_bar
                         .update_energy(runnable.get_energy().get_energy_level());
-                    println!("{}", runnable.get_energy().get_energy_level());
                 }
                 Event::EnergyRecharged(amount) => {
                     ui.borrow_mut()

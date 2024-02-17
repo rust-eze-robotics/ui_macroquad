@@ -7,7 +7,6 @@ use crate::{
 };
 
 use self::{
-    bar::Bar,
     component::{
         button::{factory::ButtonFactory, Button},
         clicker::factory::ClickerFactory,
@@ -15,12 +14,13 @@ use self::{
         stepper::factory::StepperFactory,
     },
     cursor::Cursor,
+    energy_bar::EnergyBar,
     settings::SettingsModal,
 };
 
-pub mod bar;
 pub mod component;
 pub mod cursor;
+pub mod energy_bar;
 pub mod settings;
 pub mod shop;
 
@@ -30,7 +30,7 @@ pub trait UiItem: Drawable {
 }
 
 pub struct Ui {
-    pub energy_bar: Bar,
+    pub energy_bar: EnergyBar,
     cursor: Cursor,
     audio_button: Button,
     camera_button: Button,
@@ -77,7 +77,7 @@ impl Ui {
 
         Self {
             cursor: Cursor::new().await,
-            energy_bar: Bar::new().await,
+            energy_bar: EnergyBar::new().await,
             audio_button: button_factory.new_audio_button(&icon_factory),
             camera_button: button_factory.new_camera_button(&icon_factory),
             settings_button: button_factory.new_settings_button(&icon_factory),

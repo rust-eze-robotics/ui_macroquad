@@ -66,7 +66,7 @@ impl Context {
         }
 
         if mouse_wheel().1 != 0.0 {
-            self.camera.zoom.x *= 1.5f32.powf(mouse_wheel().1);
+            self.camera.zoom.x *= 1.15f32.powf(mouse_wheel().1);
 
             if !is_key_down(KeyCode::LeftControl) {
                 self.camera.zoom.x = clamp(self.camera.zoom.x, ZOOM_MIN, ZOOM_MAX);

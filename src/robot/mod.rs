@@ -28,10 +28,10 @@ pub struct Robot {
     pub pos: Vec2,
     pub offset: Vec2,
     pub orientation: bool,
+    pub character: Box<dyn Character>,
     state: RobotState,
     texture: Rc<Texture2D>,
     sprite: AnimatedSprite,
-    character: Box<dyn Character>,
     character_factory: CharacterFactory,
 }
 

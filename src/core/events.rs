@@ -33,53 +33,55 @@ impl EventsHandler {
         &mut self,
         runnable: &Box<dyn Runnable>,
         context: &Context,
-        robot: Rc<RefCell<Robot>>,
-        world: Rc<RefCell<World>>,
-        ui: Rc<RefCell<Ui>>,
-        audio: Rc<RefCell<Audio>>,
+        robot: &mut Robot,
+        world: &mut World,
+        ui: &mut Ui,
+        audio: &mut Audio,
     ) {
         while !self.is_empty() {
             let event = self.pop().unwrap();
 
-            audio.borrow_mut().play_event_sound(context, &event);
+            audio.play_event_sound(context, &event);
 
             match event {
                 Event::DayChanged(environmental_conditions) => {
-                    world.borrow_mut().environmental_conditions = environmental_conditions;
+                    world.environmental_conditions = environmental_conditions;
                 }
                 Event::EnergyConsumed(_amount) => {
-                    ui.borrow_mut()
-                        .energy_bar
-                        .update_energy(runnable.get_energy().get_energy_level());
+                    ui.energy_bar.update_energy(
+                        &context.character,
+                        runnable.get_energy().get_energy_level(),
+                    );
                 }
                 Event::EnergyRecharged(_amount) => {
-                    ui.borrow_mut()
-                        .energy_bar
-                        .update_energy(runnable.get_energy().get_energy_level());
+                    ui.energy_bar.update_energy(
+                        &context.character,
+                        runnable.get_energy().get_energy_level(),
+                    );
                 }
                 Event::Moved(_tile, (row, col)) => {
                     let new_pos = Vec2::new(col as f32 * TILE_SIZE.x, row as f32 * TILE_SIZE.y);
 
-                    if robot.borrow().pos.distance(new_pos) >= TILE_SIZE.x * 2.0 {
-                        robot.borrow_mut().set_teleport(context, new_pos);
+                    if robot.pos.distance(new_pos) >= TILE_SIZE.x * 2.0 {
+                        robot.set_teleport(context, new_pos);
                     } else {
-                        robot.borrow_mut().set_walk(context, new_pos);
+                        robot.set_walk(context, new_pos);
                     }
 
-                    robot.borrow_mut().update_orientation(new_pos);
+                    robot.update_orientation(new_pos);
 
                     return;
                 }
                 Event::TileContentUpdated(tile, (row, col)) => {
                     let pos = Vec2::new(col as f32 * TILE_SIZE.x, row as f32 * TILE_SIZE.y);
 
-                    robot.borrow_mut().set_interact(context, pos, tile);
-                    robot.borrow_mut().update_orientation(pos);
+                    robot.set_interact(context, pos, tile);
+                    robot.update_orientation(pos);
 
                     return;
                 }
                 Event::TimeChanged(environmental_conditions) => {
-                    world.borrow_mut().environmental_conditions = environmental_conditions;
+                    world.environmental_conditions = environmental_conditions;
                 }
                 _ => {}
             }

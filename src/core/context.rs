@@ -4,7 +4,10 @@ use macroquad::prelude::*;
 
 use crate::{
     core::{ZOOM_DEFAULT, ZOOM_MAX, ZOOM_MIN},
-    robot::{character::Character, Robot},
+    robot::{
+        character::{Character, CharacterEnum},
+        Robot,
+    },
 };
 
 use super::TICK_DURATION_DEFAULT;
@@ -17,6 +20,7 @@ pub struct Context {
     pub camera_locked: bool,
     pub settings_open: bool,
     pub shop_open: bool,
+    pub character: CharacterEnum,
 }
 
 impl Context {
@@ -29,6 +33,7 @@ impl Context {
             camera_locked: true,
             settings_open: false,
             shop_open: false,
+            character: CharacterEnum::Warrior,
         }
     }
 

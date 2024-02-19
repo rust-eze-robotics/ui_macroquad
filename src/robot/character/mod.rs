@@ -10,6 +10,13 @@ pub mod pawn;
 pub mod torch;
 pub mod warrior;
 
+pub enum CharacterEnum {
+    Archer,
+    Pawn,
+    Torch,
+    Warrior,
+}
+
 pub trait Character {
     fn get_texture(&self) -> Rc<Texture2D>;
     fn get_init_sprite(&self) -> AnimatedSprite;

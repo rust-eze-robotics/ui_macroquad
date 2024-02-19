@@ -75,8 +75,10 @@ impl Ui {
         context.shop_open = !self.shop_button.on;
     }
 
-    pub fn sync_robot(&self, robot: &mut Robot) {
-        self.shop_modal.update_character(robot);
+    pub fn sync_character(&mut self, context: &mut Context, robot: &mut Robot) {
+        if context.shop_open {
+            self.shop_modal.update_character(context, robot);
+        }
     }
 }
 

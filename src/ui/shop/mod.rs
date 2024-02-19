@@ -1,17 +1,19 @@
 use std::{cell::RefCell, rc::Rc};
 
 use macroquad::prelude::*;
+use robotics_lib::energy;
 
 use crate::{
     core::{context::Context, is_released, Drawable, SHOP_MODAL_SIZE},
     robot::{
-        character::{self, factory::CharacterFactory, Character},
+        character::{self, factory::CharacterFactory, Character, CharacterEnum},
         Robot,
     },
 };
 
 use super::{
     component::selector::{factory::SelectorFactory, Selector},
+    energy_bar::{self, EnergyBar},
     UiItem,
 };
 
@@ -39,14 +41,18 @@ impl ShopModal {
         }
     }
 
-    pub fn update_character(&self, robot: &mut Robot) {
+    pub fn update_character(&self, context: &mut Context, robot: &mut Robot) {
         if is_released(&self.archer_selector.pos, &self.archer_selector.size) {
+            context.character = CharacterEnum::Archer;
             robot.set_archer();
         } else if is_released(&self.pawn_selector.pos, &self.pawn_selector.size) {
+            context.character = CharacterEnum::Pawn;
             robot.set_pawn();
         } else if is_released(&self.torch_selector.pos, &self.torch_selector.size) {
+            context.character = CharacterEnum::Torch;
             robot.set_torch();
         } else if is_released(&self.warrior_selector.pos, &self.warrior_selector.size) {
+            context.character = CharacterEnum::Warrior;
             robot.set_warrior();
         }
     }

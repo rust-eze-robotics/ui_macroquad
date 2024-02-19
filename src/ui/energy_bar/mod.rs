@@ -1,8 +1,14 @@
-use std::rc::Rc;
+use std::{any::Any, fmt::Pointer, rc::Rc};
 
 use macroquad::prelude::*;
 
-use crate::core::{context::Context, get_current_anchor_position, AnchorPosition, Drawable};
+use crate::{
+    core::{context::Context, get_current_anchor_position, AnchorPosition, Drawable},
+    robot::{
+        character::{self, archer::Archer, CharacterEnum},
+        Robot,
+    },
+};
 
 use self::factory::BarFactory;
 
@@ -27,10 +33,13 @@ impl EnergyBar {
         }
     }
 
-    pub fn update_character(&mut self) {}
-
-    pub fn update_energy(&mut self, energy: usize) {
-        self.texture = self.bar_factory.get_torch_texture(energy);
+    pub fn update_energy(&mut self, character: &CharacterEnum, energy: usize) {
+        match character {
+            CharacterEnum::Archer => self.texture = self.bar_factory.get_archer_texture(energy),
+            CharacterEnum::Pawn => self.texture = self.bar_factory.get_pawn_texture(energy),
+            CharacterEnum::Torch => self.texture = self.bar_factory.get_torch_texture(energy),
+            CharacterEnum::Warrior => self.texture = self.bar_factory.get_warrior_texture(energy),
+        }
     }
 }
 

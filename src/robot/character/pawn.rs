@@ -49,13 +49,15 @@ impl Character for Pawn {
                     name: "pawn_0".to_string(),
                     row: 0,
                     frames: 6,
-                    fps: 12,
+                    fps: 12 * TICK_DURATION_DEFAULT.as_millis() as u32
+                        / context.tick_duration.as_millis() as u32,
                 },
                 Animation {
                     name: "pawn_1".to_string(),
                     row: 1,
                     frames: 6,
-                    fps: 12,
+                    fps: 12 * TICK_DURATION_DEFAULT.as_millis() as u32
+                        / context.tick_duration.as_millis() as u32,
                 },
             ],
             true,
@@ -71,13 +73,15 @@ impl Character for Pawn {
                     name: "pawn_2".to_string(),
                     row: 2,
                     frames: 6,
-                    fps: 12,
+                    fps: 12 * TICK_DURATION_DEFAULT.as_millis() as u32
+                        / context.tick_duration.as_millis() as u32,
                 },
                 Animation {
                     name: "pawn_3".to_string(),
                     row: 3,
                     frames: 6,
-                    fps: 12,
+                    fps: 12 * TICK_DURATION_DEFAULT.as_millis() as u32
+                        / context.tick_duration.as_millis() as u32,
                 },
             ],
             true,

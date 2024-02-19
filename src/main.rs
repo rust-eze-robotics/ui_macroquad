@@ -4,16 +4,13 @@ use core::{
 };
 use std::{cell::RefCell, rc::Rc};
 
-use ai_builder::BuilderAi;
 use audio::Audio;
 use macroquad::{miniquad::window::set_window_size, prelude::*};
-use robot::{
-    character::{self, factory::CharacterFactory},
-    Robot,
-};
+use midgard::{params::WorldGeneratorParameters, WorldGenerator};
+use robot::Robot;
+use rust_eze_ai_artemisia::{get_world_generator_parameters, ArtemisIA};
 use wrapper::Wrapper;
 
-use midgard::world_generator::ContentsRadii;
 use robotics_lib::{runner::Runner, world::world_generator::Generator};
 use ui::Ui;
 use world::World;
@@ -30,20 +27,13 @@ async fn main() {
     set_window_size(900, 900);
     show_mouse(false);
 
-    let params = midgard::world_generator::WorldGeneratorParameters {
+    let params = WorldGeneratorParameters {
         world_size: WORLD_SIZE,
         world_scale: WORLD_SCALE,
-        time_progression_minutes: 60,
-        contents_radii: ContentsRadii {
-            rocks_in_plains: 3,
-            rocks_in_hill: 3,
-            rocks_in_mountain: 3,
-            ..Default::default()
-        },
-        ..Default::default()
+        ..get_world_generator_parameters()
     };
 
-    let mut world_generator = midgard::world_generator::WorldGenerator::new(params);
+    let mut world_generator = WorldGenerator::new(params);
 
     let (map, spawn_point, environmental_conditions, _max_score, _score_table) =
         world_generator.gen();
@@ -68,7 +58,7 @@ async fn main() {
         events_handler.clone(),
     );
 
-    let ai = BuilderAi::new(Box::new(wrapper), WORLD_SIZE);
+    let ai = ArtemisIA::new(WORLD_SIZE, Box::new(wrapper));
 
     let run = Runner::new(Box::new(ai), &mut world_generator);
 
@@ -95,10 +85,10 @@ async fn main() {
                 events_handler.borrow_mut().handle(
                     runner.get_robot(),
                     &context,
-                    robot.clone(),
-                    world.clone(),
-                    ui.clone(),
-                    audio.clone(),
+                    &mut *robot.borrow_mut(),
+                    &mut *world.borrow_mut(),
+                    &mut *ui.borrow_mut(),
+                    &mut *audio.borrow_mut(),
                 );
             }
 
@@ -107,7 +97,8 @@ async fn main() {
             ui.borrow_mut().update_gui(&context);
             ui.borrow_mut().handle_input(&context);
             ui.borrow_mut().sync_context(&mut context);
-            ui.borrow_mut().sync_robot(&mut *robot.borrow_mut());
+            ui.borrow_mut()
+                .sync_character(&mut context, &mut *robot.borrow_mut());
 
             clear_background(LIGHTGRAY);
 

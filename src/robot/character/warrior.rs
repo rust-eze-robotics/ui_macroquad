@@ -49,13 +49,15 @@ impl Character for Warrior {
                     name: "warrior_0".to_string(),
                     row: 0,
                     frames: 6,
-                    fps: 12,
+                    fps: 12 * TICK_DURATION_DEFAULT.as_millis() as u32
+                        / context.tick_duration.as_millis() as u32,
                 },
                 Animation {
                     name: "warrior_1".to_string(),
                     row: 1,
                     frames: 6,
-                    fps: 12,
+                    fps: 12 * TICK_DURATION_DEFAULT.as_millis() as u32
+                        / context.tick_duration.as_millis() as u32,
                 },
             ],
             true,
@@ -71,13 +73,15 @@ impl Character for Warrior {
                     name: "warrior_2".to_string(),
                     row: 2,
                     frames: 6,
-                    fps: 12,
+                    fps: 12 * TICK_DURATION_DEFAULT.as_millis() as u32
+                        / context.tick_duration.as_millis() as u32,
                 },
                 Animation {
                     name: "warrior_3".to_string(),
                     row: 3,
                     frames: 6,
-                    fps: 12,
+                    fps: 12 * TICK_DURATION_DEFAULT.as_millis() as u32
+                        / context.tick_duration.as_millis() as u32,
                 },
             ],
             true,
@@ -93,13 +97,15 @@ impl Character for Warrior {
                     name: "warrior_6".to_string(),
                     row: 6,
                     frames: 6,
-                    fps: 12,
+                    fps: 12 * TICK_DURATION_DEFAULT.as_millis() as u32
+                        / context.tick_duration.as_millis() as u32,
                 },
                 Animation {
                     name: "warrior_7".to_string(),
                     row: 7,
                     frames: 6,
-                    fps: 12,
+                    fps: 12 * TICK_DURATION_DEFAULT.as_millis() as u32
+                        / context.tick_duration.as_millis() as u32,
                 },
             ],
             true,
@@ -115,13 +121,15 @@ impl Character for Warrior {
                     name: "warrior_4".to_string(),
                     row: 4,
                     frames: 6,
-                    fps: 12,
+                    fps: 12 * TICK_DURATION_DEFAULT.as_millis() as u32
+                        / context.tick_duration.as_millis() as u32,
                 },
                 Animation {
                     name: "warrior_5".to_string(),
                     row: 5,
                     frames: 6,
-                    fps: 12,
+                    fps: 12 * TICK_DURATION_DEFAULT.as_millis() as u32
+                        / context.tick_duration.as_millis() as u32,
                 },
             ],
             true,

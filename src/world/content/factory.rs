@@ -196,7 +196,7 @@ impl ContentFactory {
     pub fn new_building(&self, pos: Vec2) -> Building {
         Building {
             pos,
-            offset: Vec2::new(0.0, 0.0),
+            offset: Vec2::new(0.0, -128.0),
             texture: self.textures[&BUILDING_ID].clone(),
         }
     }
@@ -329,7 +329,7 @@ impl ContentFactory {
     pub fn new_tree(&self, pos: Vec2) -> Tree {
         Tree {
             pos,
-            offset: Vec2::new(0.0, 0.0),
+            offset: Vec2::new(0.0, -62.0),
             texture: self.textures[&TREE_ID].clone(),
             sprite: AnimatedSprite::new(
                 192,

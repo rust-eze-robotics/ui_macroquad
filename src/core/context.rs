@@ -1,13 +1,10 @@
-use std::{rc::Rc, time::Duration};
+use std::time::Duration;
 
 use macroquad::prelude::*;
 
 use crate::{
     core::{ZOOM_DEFAULT, ZOOM_MAX, ZOOM_MIN},
-    robot::{
-        character::{Character, CharacterEnum},
-        Robot,
-    },
+    robot::character::CharacterEnum,
 };
 
 use super::TICK_DURATION_DEFAULT;

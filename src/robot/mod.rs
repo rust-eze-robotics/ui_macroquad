@@ -1,5 +1,4 @@
 use std::{
-    cell::RefCell,
     rc::Rc,
     time::{Duration, Instant},
 };

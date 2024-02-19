@@ -1,7 +1,6 @@
 use macroquad::texture::Texture2D;
 use macroquad::{experimental::animation::AnimatedSprite, prelude::*};
 
-use crate::core::TILE_SIZE;
 use crate::core::{context::Context, is_in_window, Drawable};
 
 use super::TileType;

@@ -1,19 +1,12 @@
-use std::{cell::RefCell, rc::Rc};
-
 use macroquad::prelude::*;
-use robotics_lib::energy;
 
 use crate::{
     core::{context::Context, is_released, Drawable, SHOP_MODAL_SIZE},
-    robot::{
-        character::{self, factory::CharacterFactory, Character, CharacterEnum},
-        Robot,
-    },
+    robot::{character::CharacterEnum, Robot},
 };
 
 use super::{
     component::selector::{factory::SelectorFactory, Selector},
-    energy_bar::{self, EnergyBar},
     UiItem,
 };
 

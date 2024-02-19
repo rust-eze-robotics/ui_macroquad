@@ -1,13 +1,10 @@
-use std::{any::Any, fmt::Pointer, rc::Rc};
+use std::rc::Rc;
 
 use macroquad::prelude::*;
 
 use crate::{
     core::{context::Context, get_current_anchor_position, AnchorPosition, Drawable},
-    robot::{
-        character::{self, archer::Archer, CharacterEnum},
-        Robot,
-    },
+    robot::character::CharacterEnum,
 };
 
 use self::factory::BarFactory;

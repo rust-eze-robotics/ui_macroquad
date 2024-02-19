@@ -1,12 +1,8 @@
-use std::{cell::RefCell, rc::Rc, time::Duration};
+use std::time::Duration;
 
 use crate::{
     core::{context::Context, Drawable},
-    robot::{
-        character::{factory::CharacterFactory, Character},
-        Robot,
-    },
-    world::World,
+    robot::Robot,
 };
 
 use self::{

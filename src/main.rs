@@ -6,7 +6,7 @@ use std::{cell::RefCell, rc::Rc};
 
 use audio::Audio;
 use macroquad::{miniquad::window::set_window_size, prelude::*};
-use midgard::{params::WorldGeneratorParameters, WorldGenerator};
+use midgard::{params::{ContentsRadii, WorldGeneratorParameters}, WorldGenerator};
 use robot::Robot;
 use rust_eze_ai_artemisia::{get_world_generator_parameters, ArtemisIA};
 use wrapper::Wrapper;
@@ -30,6 +30,9 @@ async fn main() {
     let params = WorldGeneratorParameters {
         world_size: WORLD_SIZE,
         world_scale: WORLD_SCALE,
+        contents_radii: ContentsRadii {
+            ..get_world_generator_parameters().contents_radii
+        },
         ..get_world_generator_parameters()
     };
 

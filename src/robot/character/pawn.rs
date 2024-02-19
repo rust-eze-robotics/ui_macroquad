@@ -49,15 +49,13 @@ impl Character for Pawn {
                     name: "pawn_0".to_string(),
                     row: 0,
                     frames: 6,
-                    fps: 12 * TICK_DURATION_DEFAULT.as_millis() as u32
-                        / context.tick_duration.as_millis() as u32,
+                    fps: 12,
                 },
                 Animation {
                     name: "pawn_1".to_string(),
                     row: 1,
                     frames: 6,
-                    fps: 12 * TICK_DURATION_DEFAULT.as_millis() as u32
-                        / context.tick_duration.as_millis() as u32,
+                    fps: 12,
                 },
             ],
             true,
@@ -73,15 +71,13 @@ impl Character for Pawn {
                     name: "pawn_2".to_string(),
                     row: 2,
                     frames: 6,
-                    fps: 12 * TICK_DURATION_DEFAULT.as_millis() as u32
-                        / context.tick_duration.as_millis() as u32,
+                    fps: 12,
                 },
                 Animation {
                     name: "pawn_3".to_string(),
                     row: 3,
                     frames: 6,
-                    fps: 12 * TICK_DURATION_DEFAULT.as_millis() as u32
-                        / context.tick_duration.as_millis() as u32,
+                    fps: 12,
                 },
             ],
             true,
@@ -94,5 +90,49 @@ impl Character for Pawn {
 
     fn get_interact_down_sprite(&self, context: &Context) -> AnimatedSprite {
         self.get_interact_right_sprite(context)
+    }
+
+    fn get_selector_idle_sprite(&self) -> AnimatedSprite {
+        AnimatedSprite::new(
+            192,
+            192,
+            &[
+                Animation {
+                    name: "pawn_0".to_string(),
+                    row: 0,
+                    frames: 6,
+                    fps: 12,
+                },
+                Animation {
+                    name: "pawn_1".to_string(),
+                    row: 1,
+                    frames: 6,
+                    fps: 12,
+                },
+            ],
+            true,
+        )
+    }
+
+    fn get_selector_selected_sprite(&self) -> AnimatedSprite {
+        AnimatedSprite::new(
+            192,
+            192,
+            &[
+                Animation {
+                    name: "pawn_2".to_string(),
+                    row: 2,
+                    frames: 6,
+                    fps: 12,
+                },
+                Animation {
+                    name: "pawn_3".to_string(),
+                    row: 3,
+                    frames: 6,
+                    fps: 12,
+                },
+            ],
+            true,
+        )
     }
 }

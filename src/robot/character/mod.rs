@@ -17,4 +17,6 @@ pub trait Character {
     fn get_interact_right_sprite(&self, context: &Context) -> AnimatedSprite;
     fn get_interact_up_sprite(&self, context: &Context) -> AnimatedSprite;
     fn get_interact_down_sprite(&self, context: &Context) -> AnimatedSprite;
+    fn get_selector_idle_sprite(&self) -> AnimatedSprite;
+    fn get_selector_selected_sprite(&self) -> AnimatedSprite;
 }

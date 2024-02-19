@@ -38,17 +38,17 @@ pub struct Robot {
 impl Robot {
     pub async fn new((row, col): (usize, usize)) -> Self {
         let character_factory = CharacterFactory::new().await;
-        let character = Box::new(character_factory.new_torch());
+        let character = Box::new(character_factory.new_warrior());
 
         Self {
             pos: Vec2::new(col as f32 * TILE_SIZE.x, row as f32 * TILE_SIZE.y),
             offset: Vec2::new(0.0, 0.0),
+            orientation: false,
+            state: RobotState::Init(Instant::now()),
             texture: character.get_texture(),
             sprite: character.get_init_sprite(),
             character,
             character_factory,
-            orientation: false,
-            state: RobotState::Init(Instant::now()),
         }
     }
 
@@ -81,6 +81,30 @@ impl Robot {
         self.state = RobotState::Interact(Instant::now(), pos, tile);
     }
 
+    pub fn set_archer(&mut self) {
+        self.character = Box::new(self.character_factory.new_archer());
+        self.texture = self.character.get_texture();
+        self.sprite = self.character.get_init_sprite();
+    }
+
+    pub fn set_pawn(&mut self) {
+        self.character = Box::new(self.character_factory.new_pawn());
+        self.texture = self.character.get_texture();
+        self.sprite = self.character.get_init_sprite();
+    }
+
+    pub fn set_torch(&mut self) {
+        self.character = Box::new(self.character_factory.new_torch());
+        self.texture = self.character.get_texture();
+        self.sprite = self.character.get_init_sprite();
+    }
+
+    pub fn set_warrior(&mut self) {
+        self.character = Box::new(self.character_factory.new_warrior());
+        self.texture = self.character.get_texture();
+        self.sprite = self.character.get_init_sprite();
+    }
+
     pub fn is_ready(&self, context: &Context) -> bool {
         match self.state {
             RobotState::Idle(instant) => instant.elapsed() > context.tick_duration,
@@ -88,7 +112,7 @@ impl Robot {
         }
     }
 
-    pub fn update_state(&mut self, context: &Context, world: Rc<RefCell<World>>) {
+    pub fn update_state(&mut self, context: &Context, world: &mut World) {
         match &self.state {
             RobotState::Init(instant) => {
                 if instant.elapsed() > Duration::from_millis(500) {
@@ -114,7 +138,7 @@ impl Robot {
                         (pos.y / TILE_SIZE.y) as usize,
                         (pos.x / TILE_SIZE.x) as usize,
                     );
-                    world.borrow_mut().update_tile(tile, (row, col));
+                    world.update_tile(tile, (row, col));
 
                     self.set_idle(context);
                 }

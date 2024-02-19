@@ -16,6 +16,7 @@ pub const TICK_DURATION_MAX: Duration = Duration::from_millis(1500);
 pub const TICK_DURATION_DEFAULT: Duration = Duration::from_millis(500);
 
 pub const SETTINGS_MODAL_SIZE: Vec2 = Vec2::new(400.0, 250.0);
+pub const SHOP_MODAL_SIZE: Vec2 = Vec2::new(384.0, 384.0);
 pub const SETTINGS_STEPPER_SIZE: Vec2 = Vec2::new(300.0, 64.0);
 
 pub const WORLD_SIZE: usize = 256;

@@ -108,4 +108,40 @@ impl Character for Archer {
             true,
         )
     }
+
+    fn get_selector_idle_sprite(&self) -> AnimatedSprite {
+        AnimatedSprite::new(
+            192,
+            192,
+            &[
+                Animation {
+                    name: "archer_0".to_string(),
+                    row: 0,
+                    frames: 6,
+                    fps: 12,
+                },
+                Animation {
+                    name: "archer_1".to_string(),
+                    row: 1,
+                    frames: 6,
+                    fps: 12,
+                },
+            ],
+            true,
+        )
+    }
+
+    fn get_selector_selected_sprite(&self) -> AnimatedSprite {
+        AnimatedSprite::new(
+            192,
+            192,
+            &[Animation {
+                name: "archer_4".to_string(),
+                row: 4,
+                frames: 8,
+                fps: 12,
+            }],
+            true,
+        )
+    }
 }

@@ -18,7 +18,7 @@ pub struct SettingsModal {
 }
 
 impl SettingsModal {
-    pub async fn new(
+    pub fn new(
         icon_factory: &IconFactory,
         clicker_factory: &ClickerFactory,
         stepper_factory: &StepperFactory,

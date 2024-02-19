@@ -7,7 +7,10 @@ use std::{cell::RefCell, rc::Rc};
 use ai_builder::BuilderAi;
 use audio::Audio;
 use macroquad::{miniquad::window::set_window_size, prelude::*};
-use robot::Robot;
+use robot::{
+    character::{self, factory::CharacterFactory},
+    Robot,
+};
 use wrapper::Wrapper;
 
 use midgard::world_generator::ContentsRadii;
@@ -51,7 +54,7 @@ async fn main() {
         World::new(&map, environmental_conditions).await,
     ));
 
-    let ui = Rc::new(RefCell::new(Ui::new(world.clone()).await));
+    let ui = Rc::new(RefCell::new(Ui::new().await));
 
     let audio = Rc::new(RefCell::new(Audio::new()));
 
@@ -80,7 +83,9 @@ async fn main() {
         });
 
         loop {
-            robot.borrow_mut().update_state(&context, world.clone());
+            robot
+                .borrow_mut()
+                .update_state(&context, &mut *world.borrow_mut());
 
             if robot.borrow().is_ready(&context) {
                 if events_handler.borrow().is_empty() {
@@ -102,6 +107,7 @@ async fn main() {
             ui.borrow_mut().update_gui(&context);
             ui.borrow_mut().handle_input(&context);
             ui.borrow_mut().sync_context(&mut context);
+            ui.borrow_mut().sync_robot(&mut *robot.borrow_mut());
 
             clear_background(LIGHTGRAY);
 

@@ -10,8 +10,9 @@ exclude = [".*"]
 [dependencies]
 macroquad = "0.4.4"
 ui_lib = { git = "https://github.com/rust-eze-robotics/ui_lib.git", branch = "main" }
-# ai_builder = { git = "https://github.com/rust-eze-robotics/ai_builder.git", branch = "main" }
-rust_eze_ai_artemisia = { git = "https://github.com/rust-eze-robotics/ai_artemisia.git", branch = "gu" }
+ai_mcqueen = { git = "https://github.com/rust-eze-robotics/ai_mcqueen.git", branch = "main" }
+ai_builder = { git = "https://github.com/rust-eze-robotics/ai_builder.git", branch = "main" }
+rusteze_ai_artemisia = { git = "https://github.com/rust-eze-robotics/ai_artemisia.git", branch = "main" }
 robotics_lib = {version = "0.1.21", registry = "kellnr"}
 midgard = {version = "0.2.1", registry = "kellnr"}
 oxagaudiotool = {version = "0.2.0", registry = "kellnr"}

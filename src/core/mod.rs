@@ -13,7 +13,7 @@ pub const ZOOM_DEFAULT: f32 = 0.0015;
 
 pub const TICK_DURATION_MIN: Duration = Duration::from_millis(500);
 pub const TICK_DURATION_MAX: Duration = Duration::from_millis(1500);
-pub const TICK_DURATION_DEFAULT: Duration = Duration::from_millis(500);
+pub const TICK_DURATION_DEFAULT: Duration = Duration::from_millis(1000);
 
 pub const SETTINGS_MODAL_SIZE: Vec2 = Vec2::new(400.0, 250.0);
 pub const SHOP_MODAL_SIZE: Vec2 = Vec2::new(384.0, 384.0);

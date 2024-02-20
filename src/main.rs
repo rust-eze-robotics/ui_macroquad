@@ -4,11 +4,13 @@ use core::{
 };
 use std::{cell::RefCell, rc::Rc};
 
+use ai_builder::BuilderAi;
+use ai_mcqueen::Ai;
 use audio::Audio;
 use macroquad::{miniquad::window::set_window_size, prelude::*};
-use midgard::{params::{ContentsRadii, WorldGeneratorParameters}, WorldGenerator};
+use midgard::{params::WorldGeneratorParameters, WorldGenerator};
 use robot::Robot;
-use rust_eze_ai_artemisia::{get_world_generator_parameters, ArtemisIA};
+use rusteze_ai_artemisia::ArtemisIA;
 use wrapper::Wrapper;
 
 use robotics_lib::{runner::Runner, world::world_generator::Generator};
@@ -27,16 +29,33 @@ async fn main() {
     set_window_size(900, 900);
     show_mouse(false);
 
-    let params = WorldGeneratorParameters {
-        world_size: WORLD_SIZE,
-        world_scale: WORLD_SCALE,
-        contents_radii: ContentsRadii {
-            ..get_world_generator_parameters().contents_radii
+    let ai_name = std::env::args()
+        .map(|arg| arg.to_owned())
+        .collect::<Vec<String>>()
+        .get(1)
+        .unwrap_or(&String::from("mcqueen"))
+        .clone();
+
+    let world_generator_parameters = match ai_name.clone().as_str() {
+        "mcqueen" => WorldGeneratorParameters {
+            world_size: WORLD_SIZE,
+            world_scale: WORLD_SCALE,
+            ..ai_mcqueen::get_world_generator_parameters()
         },
-        ..get_world_generator_parameters()
+        "artemisia" => WorldGeneratorParameters {
+            world_size: WORLD_SIZE,
+            world_scale: WORLD_SCALE,
+            ..rusteze_ai_artemisia::get_world_generator_parameters()
+        },
+        "builder" => WorldGeneratorParameters {
+            world_size: WORLD_SIZE,
+            world_scale: WORLD_SCALE,
+            ..ai_builder::get_world_generator_parameters()
+        },
+        _ => panic!("Unknown ai name: {}", ai_name),
     };
 
-    let mut world_generator = WorldGenerator::new(params);
+    let mut world_generator = WorldGenerator::new(world_generator_parameters);
 
     let (map, spawn_point, environmental_conditions, _max_score, _score_table) =
         world_generator.gen();
@@ -61,9 +80,18 @@ async fn main() {
         events_handler.clone(),
     );
 
-    let ai = ArtemisIA::new(WORLD_SIZE, Box::new(wrapper));
-
-    let run = Runner::new(Box::new(ai), &mut world_generator);
+    let run = match ai_name.clone().as_str() {
+        "mcqueen" => Runner::new(Box::new(Ai::new(Box::new(wrapper))), &mut world_generator),
+        "artemisia" => Runner::new(
+            Box::new(ArtemisIA::new(WORLD_SIZE, Box::new(wrapper))),
+            &mut world_generator,
+        ),
+        "builder" => Runner::new(
+            Box::new(BuilderAi::new(Box::new(wrapper), WORLD_SIZE)),
+            &mut world_generator,
+        ),
+        _ => panic!("Unknown ai name: {}", ai_name),
+    };
 
     if let Ok(mut runner) = run {
         let mut context = Context::new(Camera2D {
